@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./assets/css/index.css">
+    <link rel="stylesheet" href="./assets/css/responsividade.css">
+    <title>Agenda</title>
+</head>
+
+<body>
+    <menu>
+        <div id="menu_superior">
+            <ul>
+                <li>
+                    <a class="titulo" href="#">
+                        <img src="./assets/img/round-contacts-24px.svg" alt="Agenda">
+                        Agenda
+                    </a>
+                </li>
+                <li class="hide">
+                    <a href="#contatos">
+                        <img src="./assets/img/baseline-list-24px.svg" alt="Lista de contatos">
+                        Lista de contatos
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </menu>
+    <main>
+        <section id="detalhes_contato">
+            <div id="cadastro">
+                <form action="#" method="post">
+                    <img id="avatar" src="./assets/img/round-person-24px.svg" alt="Icone de contato">
+                    <fieldset>
+                        <legend>Dados pessoais:</legend>
+                        <table>
+                            <tr>
+                                <td><label for="iNome">Primeiro nome: </label></td>
+                                <td><input type="text" id="iNome"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="iSobrenome">Sobrenome: </label></td>
+                                <td><input type="text" id="iSobrenome"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="iEmail">E-mail: </label></td>
+                                <td><input type="email" id="iEmail"></td>
+                            </tr>
+                            <tr>
+                                <td>Gênero: </td>
+                                <td>
+                                    <input type="radio" name="genero" value="f" id="gF"> <label for="gF">Feminino</label>
+                                    <input type="radio" name="genero" value="m" id="gM"> <label for="gM">Masculino</label>
+                                </td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Outras informações: </legend>
+                        <table>
+                            <tr>
+                                <td><label for="iAvatar">Avatar: </label></td>
+                                <td><input type="file" id="iAvatar"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="iCompanhia">Companhia</label></td>
+                                <td><input type="text" id="iCompanhia"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="iEndereco">Endereço: </label></td>
+                                <td><input type="text" id="iEndereco"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="iTelefone">Telefone: </label></td>
+                                <td>
+                                    <input type="text" id="iTelefone">
+                                </td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                    <div class="btns-row">
+                        <button type="button">
+                            <img src="./assets/img/baseline-save-24px.svg" alt="Salvar">
+                            Salvar
+                        </button>
+                        <button class="btnRemove" type="button">
+                            <img src="./assets/img/baseline-delete-24px.svg" alt="Salvar">
+                            Remover
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <section id="contatos">
+            <input class="pesquisaInput" type="text" placeholder="Pesquise por alguém...">
+            <ul id="filtro">
+                <img src="./assets/img/round-filter_list-24px.svg" alt="">
+                <li><input type="radio" name="filtro" id="fTodos" checked>Todos</li>
+                <li><input type="radio" name="filtro" id="fFavoritos">Favoritos</li>
+            </ul>
+            <ul id="lista_itens">
+                <a href="#" wm-favorito="true">
+                    <li class="item_contato">
+                        <img src="./assets/img/contatos/7.png" alt="Icone de contato">
+                        <div class="nome_contato">Bianca Bachaalane da Silva</div>
+                        <img class="fav" src="./assets/img/baseline-favorite-24px.svg" alt="Favorito">
+                    </li>
+                </a>
+                <a href="#">
+                    <li class="item_contato">
+                        <img src="./assets/img/round-person-24px.svg" alt="Icone de contato">
+                        <div class="nome_contato">Desconhecido</div>
+                        <img class="fav" src="./assets/img/baseline-favorite_border-24px.svg" alt="Não favorito">
+                    </li>
+                </a>
+                <a href="#" wm-favorito="true">
+                    <li class="item_contato">
+                        <img src="./assets/img/contatos/2.png" alt="Icone de contato">
+                        <div class="nome_contato">Felipe de Paula</div>
+                        <img class="fav" src="./assets/img/baseline-favorite-24px.svg" alt="Favorito">
+                    </li>
+                </a>
+                <a href="#">
+                    <li class="item_contato">
+                        <img src="./assets/img/round-person-24px.svg" alt="Icone de contato">
+                        <div class="nome_contato">Fernando Antunes Guimaraes</div>
+                        <img class="fav" src="./assets/img/baseline-favorite_border-24px.svg" alt="Não favorito">
+                    </li>
+                </a>
+                <a href="#" wm-favorito="true">
+                    <li class="item_contato">
+                        <img src="./assets/img/round-person-24px.svg" alt="Icone de contato">
+                        <div class="nome_contato">Joao Antonio da Silva</div>
+                        <img class="fav" src="./assets/img/baseline-favorite-24px.svg" alt="Favorito">
+                    </li>
+                </a>
+                <a href="#" wm-favorito="true">
+                    <li class="item_contato">
+                        <img src="./assets/img/contatos/3.png" alt="Icone de contato">
+                        <div class="nome_contato">Karyne Vitoria Gomes da Silva</div>
+                        <img class="fav" src="./assets/img/baseline-favorite-24px.svg" alt="Favorito">
+                    </li>
+                </a>
+                <a href="#">
+                    <li class="item_contato">
+                        <img src="./assets/img/contatos/5.png" alt="Icone de contato">
+                        <div class="nome_contato">Maysa Gomes da Silva</div>
+                        <img class="fav" src="./assets/img/baseline-favorite_border-24px.svg" alt="Não favorito">
+                    </li>
+                </a>
+                <a href="#">
+                    <li class="item_contato">
+                        <img src="./assets/img/contatos/1.png" alt="Icone de contato">
+                        <div class="nome_contato">Vanderley Sousa da Silva</div>
+                        <img class="fav" src="./assets/img/baseline-favorite_border-24px.svg" alt="Não favorito">
+                    </li>
+                </a>
+                <a href="#">
+                    <li class="item_contato">
+                        <img src="./assets/img/contatos/4.png" alt="Icone de contato">
+                        <div class="nome_contato">Vitor Vinicius Gomes da Silva</div>
+                        <img class="fav" src="./assets/img/baseline-favorite_border-24px.svg" alt="Não favorito">
+                    </li>
+                </a>
+                <a href="#">
+                    <li class="item_contato">
+                        <img src="./assets/img/round-person-24px.svg" alt="Icone de contato">
+                        <div class="nome_contato">Yasmim Pereira Gomes</div>
+                        <img class="fav" src="./assets/img/baseline-favorite_border-24px.svg" alt="Não favorito">
+                    </li>
+                </a>
+            </ul>
+            <nav id="paginacao">
+                <a href="#">
+                    <img src="./assets/img/round-arrow_back-24px.svg" alt="Voltar">
+                    Voltar
+                </a>
+                <a href="#">
+                    Próximo
+                    <img src="./assets/img/round-arrow_forward-24px.svg" alt="Próximo">
+                </a>
+            </nav>
+        </section>
+    </main>
+</body>
+
+</html>

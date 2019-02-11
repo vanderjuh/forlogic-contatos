@@ -1,0 +1,258 @@
+@charset "UTF-8";
+
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+
+:root {
+    --height-menu: 55px;
+    --background-color: rgba(204,204,204,.3);
+    --background-avatar: rgba(204,204,204,.3);
+}
+
+html body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    position: relative;
+}
+
+menu {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    top: 0;
+}
+
+.hide{
+    display: none;
+}
+
+#menu_superior {
+    width: 100%;
+    height: var(--height-menu);
+    background-color: #333;
+    color: #FFF;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#menu_superior ul {
+    width: 100%;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#menu_superior li {
+    list-style-type: none;
+}
+
+#menu_superior a {
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.titulo {
+    font-size: 30px;
+    margin: 10px 0;
+    list-style-type: none;
+    color: #FFF;
+    text-decoration: none;
+    text-transform: uppercase
+}
+
+main {
+    width: 100%;
+    height: calc(100vh - var(--height-menu));
+    display: flex;
+    flex-direction: row;
+    flex-flow: row-reverse;
+    margin-top: var(--height-menu);
+}
+
+.pesquisaInput{
+    height: 30px;
+    margin: 10px;
+    margin-bottom:0;
+    border-radius: 5px;
+    border: 1px solid #CCC;
+    padding: 5px;
+}
+
+#contatos {
+    width: 25%;
+    min-width: 260px;
+    display: flex;
+    flex-direction: column;
+    border: #CCC solid 1px;
+    background-color: #E9E9E9;
+}
+
+#contatos li {
+    list-style-type: none;
+    display: flex;
+}
+
+.item_contato {
+    height: 30px;
+    border-bottom: #999 solid 1px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px;
+    text-transform: uppercase;
+    font-size: 14px;
+    overflow: hidden;
+}
+
+.item_contato:hover{
+    font-weight: bold;
+}
+
+.nome_contato {
+    width: 250px;
+}
+
+.item_contato img {
+    width: 25px;
+    height: 25px;
+    background-color: var(--background-avatar);
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.fav {
+    background-color:transparent;
+    margin: 0;
+    border-radius: 0;
+}
+
+#contatos a {
+    color:#000;
+    text-decoration: none;
+}
+
+#paginacao {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#paginacao a{
+    width: 100px;
+    color: #FFF;
+    text-align: center;
+    background-color: #4682B4;
+    padding: 5px;
+    margin: 0 10px;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+}
+
+#filtro {
+    display: flex;
+    margin: 5px 0;
+    padding: 0 10px;
+    align-items: center;
+    
+}
+
+#lista_itens {
+    overflow: auto;
+    background-color: #FFF;
+    padding: 0;
+}
+
+#detalhes_contato{
+    width: 75%;
+    padding: 10px;
+    background-color: var(--background-color);
+}
+
+#cadastro{
+    width: 100%;
+    border: #CCC solid 1px;
+    border-radius: 5px;
+    padding: 5px;
+    box-sizing: border-box;
+    background-color: #FFF;
+}
+
+#cadastro form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#cadastro table {
+    width: 100%;
+}
+
+#cadastro table td:first-child {
+    width: 110px;
+}
+
+#cadastro input[type="text"],[type="email"],[type="file"]{
+    width: 100%;
+    height: 20px;
+    border-radius: 4px;
+    border: solid 1px #999;
+}
+
+#cadastro input[type="file"]{
+    border: 0;
+}
+
+.btns-row{
+    width: 95%;
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+}
+
+.btns-row button{
+    padding: 5px 10px;
+    margin-top: 10px;
+    background-color: #333;
+    color: #FFF;
+    border: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    margin: 10px 5px;
+}
+
+.btnRemove{
+    background-color: red !important;
+}
+
+#avatar {
+    width: 200px;
+    height: 200px;
+    border: solid 1px #CCC;
+    border-radius: 50%;
+    margin: 20px 0;
+    background-color: var(--background-color);
+}
+
+fieldset {
+    width: 90%;
+    border: #CCC 1px solid;
+}
+
+legend {
+    font-weight: bold;
+}

@@ -1,0 +1,37 @@
+@media(max-width: 700px){
+    main{
+        flex-wrap: wrap;
+    }
+
+    #contatos{
+        width: 100%;
+    }
+
+    #detalhes_contato{
+        width: 100%;
+    }
+
+    #detalhes{
+        border: 0;
+    }
+
+    #lista_itens {
+        margin: 0 10px;
+    }
+
+    #detalhes input[type="text"],[type="email"]{
+        width: 100%;
+    }
+
+    #contatos{
+        border: 0;
+    }
+
+    #lista_itens{
+        border-radius: 5px;
+    }
+
+    .hide{
+        display: block;
+    }
+}
