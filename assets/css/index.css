@@ -26,7 +26,7 @@ menu {
     display: none;
 }
 
-#menu_superior {
+.menu_superior {
     width: 100%;
     height: var(--height-menu);
     background-color: #333;
@@ -37,7 +37,7 @@ menu {
     justify-content: center;
 }
 
-#menu_superior ul {
+.menu_superior ul {
     width: 100%;
     padding: 0;
     display: flex;
@@ -45,11 +45,11 @@ menu {
     align-items: center;
 }
 
-#menu_superior li {
+.menu_superior li {
     list-style-type: none;
 }
 
-#menu_superior a {
+.menu_superior a {
     color: #FFF;
     display: flex;
     align-items: center;
@@ -84,16 +84,16 @@ main {
     padding: 5px;
 }
 
-#contatos {
+.contatos {
     width: 25%;
     min-width: 260px;
     display: flex;
     flex-direction: column;
     border: #CCC solid 1px;
-    background-color: #E9E9E9;
+    background-color: var(--background-color);
 }
 
-#contatos li {
+.contatos li {
     list-style-type: none;
     display: flex;
 }
@@ -109,10 +109,11 @@ main {
     text-transform: uppercase;
     font-size: 14px;
     overflow: hidden;
+    transition: text-shadow .5s ease;
 }
 
 .item_contato:hover{
-    font-weight: bold;
+    text-shadow: 0 0 1px #333;
 }
 
 .nome_contato {
@@ -127,25 +128,25 @@ main {
     border-radius: 50%;
 }
 
-.fav {
+.item_contato img.fav {
     background-color:transparent;
     margin: 0;
     border-radius: 0;
 }
 
-#contatos a {
+.contatos a {
     color:#000;
     text-decoration: none;
 }
 
-#paginacao {
+.paginacao {
     height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#paginacao a{
+.paginacao a{
     width: 100px;
     color: #FFF;
     text-align: center;
@@ -160,7 +161,7 @@ main {
     border-radius: 3px;
 }
 
-#filtro {
+.filtro {
     display: flex;
     margin: 5px 0;
     padding: 0 10px;
@@ -168,19 +169,20 @@ main {
     
 }
 
-#lista_itens {
+.lista_itens {
     overflow: auto;
     background-color: #FFF;
     padding: 0;
 }
 
-#detalhes_contato{
+.detalhes_contato{
     width: 75%;
     padding: 10px;
     background-color: var(--background-color);
+    overflow: auto;
 }
 
-#cadastro{
+.cadastro{
     width: 100%;
     border: #CCC solid 1px;
     border-radius: 5px;
@@ -189,28 +191,28 @@ main {
     background-color: #FFF;
 }
 
-#cadastro form {
+.cadastro form {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-#cadastro table {
+.cadastro table {
     width: 100%;
 }
 
-#cadastro table td:first-child {
+.cadastro table td:first-child {
     width: 110px;
 }
 
-#cadastro input[type="text"],[type="email"],[type="file"]{
+.cadastro input[type="text"],[type="email"],[type="file"]{
     width: 100%;
-    height: 20px;
+    height: 30px;
     border-radius: 4px;
     border: solid 1px #999;
 }
 
-#cadastro input[type="file"]{
+.cadastro input[type="file"]{
     border: 0;
 }
 
@@ -235,11 +237,11 @@ main {
     margin: 10px 5px;
 }
 
-.btnRemove{
-    background-color: red !important;
+.btns-row button.btnRemove{
+    background-color: red;
 }
 
-#avatar {
+.avatar {
     width: 200px;
     height: 200px;
     border: solid 1px #CCC;

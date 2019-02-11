@@ -3,31 +3,29 @@
         flex-wrap: wrap;
     }
 
-    #contatos{
+    .contatos{
         width: 100%;
     }
 
-    #detalhes_contato{
+    .detalhes_contato{
         width: 100%;
-    }
-
-    #detalhes_contato{
         border: 0;
+        padding-bottom: 30px;
     }
 
-    #lista_itens {
+    .lista_itens {
         margin: 0 10px;
     }
 
-    #detalhes_contato input[type="text"],[type="email"]{
+    .detalhes_contato input[type="text"],[type="email"]{
         width: 100%;
     }
 
-    #contatos{
+    .contatos{
         border: 0;
     }
 
-    #lista_itens{
+    .lista_itens{
         border-radius: 5px;
     }
 
