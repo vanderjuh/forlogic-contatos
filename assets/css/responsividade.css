@@ -11,7 +11,7 @@
         width: 100%;
     }
 
-    #detalhes{
+    #detalhes_contato{
         border: 0;
     }
 
@@ -19,7 +19,7 @@
         margin: 0 10px;
     }
 
-    #detalhes input[type="text"],[type="email"]{
+    #detalhes_contato input[type="text"],[type="email"]{
         width: 100%;
     }
 
