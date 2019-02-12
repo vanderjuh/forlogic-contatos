@@ -14,6 +14,10 @@ html body {
     position: relative;
 }
 
+body {
+    min-width: 384px;
+}
+
 menu {
     width: 100%;
     padding: 0;
@@ -99,14 +103,12 @@ main {
 }
 
 .item_contato {
-    height: 30px;
     border-bottom: #999 solid 1px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 10px 5px;
-    text-transform: uppercase;
     font-size: 14px;
     overflow: hidden;
     transition: text-shadow .5s ease;
@@ -117,7 +119,7 @@ main {
 }
 
 .nome_contato {
-    width: 250px;
+    width: 100%;
 }
 
 .item_contato img {
@@ -137,6 +139,7 @@ main {
 .contatos a {
     color:#000;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .paginacao {
@@ -248,11 +251,15 @@ main {
     border-radius: 50%;
     margin: 20px 0;
     background-color: var(--background-color);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 fieldset {
     width: 90%;
-    border: #CCC 1px solid;
+    border: #E9E9E9 1px solid;
 }
 
 legend {
