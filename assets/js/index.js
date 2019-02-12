@@ -54,5 +54,4 @@ window.onload = function () {
             Contatos.favoritar(this)
         }
     })
-    Contatos.preventEventFav()
 }
