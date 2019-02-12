@@ -251,7 +251,6 @@ main {
     border-radius: 50%;
     margin: 20px 0;
     background-color: var(--background-color);
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
