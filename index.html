@@ -34,7 +34,7 @@
         <section class="detalhes_contato">
             <div class="cadastro">
                 <form action="#" method="post">
-                    <img class="avatar" src="./assets/img/round-person-24px.svg" alt="Icone de contato">
+                    <img id="avatar" class="avatar" src="./assets/img/round-person-24px.svg" alt="Icone de contato">
                     <fieldset>
                         <legend>Dados pessoais:</legend>
                         <table>
@@ -53,8 +53,10 @@
                             <tr>
                                 <td>Gênero: </td>
                                 <td>
-                                    <input type="radio" name="genero" value="f" id="gF"> <label for="gF">Feminino</label>
-                                    <input type="radio" name="genero" value="m" id="gM"> <label for="gM">Masculino</label>
+                                    <input type="radio" name="genero" value="f" id="gF"> <label
+                                        for="gF">Feminino</label>
+                                    <input type="radio" name="genero" value="m" id="gM"> <label
+                                        for="gM">Masculino</label>
                                 </td>
                             </tr>
                         </table>
@@ -80,6 +82,10 @@
                                     <input type="text" id="iTelefone">
                                 </td>
                             </tr>
+                            <tr>
+                                <td><label for="tComentario">Comentário: </label></td>
+                                <td><textarea name="" id="tComentario"></textarea></td>
+                            </tr>
                         </table>
                     </fieldset>
                     <div class="btns-row">
@@ -103,76 +109,13 @@
                 <li><input type="radio" name="filtro" class="fFavoritos">Favoritos</li>
             </ul>
             <ul class="lista_itens">
-                <a wm-favorito="true">
+                <!-- <a wm-favorito="true">
                     <li class="item_contato">
                         <img src="./assets/img/contatos/7.png" alt="Icone de contato">
                         <div class="nome_contato">Bianca Bachaalane da Silva</div>
                         <img class="fav" src="./assets/img/baseline-favorite-24px.svg" alt="Favorito" title="Desfavoritar">
                     </li>
-                </a>
-                <a>
-                    <li class="item_contato">
-                        <img src="./assets/img/round-person-24px.svg" alt="Icone de contato">
-                        <div class="nome_contato">Desconhecido</div>
-                        <img class="fav" src="./assets/img/baseline-favorite_border-24px.svg" alt="Não favorito" title="Favoritar">
-                    </li>
-                </a>
-                <a wm-favorito="true">
-                    <li class="item_contato">
-                        <img src="./assets/img/contatos/2.png" alt="Icone de contato">
-                        <div class="nome_contato">Felipe de Paula</div>
-                        <img class="fav" src="./assets/img/baseline-favorite-24px.svg" alt="Favorito" title="Desfavoritar">
-                    </li>
-                </a>
-                <a>
-                    <li class="item_contato">
-                        <img src="./assets/img/round-person-24px.svg" alt="Icone de contato">
-                        <div class="nome_contato">Fernando Antunes Guimaraes</div>
-                        <img class="fav" src="./assets/img/baseline-favorite_border-24px.svg" alt="Não favorito" title="Favoritar">
-                    </li>
-                </a>
-                <a wm-favorito="true">
-                    <li class="item_contato">
-                        <img src="./assets/img/round-person-24px.svg" alt="Icone de contato">
-                        <div class="nome_contato">Joao Antonio da Silva</div>
-                        <img class="fav" src="./assets/img/baseline-favorite-24px.svg" alt="Favorito" title="Desfavoritar">
-                    </li>
-                </a>
-                <a wm-favorito="true">
-                    <li class="item_contato">
-                        <img src="./assets/img/contatos/3.png" alt="Icone de contato">
-                        <div class="nome_contato">Karyne Vitoria Gomes da Silva</div>
-                        <img class="fav" src="./assets/img/baseline-favorite-24px.svg" alt="Favorito" title="Desfavoritar">
-                    </li>
-                </a>
-                <a>
-                    <li class="item_contato">
-                        <img src="./assets/img/contatos/5.png" alt="Icone de contato">
-                        <div class="nome_contato">Maysa Gomes da Silva</div>
-                        <img class="fav" src="./assets/img/baseline-favorite_border-24px.svg" alt="Não favorito" title="Favoritar">
-                    </li>
-                </a>
-                <a>
-                    <li class="item_contato">
-                        <img src="./assets/img/contatos/1.png" alt="Icone de contato">
-                        <div class="nome_contato">Vanderley Sousa da Silva</div>
-                        <img class="fav" src="./assets/img/baseline-favorite_border-24px.svg" alt="Não favorito" title="Favoritar">
-                    </li>
-                </a>
-                <a>
-                    <li class="item_contato">
-                        <img src="./assets/img/contatos/4.png" alt="Icone de contato">
-                        <div class="nome_contato">Vitor Vinicius Gomes da Silva</div>
-                        <img class="fav" src="./assets/img/baseline-favorite_border-24px.svg" alt="Não favorito" title="Favoritar">
-                    </li>
-                </a>
-                <a>
-                    <li class="item_contato">
-                        <img src="./assets/img/round-person-24px.svg" alt="Icone de contato">
-                        <div class="nome_contato">Yasmim Pereira Gomes</div>
-                        <img class="fav" src="./assets/img/baseline-favorite_border-24px.svg" alt="Não favorito" title="Favoritar">
-                    </li>
-                </a>
+                </a> -->
             </ul>
             <nav class="paginacao">
                 <a href="#">
