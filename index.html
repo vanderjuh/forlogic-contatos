@@ -66,7 +66,7 @@
                         <table>
                             <tr>
                                 <td><label for="iAvatar">Avatar: </label></td>
-                                <td><input type="file" id="iAvatar"></td>
+                                <td><input type="text" id="iAvatar"></td>
                             </tr>
                             <tr>
                                 <td><label for="iCompanhia">Companhia</label></td>
@@ -108,21 +108,13 @@
                 <li><input type="radio" name="filtro" class="fTodos" checked>Todos</li>
                 <li><input type="radio" name="filtro" class="fFavoritos">Favoritos</li>
             </ul>
-            <ul class="lista_itens">
-                <!-- <a wm-favorito="true">
-                    <li class="item_contato">
-                        <img src="./assets/img/contatos/7.png" alt="Icone de contato">
-                        <div class="nome_contato">Bianca Bachaalane da Silva</div>
-                        <img class="fav" src="./assets/img/baseline-favorite-24px.svg" alt="Favorito" title="Desfavoritar">
-                    </li>
-                </a> -->
-            </ul>
+            <ul class="lista_itens"></ul>
             <nav class="paginacao">
-                <a href="#">
+                <a id="pagVoltar" href="#">
                     <img src="./assets/img/round-arrow_back-24px.svg" alt="Voltar">
                     Voltar
                 </a>
-                <a href="#">
+                <a id="pagProximo" href="#">
                     Próximo
                     <img src="./assets/img/round-arrow_forward-24px.svg" alt="Próximo">
                 </a>

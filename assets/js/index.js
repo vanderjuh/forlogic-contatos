@@ -1,5 +1,5 @@
 Contatos = {
-    listaContatos: "",
+    listaContatos: {},
     //Exibir na DOM todos os contatos
     mostrarTodos() {
         const todos = document.querySelectorAll(".lista_itens a")
@@ -16,7 +16,7 @@ Contatos = {
             }
         })
     },
-    //Buscar contatos
+    //Buscar contatos pelo nome
     buscarContatos(nome) {
         this.mostrarTodos()
         const todos = document.querySelectorAll(".nome_contato")
@@ -28,7 +28,7 @@ Contatos = {
             })
         }
     },
-    //Favoritar o cantato
+    //Favoritar o contato
     favoritar(element) {
         flag = (element.parentNode.parentNode.getAttribute('wm-favorito')) ? false : true
         if (flag) {
@@ -41,7 +41,7 @@ Contatos = {
             element.parentNode.parentNode.removeAttribute('wm-favorito')
         }
     },
-    //Vefiricar se o cantato está favoritado e alterando icone de acordo.
+    //Vefiricar se o cantato está favoritado e alterar icone de acordo.
     isFavorito(flag) {
         if (flag) {
             return "./assets/img/baseline-favorite-24px.svg"
@@ -49,65 +49,92 @@ Contatos = {
             return "./assets/img/baseline-favorite_border-24px.svg"
         }
     },
-    //Renderizar os elementos na DOM
-    async renderizarContatos(data, callback) {
-        const lista = await data
-        const elementos = lista.map(e => {
+    //Renderizar os contatos na DOM
+    renderizarContatos(data, callback, paginaAtual, limitItens) {
 
-            const a = document.createElement('a')
-            //a.setAttribute('href', `#contato${e.id}`)
-            a.setAttribute('onclick',`Contatos.renderizarDetalhes(event, ${e.id})`)
-            if (e.isFavorite) {
-                a.setAttribute('wm-favorito', 'true')
+        document.getElementsByClassName('lista_itens')[0].innerHTML = ''
+
+        Paginacao.totalPaginas = Math.ceil(data.length / limitItens);
+        let count = (paginaAtual * limitItens) - limitItens;
+        let delimitador = count + limitItens;
+
+        if (paginaAtual <= Paginacao.totalPaginas) {
+            Paginacao.habilitarBotoes(true)
+            for (let i = count; i < delimitador; i++) {
+                if (data[i] != null) {
+                    const a = document.createElement('a')
+                    a.setAttribute('onclick', `Contatos.renderizarDetalhes(event, ${data[i].id})`)
+
+                    const li = document.createElement('li')
+                    li.setAttribute('class', 'item_contato')
+
+                    const icon = document.createElement('img')
+                    icon.setAttribute('src', data[i].info.avatar)
+                    icon.setAttribute('alt', 'Icone de contato')
+
+                    const nome = document.createElement('div')
+                    nome.setAttribute('class', 'nome_contato')
+                    nome.innerText = `${data[i].firstName} ${data[i].lastName}`
+
+                    const fav = document.createElement('img')
+                    fav.setAttribute('class', 'fav')
+                    fav.setAttribute('src', this.isFavorito(data[i].isFavorite))
+                    if (data[i].isFavorite) {
+                        a.setAttribute('wm-favorito', 'true')
+                        fav.setAttribute('alt', 'Icone de favoritado')
+                        fav.setAttribute('title', 'Desfavoritar')
+                    } else {
+                        fav.setAttribute('alt', 'Icone de desfavoritar')
+                        fav.setAttribute('title', 'Favoritar')
+                    }
+
+                    li.append(icon)
+                    li.append(nome)
+                    li.append(fav)
+                    a.append(li)
+
+                    document.getElementsByClassName('lista_itens')[0].append(a)
+                }
             }
-
-            const li = document.createElement('li')
-            li.setAttribute('class', 'item_contato')
-
-            const icon = document.createElement('img')
-            icon.setAttribute('src', e.info.avatar)
-            icon.setAttribute('alt', 'Icone de contato')
-
-            const nome = document.createElement('div')
-            nome.setAttribute('class', 'nome_contato')
-            nome.innerText = `${e.firstName} ${e.lastName}`
-
-            const fav = document.createElement('img')
-            fav.setAttribute('class', 'fav')
-            fav.setAttribute('src', this.isFavorito(e.isFavorite))
-            fav.setAttribute('alt', '')
-            fav.setAttribute('title', '')
-
-            li.append(icon)
-            li.append(nome)
-            li.append(fav)
-            a.append(li)
-
-            document.getElementsByClassName('lista_itens')[0].append(a)
-        })
-        if (callback) {
-            callback()
+            if (callback) {
+                callback()
+            }
         }
     },
+    //Exibir detalhes do contato a partir do ID
     renderizarDetalhes(event, id) {
         event.preventDefault()
-        const contato = Contatos.listaContatos.filter(e => {
-            if(e.id == id){
+        Contatos.listaContatos.filter(e => {
+            if (e.id == id) {
                 document.getElementById('avatar').src = e.info.avatar
                 document.getElementById('iNome').value = e.firstName
                 document.getElementById('iSobrenome').value = e.lastName
                 document.getElementById('iEmail').value = e.email
-                if(e.gender == 'f'){
+                if (e.gender == 'f') {
                     document.getElementById('gF').checked = true
                 } else {
                     document.getElementById('gM').checked = true
                 }
+                document.getElementById('iAvatar').value = e.info.avatar
                 document.getElementById('iCompanhia').value = e.info.company
                 document.getElementById('iEndereco').value = e.info.address
                 document.getElementById('iTelefone').value = e.info.phone
                 document.getElementById('tComentario').value = e.info.comments
             }
         })
+    }
+}
+
+Paginacao = {
+    paginaAtual: 1,
+    totalPaginas: 0,
+    //Habilitar paginador de contatos
+    habilitarBotoes(flag = true) {
+        if (flag) {
+            document.getElementsByClassName('paginacao')[0].style.display = 'flex'
+        } else {
+            document.getElementsByClassName('paginacao')[0].style.display = 'none'
+        }
     }
 }
 
@@ -118,8 +145,7 @@ API = {
             .then(data => {
                 return data.json()
             })
-        Contatos.listaContatos = lista
-        return Contatos.listaContatos
+        return lista
     }
 }
 
@@ -147,14 +173,27 @@ Eventos = {
             }
         })
 
-        // Array.from(document.querySelectorAll('.lista_itens a')).forEach(e => {
-        //     e.onclick = function () {
-        //         Contatos.renderizarDetalhes()
-        //     }
-        // })
+        //Setar evento do botão de próximo do paginador
+        document.getElementById('pagProximo').onclick = function () {
+            event.preventDefault()
+            if (Paginacao.paginaAtual < Paginacao.totalPaginas) {
+                Paginacao.paginaAtual++
+                Contatos.renderizarContatos(Contatos.listaContatos, Eventos.init, Paginacao.paginaAtual, 10)
+            }
+        }
+
+        //Setar evento do botão de voltar do paginador
+        document.getElementById('pagVoltar').onclick = function () {
+            event.preventDefault()
+            if (Paginacao.paginaAtual > 1) {
+                Paginacao.paginaAtual--
+                Contatos.renderizarContatos(Contatos.listaContatos, Eventos.init, Paginacao.paginaAtual, 10)
+            }
+        }
     }
 }
 
-window.onload = function () {
-    Contatos.renderizarContatos(API.getContatos(), Eventos.init)
+window.onload = async function () {
+    Contatos.listaContatos = await API.getContatos()
+    Contatos.renderizarContatos(Contatos.listaContatos, Eventos.init, Paginacao.paginaAtual, 10)
 }

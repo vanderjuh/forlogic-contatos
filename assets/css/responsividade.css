@@ -15,6 +15,7 @@
 
     .lista_itens {
         margin: 0 10px;
+        max-height: none;
     }
 
     .detalhes_contato input[type="text"],[type="email"]{
@@ -31,5 +32,9 @@
 
     .hide{
         display: block;
+    }
+
+    .paginacao{
+        position: unset;
     }
 }
