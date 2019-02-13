@@ -26,6 +26,10 @@ const Contatos = {
 
     //Favoritar o contato
     favoritar(element) {
+        console.log(element.getAttribute('wm-id'))
+
+        //lista.filter que pega o id bla bla
+
         const flag = (element.parentNode.parentNode.getAttribute('wm-favorito')) ? false : true
         if (flag) {
             element.src = favFullSvg
@@ -82,6 +86,7 @@ const Contatos = {
                     const fav = document.createElement('img')
                     fav.setAttribute('class', 'fav')
                     fav.setAttribute('src', Contatos.estaFavoritado(data[i].isFavorite))
+                    fav.setAttribute('wm-id', data[i].id)
                     if (data[i].isFavorite) {
                         a.setAttribute('wm-favorito', 'true')
                         fav.setAttribute('alt', 'Icone de favoritado')

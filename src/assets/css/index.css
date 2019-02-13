@@ -117,7 +117,8 @@ main {
 }
 
 .item_contato:hover{
-    color: #4169E1;
+    background-color: #CCC;
+    transition: background-color .5s ease;
 }
 
 .nome_contato {
