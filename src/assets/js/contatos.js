@@ -6,7 +6,7 @@ import API from './api'
 //SVGs
 import favFullSvg from '../img/baseline-favorite-24px.svg'
 import favBorderSvg from '../img/baseline-favorite_border-24px.svg'
-
+import avatarSvg from '../img/round-person-24px.svg'
 const Contatos = {
 
     listaContatos: {},
@@ -39,7 +39,7 @@ const Contatos = {
     },
 
     //Vefiricar se o cantato está favoritado e alterar icone de acordo.
-    isFavorito(flag) {
+    estaFavoritado(flag) {
         if (flag) {
             return favFullSvg
         } else {
@@ -63,6 +63,9 @@ const Contatos = {
                     const a = document.createElement('a')
                     a.onclick = () => {
                         Contatos.renderizarDetalhes(data[i].id)
+                        if (window.innerWidth <= 700) {
+                            Contatos.openModal()
+                        }
                     }
 
                     const li = document.createElement('li')
@@ -78,7 +81,7 @@ const Contatos = {
 
                     const fav = document.createElement('img')
                     fav.setAttribute('class', 'fav')
-                    fav.setAttribute('src', this.isFavorito(data[i].isFavorite))
+                    fav.setAttribute('src', Contatos.estaFavoritado(data[i].isFavorite))
                     if (data[i].isFavorite) {
                         a.setAttribute('wm-favorito', 'true')
                         fav.setAttribute('alt', 'Icone de favoritado')
@@ -104,7 +107,7 @@ const Contatos = {
 
     //Exibir detalhes do contato a partir do ID
     renderizarDetalhes(id) {
-        this.listaContatos.filter(e => {
+        Contatos.listaContatos.filter(e => {
             if (e.id == id) {
                 document.getElementById('avatar').src = e.info.avatar
                 document.getElementById('iNome').value = e.firstName
@@ -123,16 +126,33 @@ const Contatos = {
             }
         })
     },
+
+    //Abrir modal
+    openModal() {
+        document.getElementsByClassName('detalhes_contato')[0].style.display = 'flex'
+    },
+
+    //Limpar o formulário do cadastro
+    limparFormulario() {
+        document.getElementById('avatar').src = avatarSvg
+        document.getElementById('formCadastro').reset()
+    },
+
+    //Faz requisição, renderiza e atribui eventos aos contatos
     async init(resultados) {
         if (resultados) {
             Paginacao.redefinir()
             Contatos.renderizarContatos(resultados, Eventos.init, Paginacao.paginaAtual, 10)
-            Filtro.aplicarFiltro()
         } else {
-            Contatos.listaContatos = await API.getContatos()
+            if (Filtro.filtroSelecionado() == 'fTodos') {
+                Contatos.listaContatos = await API.getContatos()
+            } else {
+                Contatos.listaContatos = await API.getContatosFavoritos()
+            }
             Contatos.renderizarContatos(Contatos.listaContatos, Eventos.init, Paginacao.paginaAtual, 10)
         }
     }
+    
 }
 
 export default Contatos

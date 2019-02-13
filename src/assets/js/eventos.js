@@ -56,8 +56,23 @@ const Eventos = {
                 Contatos.renderizarContatos(lista, Eventos.init, Paginacao.paginaAtual, 10)
             }
         }
-    }
 
+        //Dependendo da resolução da tela o botão de fechar realiza uma função diferente
+        document.getElementsByClassName('buttonFechar')[0].onclick = function () {
+            if (window.innerWidth <= 700) {
+                document.getElementsByClassName('detalhes_contato')[0].style.display = 'none'
+            } else {
+                Contatos.limparFormulario()
+            }
+        }
+
+        window.onresize = function(){
+            if (window.innerWidth > 700) {
+                document.getElementsByClassName('detalhes_contato')[0].removeAttribute('style')
+            }
+        }
+
+    }
 }
 
 export default Eventos
