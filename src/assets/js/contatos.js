@@ -2,11 +2,12 @@ import Paginacao from './paginacao'
 import Eventos from './eventos'
 import Filtro from './filtro'
 import API from './api'
-
+import ElementosDOM from './elementosDOM'
 //SVGs
 import favFullSvg from '../img/baseline-favorite-24px.svg'
 import favBorderSvg from '../img/baseline-favorite_border-24px.svg'
 import avatarSvg from '../img/round-person-24px.svg'
+
 const Contatos = {
 
     listaContatos: {},
@@ -62,20 +63,44 @@ const Contatos = {
     },
 
     //Deletar contato
-    async deletarContato(){
-        const iIdContato = document.getElementById('iIdContato').value
-        if(iIdContato && confirm('Deseja realmente deletar este contato?')){
+    async deletarContato() {
+        const iIdContato = ElementosDOM.iIdContato.value
+        if (iIdContato && confirm('Deseja realmente deletar este contato?')) {
             const resp = await API.deleteContato(iIdContato)
-            if(resp){
-                for(let i = 0;i<Contatos.listaContatos.length;i++){
-                    if(Contatos.listaContatos[i].id == iIdContato){
+            if (resp) {
+                for (let i = 0; i < Contatos.listaContatos.length; i++) {
+                    if (Contatos.listaContatos[i].id == iIdContato) {
                         delete Contatos.listaContatos[i]
                     }
                 }
                 Contatos.init(Contatos.listaContatos)
+                Contatos.limparFormulario()
             }
         }
     },
+
+    //Criar novo contato
+    async criarNovoContato() {
+        const formDados = {
+            firstName: ElementosDOM.iNome.value,
+            lastName: ElementosDOM.iSobrenome.value,
+            email: ElementosDOM.iEmail.value,
+            gender: (ElementosDOM.iFeminino.checked == true) ? 'f' : 'm',
+            isFavorite: false,
+            company: ElementosDOM.iCompanhia.value,
+            avatar: ElementosDOM.iAvatar.value,
+            address: ElementosDOM.iEndereco.value,
+            phone: ElementosDOM.iTelefone.value,
+            comments: ElementosDOM.tComentario.value
+        }
+        const resp = await API.createContato(formDados)
+        if (resp) {
+            Contatos.init()
+            Contatos.limparFormulario()
+            alert('Contato salvo com sucesso!')
+        }
+    },
+
     //Vefiricar se o cantato está favoritado e alterar icone de acordo.
     estaFavoritado(flag) {
         if (flag) {
@@ -88,7 +113,7 @@ const Contatos = {
     //Renderizar os contatos na DOM
     renderizarContatos(data, callback, paginaAtual, limitItens) {
 
-        document.getElementsByClassName('lista_itens')[0].innerHTML = ''
+        ElementosDOM.lista_itens.innerHTML = ''
 
         Paginacao.totalPaginas = Math.ceil(data.length / limitItens);
         let count = (paginaAtual * limitItens) - limitItens;
@@ -135,7 +160,7 @@ const Contatos = {
                     li.append(fav)
                     a.append(li)
 
-                    document.getElementsByClassName('lista_itens')[0].append(a)
+                    ElementosDOM.lista_itens.append(a)
                 }
             }
             if (callback) {
@@ -148,37 +173,48 @@ const Contatos = {
     renderizarDetalhes(id) {
         Contatos.listaContatos.filter(e => {
             if (e.id == id) {
-                document.getElementsByClassName('buttonFechar')[0].style.display = 'flex'
-                document.getElementById('iIdContato').value = e.id
-                document.getElementById('avatar').src = e.info.avatar
-                document.getElementById('iNome').value = e.firstName
-                document.getElementById('iSobrenome').value = e.lastName
-                document.getElementById('iEmail').value = e.email
+                ElementosDOM.buttonFechar.style.display = 'flex'
+                ElementosDOM.iIdContato.value = e.id
+                ElementosDOM.avatar.src = e.info.avatar
+                ElementosDOM.iNome.value = e.firstName
+                ElementosDOM.iSobrenome.value = e.lastName
+                ElementosDOM.iEmail.value = e.email
                 if (e.gender == 'f') {
-                    document.getElementById('gF').checked = true
+                    ElementosDOM.iFeminino.checked = true
                 } else {
-                    document.getElementById('gM').checked = true
+                    ElementosDOM.iMasculino.checked = true
                 }
-                document.getElementById('iAvatar').value = e.info.avatar
-                document.getElementById('iCompanhia').value = e.info.company
-                document.getElementById('iEndereco').value = e.info.address
-                document.getElementById('iTelefone').value = e.info.phone
-                document.getElementById('tComentario').value = e.info.comments
-                document.getElementById('bRemover').style.display = 'flex'
+                ElementosDOM.iAvatar.value = e.info.avatar
+                ElementosDOM.iCompanhia.value = e.info.company
+                ElementosDOM.iEndereco.value = e.info.address
+                ElementosDOM.iTelefone.value = e.info.phone
+                ElementosDOM.tComentario.value = e.info.comments
+                ElementosDOM.bRemover.style.display = 'flex'
             }
         })
     },
 
     //Abrir modal
     openModal() {
-        document.getElementsByClassName('detalhes_contato')[0].style.display = 'flex'
+        ElementosDOM.detalhes_contato.style.display = 'flex'
     },
 
     //Limpar o formulário do cadastro
     limparFormulario() {
-        document.getElementById('avatar').src = avatarSvg
-        document.getElementById('iIdContato').removeAttribute('value')
-        document.getElementById('formCadastro').reset()
+        if (window.innerWidth <= 700) {
+            ElementosDOM.detalhes_contato.removeAttribute('style')
+        } else {
+            ElementosDOM.buttonFechar.removeAttribute('style')
+        }
+        ElementosDOM.bRemover.removeAttribute('style')
+        ElementosDOM.avatar.src = avatarSvg
+        ElementosDOM.iIdContato.removeAttribute('value')
+        ElementosDOM.formCadastro.reset()
+    },
+
+    //Validar o formulário de cadastro
+    validarFormulario() {
+        
     },
 
     //Faz requisição, renderiza e atribui eventos aos contatos

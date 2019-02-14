@@ -1,27 +1,31 @@
 import Contatos from './contatos'
 import Paginacao from './paginacao'
 import Filtro from './filtro'
+import ElementosDOM from './elementosDOM'
+
+//SVG
+import avatarSvg from '../img/round-person-24px.svg'
 
 const Eventos = {
 
     init() {
         //Filtrar por: Todos
-        document.getElementsByName('filtro')[0].onclick = () => {
+        ElementosDOM.filtroMostrarTodos.onclick = () => {
             Filtro.mostrarTodos()
         }
 
         //Filtrar por: Favoritos
-        document.getElementsByName('filtro')[1].onclick = () => {
+        ElementosDOM.filtroMostrarFavoritos.onclick = () => {
             Filtro.mostrarFavoritos()
         }
 
         //Pesquisar conforme for digitando
-        document.getElementsByClassName('pesquisaInput')[0].onkeyup = function () {
+        ElementosDOM.pesquisaInput.onkeyup = function () {
             Contatos.buscarContatos(this.value)
         }
 
         //Setar eventos aos clicks dos icones de favorito
-        Array.from(document.getElementsByClassName('fav')).forEach(e => {
+        Array.from(ElementosDOM.fav).forEach(e => {
             e.onclick = function () {
                 if(this.parentElement.parentElement.hasAttribute('wm-favorito')){
                     Contatos.favoritar(this, false)
@@ -32,7 +36,7 @@ const Eventos = {
         })
 
         //Setar evento do botão de próximo do paginador
-        document.getElementById('pagProximo').onclick = () => {
+        ElementosDOM.pagProximo.onclick = () => {
             event.preventDefault()
             if (Paginacao.paginaAtual < Paginacao.totalPaginas) {
                 Paginacao.paginaAtual++
@@ -47,7 +51,7 @@ const Eventos = {
         }
 
         //Setar evento do botão de voltar do paginador
-        document.getElementById('pagVoltar').onclick = () => {
+        ElementosDOM.pagVoltar.onclick = () => {
             event.preventDefault()
             if (Paginacao.paginaAtual > 1) {
                 Paginacao.paginaAtual--
@@ -62,14 +66,8 @@ const Eventos = {
         }
 
         //Dependendo da resolução da tela o botão de fechar realiza uma função diferente
-        document.getElementsByClassName('buttonFechar')[0].onclick = function () {
-            if (window.innerWidth <= 700) {
-                document.getElementsByClassName('detalhes_contato')[0].style.display = 'none'
-            } else {
-                document.getElementsByClassName('buttonFechar')[0].style.display = 'none'
-                document.getElementById('bRemover').style.display = 'none'
-                Contatos.limparFormulario()
-            }
+        ElementosDOM.buttonFechar.onclick = function () {
+            Contatos.limparFormulario()
         }
 
         /*Caso a div de detalhes do contato seja marcada com "display:none" quando
@@ -77,15 +75,25 @@ const Eventos = {
         */
         window.onresize = function(){
             if (window.innerWidth > 700) {
-                document.getElementsByClassName('detalhes_contato')[0].removeAttribute('style')
+                ElementosDOM.detalhes_contato.removeAttribute('style')
             }
         }
 
         //Abre modal preparada para inserir novo contato
-        document.getElementById('bNovoContato').onclick = function(){
+        ElementosDOM.bNovoContato.onclick = function(){
             Contatos.limparFormulario()
             Contatos.openModal()
-            document.getElementsByClassName('buttonFechar')[0].style.display = 'flex'
+            ElementosDOM.buttonFechar.style.display = 'flex'
+        }
+
+        //Salvar contato
+        document.getElementById('bSalvar').onclick = function(){
+            const iIdContato = document.getElementById('iIdContato').value
+            if(iIdContato){
+                console.log('Editar')
+            } else {
+                Contatos.criarNovoContato()
+            }
         }
 
         //Remover contato
@@ -93,6 +101,14 @@ const Eventos = {
             Contatos.deletarContato()
         }
 
+        //Alteração do avatar
+        document.getElementById('iAvatar').onkeyup = function(){
+            if(this.value.match(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g)){
+                document.getElementById('avatar').src = this.value
+            } else {
+                document.getElementById('avatar').src = avatarSvg
+            }
+        }
     }
 }
 

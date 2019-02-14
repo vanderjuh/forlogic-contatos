@@ -2,7 +2,7 @@ const API = {
 
     //Pegar todos os contatos
     async getContatos() {
-        const lista = await fetch('http://contacts-api.azurewebsites.net/api/contacts?limit=45')
+        const lista = await fetch('http://contacts-api.azurewebsites.net/api/contacts')
             .then(data => {
                 return data.json()
             })
@@ -44,7 +44,11 @@ const API = {
             `http://contacts-api.azurewebsites.net/api/contacts/${contato.id}`,
             {
                 method: 'PUT',
-                headers: new Headers(),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors',
                 body: JSON.stringify(data)
             }
         ).then(resp => {
@@ -53,14 +57,14 @@ const API = {
             }
             return true
         })
-        .catch(e => {
-            console.error('Erro ao mudar o status de favorito do contato: ', e)
-            return false
-        })
+            .catch(e => {
+                console.error('Erro ao mudar o status de favorito do contato: ', e)
+                return false
+            })
     },
 
-    async deleteContato(id){
-        if(id){
+    async deleteContato(id) {
+        if (id) {
             return await fetch(
                 `http://contacts-api.azurewebsites.net/api/contacts/${id}`,
                 {
@@ -73,12 +77,39 @@ const API = {
                 }
                 return true
             })
-            .catch(e => {
-                console.error('Erro ao deletar contato: ', e)
-                return false
-            })
+                .catch(e => {
+                    console.error('Erro ao deletar contato: ', e)
+                    return false
+                })
         } else {
             throw 'Erro. É necessário que passe o ID do contato para deleta-lo'
+        }
+    },
+
+    async createContato(contato) {
+        if (contato) {
+            return await fetch(
+                `http://contacts-api.azurewebsites.net/api/contacts`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(contato)
+                }
+            ).then(resp => {
+                if (resp.status != 201) {
+                    throw `${resp.statusText} (${resp.status})`
+                }
+                return true
+            })
+                .catch(e => {
+                    console.error('Erro ao criar novo contato: ', e)
+                    return false
+                })
+        } else {
+            throw 'Erro. É necessário que passe o objeto do contato para salvar.'
         }
     }
 
