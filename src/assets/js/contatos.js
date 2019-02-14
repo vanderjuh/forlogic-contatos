@@ -3,6 +3,7 @@ import Eventos from './eventos'
 import Filtro from './filtro'
 import API from './api'
 import ElementosDOM from './elementosDOM'
+
 //SVGs
 import favFullSvg from '../img/baseline-favorite-24px.svg'
 import favBorderSvg from '../img/baseline-favorite_border-24px.svg'
@@ -81,23 +82,25 @@ const Contatos = {
 
     //Criar novo contato
     async criarNovoContato() {
-        const formDados = {
-            firstName: ElementosDOM.iNome.value,
-            lastName: ElementosDOM.iSobrenome.value,
-            email: ElementosDOM.iEmail.value,
-            gender: (ElementosDOM.iFeminino.checked == true) ? 'f' : 'm',
-            isFavorite: false,
-            company: ElementosDOM.iCompanhia.value,
-            avatar: ElementosDOM.iAvatar.value,
-            address: ElementosDOM.iEndereco.value,
-            phone: ElementosDOM.iTelefone.value,
-            comments: ElementosDOM.tComentario.value
-        }
-        const resp = await API.createContato(formDados)
-        if (resp) {
-            Contatos.init()
-            Contatos.limparFormulario()
-            alert('Contato salvo com sucesso!')
+        if (Contatos.validarFormulario()) {
+            const formDados = {
+                firstName: ElementosDOM.iNome.value,
+                lastName: ElementosDOM.iSobrenome.value,
+                email: ElementosDOM.iEmail.value,
+                gender: (ElementosDOM.iFeminino.checked == true) ? 'f' : 'm',
+                isFavorite: false,
+                company: ElementosDOM.iCompanhia.value,
+                avatar: ElementosDOM.iAvatar.value,
+                address: ElementosDOM.iEndereco.value,
+                phone: ElementosDOM.iTelefone.value,
+                comments: ElementosDOM.tComentario.value
+            }
+            const resp = await API.createContato(formDados)
+            if (resp) {
+                Contatos.init()
+                Contatos.limparFormulario()
+                alert('Contato salvo com sucesso!')
+            }
         }
     },
 
@@ -214,7 +217,41 @@ const Contatos = {
 
     //Validar o formulário de cadastro
     validarFormulario() {
-        
+        const array = []
+
+        const alertBorda = (elements) => {
+            alert('Preencha todos os campos corretamente!')
+            elements.forEach(e => {
+                e.style.background = '#FFF0F5'
+            })
+            setTimeout(() => {
+                elements.forEach(e => {
+                    e.removeAttribute('style')
+                })
+            }, 5000)
+        }
+
+        if (ElementosDOM.iNome.value == '') array.push(ElementosDOM.iNome)
+        if (ElementosDOM.iSobrenome.value == '') array.push(ElementosDOM.iSobrenome)
+        if (ElementosDOM.iEmail.value == '') array.push(ElementosDOM.iEmail)
+        if (!ElementosDOM.iFeminino.checked) {
+            if (!ElementosDOM.iMasculino.checked) {
+                array.push(ElementosDOM.iFeminino)
+                array.push(ElementosDOM.iMasculino)
+            }
+        }
+        if (ElementosDOM.iAvatar.value == '') array.push(ElementosDOM.iAvatar)
+        if (ElementosDOM.iCompanhia.value == '') array.push(ElementosDOM.iCompanhia)
+        if (ElementosDOM.iEndereco.value == '') array.push(ElementosDOM.iEndereco)
+        if (ElementosDOM.iTelefone.value == '') array.push(ElementosDOM.iTelefone)
+        if (ElementosDOM.iCompanhia.value == '') array.push(ElementosDOM.iCompanhia)
+
+        if (array.length > 0) {
+            alertBorda(array)
+            return false
+        }
+
+        return true
     },
 
     //Faz requisição, renderiza e atribui eventos aos contatos

@@ -81,9 +81,9 @@ const API = {
                     console.error('Erro ao deletar contato: ', e)
                     return false
                 })
-        } else {
-            throw 'Erro. É necessário que passe o ID do contato para deleta-lo'
         }
+        console.error('Erro. É necessário que passe o ID do contato para deleta-lo')
+        return false
     },
 
     async createContato(contato) {
@@ -98,19 +98,22 @@ const API = {
                     },
                     body: JSON.stringify(contato)
                 }
-            ).then(resp => {
+            ).then(async resp => {
                 if (resp.status != 201) {
-                    throw `${resp.statusText} (${resp.status})`
+                    throw await resp.json()
                 }
                 return true
             })
-                .catch(e => {
-                    console.error('Erro ao criar novo contato: ', e)
-                    return false
-                })
-        } else {
-            throw 'Erro. É necessário que passe o objeto do contato para salvar.'
+            .catch(e => {
+                if (e.email) {
+                    alert(e.email)
+                }
+                console.error('Erro ao criar novo contato')
+                return false
+            })
         }
+        console.error('Erro. É necessário que passe o objeto do contato para salvar.')
+        return false
     }
 
 }
