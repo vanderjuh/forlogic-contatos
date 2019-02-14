@@ -23,7 +23,9 @@ const ElementosDOM = {
     fav: document.getElementsByClassName('fav'),
     pagProximo: document.getElementById('pagProximo'),
     pagVoltar: document.getElementById('pagVoltar'),
-    bNovoContato: document.getElementById('bNovoContato')
+    bNovoContato: document.getElementById('bNovoContato'),
+    bSalvar: document.getElementById('bSalvar'),
+    paginacao: document.getElementsByClassName('paginacao')[0]
 }
 
 export default ElementosDOM

@@ -87,9 +87,8 @@ const Eventos = {
         }
 
         //Salvar contato
-        document.getElementById('bSalvar').onclick = function(){
-            const iIdContato = document.getElementById('iIdContato').value
-            if(iIdContato){
+        ElementosDOM.bSalvar.onclick = function(){
+            if(ElementosDOM.iIdContato.value){
                 console.log('Editar')
             } else {
                 Contatos.criarNovoContato()
@@ -97,16 +96,16 @@ const Eventos = {
         }
 
         //Remover contato
-        document.getElementById('bRemover').onclick = function(){
+        ElementosDOM.bRemover.onclick = function(){
             Contatos.deletarContato()
         }
 
         //Alteração do avatar
-        document.getElementById('iAvatar').onkeyup = function(){
+        ElementosDOM.iAvatar.onkeyup = function(){
             if(this.value.match(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g)){
-                document.getElementById('avatar').src = this.value
+                ElementosDOM.avatar.src = this.value
             } else {
-                document.getElementById('avatar').src = avatarSvg
+                ElementosDOM.avatar.src = avatarSvg
             }
         }
     }

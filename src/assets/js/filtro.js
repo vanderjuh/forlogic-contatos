@@ -1,4 +1,5 @@
 import Contatos from "./contatos";
+import ElementosDOM from "./elementosDOM";
 
 const Filtro = {
 
@@ -24,9 +25,7 @@ const Filtro = {
     },
 
     filtroSelecionado(){
-        const todos = document.getElementsByClassName('fTodos')[0]
-        const fav = document.getElementsByClassName('fFavoritos')[0]
-        if(todos.checked){
+        if(ElementosDOM.filtroMostrarTodos.checked){
             return 'fTodos'
         } else {
             return 'fFavoritos'
@@ -34,7 +33,7 @@ const Filtro = {
     },
 
     limparPesquisa(){
-        document.getElementsByClassName('pesquisaInput')[0].value = ''
+        ElementosDOM.pesquisaInput.value = ''
     }
 
 }

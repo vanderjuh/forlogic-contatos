@@ -1,4 +1,5 @@
 import Contatos from './contatos'
+import ElementosDOM from './elementosDOM';
 
 const Paginacao = {
 
@@ -9,9 +10,9 @@ const Paginacao = {
     //Habilitar paginador de contatos
     habilitarBotoes(flag = true) {
         if (flag) {
-            document.getElementsByClassName('paginacao')[0].style.display = 'flex'
+            ElementosDOM.paginacao.style.display = 'flex'
         } else {
-            document.getElementsByClassName('paginacao')[0].style.display = 'none'
+            ElementosDOM.paginacao.removeAttribute('style')
         }
     },
 
@@ -23,7 +24,7 @@ const Paginacao = {
 
     //Verifica se o usuário está fazendo uma pesquisa
     estaProcurando(){
-        if(document.getElementsByClassName('pesquisaInput')[0].value && Contatos.listaPesquisa.length != 0){
+        if(ElementosDOM.pesquisaInput.value && Contatos.listaPesquisa.length != 0){
             return true
         }
         return false
