@@ -18,6 +18,11 @@
                         Agenda
                     </a>
                 </li>
+                <li class="hide">
+                    <button id="bNovoContato">
+                        <img src="./assets/img/baseline-playlist_add-24px.svg" alt="Adicionar novo contato" title="Adicionar novo contato">
+                    </button>
+                </li>
             </ul>
         </div>
     </menu>
@@ -28,6 +33,7 @@
                     <img src="./assets/img/baseline-close-24px.svg" alt="Fechar">
                 </button>
                 <form id="formCadastro" action="#" method="post">
+                    <input id="iIdContato" type="hidden">
                     <img id="avatar" class="avatar" src="./assets/img/round-person-24px.svg" alt="Icone de contato">
                     <fieldset>
                         <legend>Dados pessoais:</legend>
@@ -59,7 +65,7 @@
                         <legend>Outras informações: </legend>
                         <table>
                             <tr>
-                                <td><label for="iAvatar">Avatar: </label></td>
+                                <td><label for="iAvatar">Link do Avatar: </label></td>
                                 <td><input type="text" id="iAvatar"></td>
                             </tr>
                             <tr>
@@ -87,7 +93,7 @@
                             <img src="./assets/img/baseline-save-24px.svg" alt="Salvar">
                             Salvar
                         </button>
-                        <button class="btnRemove" type="button">
+                        <button id="bRemover" class="btnRemove" type="button">
                             <img src="./assets/img/baseline-delete-24px.svg" alt="Salvar">
                             Remover
                         </button>

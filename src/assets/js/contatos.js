@@ -25,23 +25,57 @@ const Contatos = {
     },
 
     //Favoritar o contato
-    favoritar(element) {
-        console.log(element.getAttribute('wm-id'))
+    async favoritar(element, status) {
+        if (status != undefined) {
+            const contato = Contatos.listaContatos.filter(e => {
+                if (element.getAttribute('wm-id') == e.id) {
+                    return e
+                }
+            })[0]
 
-        //lista.filter que pega o id bla bla
-
-        const flag = (element.parentNode.parentNode.getAttribute('wm-favorito')) ? false : true
-        if (flag) {
-            element.src = favFullSvg
-            element.title = 'Desfavoritar'
-            element.parentNode.parentNode.setAttribute('wm-favorito', 'true')
+            if (contato) {
+                contato.isFavorite = status
+                const res = await API.updateContato(contato)
+                if (res) {
+                    const flag = (element.parentNode.parentNode.getAttribute('wm-favorito')) ? false : true
+                    if (flag) {
+                        element.src = favFullSvg
+                        element.title = 'Desfavoritar'
+                        element.parentNode.parentNode.setAttribute('wm-favorito', 'true')
+                    } else {
+                        element.src = favBorderSvg
+                        element.title = 'Favoritar'
+                        element.parentNode.parentNode.removeAttribute('wm-favorito')
+                    }
+                } else {
+                    const msg = 'Não foi possível alterar o status de favorito do contato!'
+                    alert(msg)
+                    throw msg
+                }
+            } else {
+                throw 'Erro. Contato não encontrado'
+            }
         } else {
-            element.src = favBorderSvg
-            element.title = 'Favoritar'
-            element.parentNode.parentNode.removeAttribute('wm-favorito')
+            throw 'Erro. É necessário passar um status de favorito para o contato'
         }
+
     },
 
+    //Deletar contato
+    async deletarContato(){
+        const iIdContato = document.getElementById('iIdContato').value
+        if(iIdContato && confirm('Deseja realmente deletar este contato?')){
+            const resp = await API.deleteContato(iIdContato)
+            if(resp){
+                for(let i = 0;i<Contatos.listaContatos.length;i++){
+                    if(Contatos.listaContatos[i].id == iIdContato){
+                        delete Contatos.listaContatos[i]
+                    }
+                }
+                Contatos.init(Contatos.listaContatos)
+            }
+        }
+    },
     //Vefiricar se o cantato está favoritado e alterar icone de acordo.
     estaFavoritado(flag) {
         if (flag) {
@@ -114,6 +148,8 @@ const Contatos = {
     renderizarDetalhes(id) {
         Contatos.listaContatos.filter(e => {
             if (e.id == id) {
+                document.getElementsByClassName('buttonFechar')[0].style.display = 'flex'
+                document.getElementById('iIdContato').value = e.id
                 document.getElementById('avatar').src = e.info.avatar
                 document.getElementById('iNome').value = e.firstName
                 document.getElementById('iSobrenome').value = e.lastName
@@ -128,6 +164,7 @@ const Contatos = {
                 document.getElementById('iEndereco').value = e.info.address
                 document.getElementById('iTelefone').value = e.info.phone
                 document.getElementById('tComentario').value = e.info.comments
+                document.getElementById('bRemover').style.display = 'flex'
             }
         })
     },
@@ -140,6 +177,7 @@ const Contatos = {
     //Limpar o formulário do cadastro
     limparFormulario() {
         document.getElementById('avatar').src = avatarSvg
+        document.getElementById('iIdContato').removeAttribute('value')
         document.getElementById('formCadastro').reset()
     },
 
@@ -157,7 +195,7 @@ const Contatos = {
             Contatos.renderizarContatos(Contatos.listaContatos, Eventos.init, Paginacao.paginaAtual, 10)
         }
     }
-    
+
 }
 
 export default Contatos
