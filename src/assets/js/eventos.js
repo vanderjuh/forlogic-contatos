@@ -9,15 +9,12 @@ import avatarSvg from '../img/round-person-24px.svg'
 const Eventos = {
 
     init() {
+
         //Filtrar por: Todos
-        ElementosDOM.filtroMostrarTodos.onclick = () => {
-            Filtro.aplicarFiltro()
-        }
+        ElementosDOM.filtroMostrarTodos.onclick = Filtro.aplicarFiltro
 
         //Filtrar por: Favoritos
-        ElementosDOM.filtroMostrarFavoritos.onclick = () => {
-            Filtro.aplicarFiltro()
-        }
+        ElementosDOM.filtroMostrarFavoritos.onclick = Filtro.aplicarFiltro
 
         //Pesquisar conforme for digitando
         ElementosDOM.pesquisaInput.onkeyup = function () {
@@ -27,7 +24,7 @@ const Eventos = {
         //Setar eventos aos clicks dos icones de favorito
         Array.from(ElementosDOM.fav).forEach(e => {
             e.onclick = function () {
-                if(this.parentElement.parentElement.hasAttribute('wm-favorito')){
+                if (this.parentElement.parentElement.hasAttribute('wm-favorito')) {
                     Contatos.favoritar(this, false)
                 } else {
                     Contatos.favoritar(this, true)
@@ -36,7 +33,7 @@ const Eventos = {
         })
 
         //Setar evento do botão de próximo do paginador
-        ElementosDOM.pagProximo.onclick = () => {
+        ElementosDOM.pagProximo.onclick = (event) => {
             event.preventDefault()
             if (Paginacao.paginaAtual < Paginacao.totalPaginas) {
                 Paginacao.paginaAtual++
@@ -51,7 +48,7 @@ const Eventos = {
         }
 
         //Setar evento do botão de voltar do paginador
-        ElementosDOM.pagVoltar.onclick = () => {
+        ElementosDOM.pagVoltar.onclick = (event) => {
             event.preventDefault()
             if (Paginacao.paginaAtual > 1) {
                 Paginacao.paginaAtual--
@@ -66,29 +63,25 @@ const Eventos = {
         }
 
         //Dependendo da resolução da tela o botão de fechar realiza uma função diferente
-        ElementosDOM.buttonFechar.onclick = function () {
-            Contatos.limparFormulario()
-        }
+        ElementosDOM.buttonFechar.onclick = Contatos.limparFormulario
 
         /*Caso a div de detalhes do contato seja marcada com "display:none" quando
         * alterado a resolução, esta função monitora esta mudança e corrige.
         */
-        window.onresize = function(){
-            if (window.innerWidth > 700) {
-                ElementosDOM.detalhes_contato.removeAttribute('style')
-            }
+        window.onresize = function () {
+            if (window.innerWidth > 700) { ElementosDOM.detalhes_contato.removeAttribute('style') }
         }
 
         //Abre modal preparada para inserir novo contato
-        ElementosDOM.bNovoContato.onclick = function(){
+        ElementosDOM.bNovoContato.onclick = function () {
             Contatos.limparFormulario()
             Contatos.openModal()
             ElementosDOM.buttonFechar.style.display = 'flex'
         }
 
         //Salvar contato
-        ElementosDOM.bSalvar.onclick = function(){
-            if(ElementosDOM.iIdContato.value){
+        ElementosDOM.bSalvar.onclick = function () {
+            if (ElementosDOM.iIdContato.value) {
                 Contatos.updateContato()
             } else {
                 Contatos.criarNovoContato()
@@ -96,13 +89,11 @@ const Eventos = {
         }
 
         //Remover contato
-        ElementosDOM.bRemover.onclick = function(){
-            Contatos.deletarContato()
-        }
+        ElementosDOM.bRemover.onclick = Contatos.deletarContato
 
         //Alteração do avatar
-        ElementosDOM.iAvatar.onkeyup = function(){
-            if(this.value.match(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g)){
+        ElementosDOM.iAvatar.onkeyup = function () {
+            if (this.value.match(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g)) {
                 ElementosDOM.avatar.src = this.value
             } else {
                 ElementosDOM.avatar.src = avatarSvg

@@ -4,9 +4,7 @@ const API = {
     async getContatos() {
         const lista = await fetch('http://contacts-api.azurewebsites.net/api/contacts')
             .then(resp => {
-                if (resp.status != 200) {
-                    throw `${resp.statusText} (${resp.status})`
-                }
+                if (resp.status != 200) { throw `${resp.statusText} (${resp.status})` }
                 return resp.json()
             })
             .catch(e => {
@@ -17,23 +15,9 @@ const API = {
         return lista
     },
 
-    //Pegar todos os contatos favoritados
-    async getContatosFavoritos() {
-        const lista = await fetch('http://contacts-api.azurewebsites.net/api/contacts')
-            .then(data => {
-                return data.json()
-            })
-        return lista.filter(e => {
-            if (e.isFavorite) {
-                return e
-            }
-        })
-    },
-
-    //Edtar o contato
+    //Editar o contato
     async updateContato(contato) {
         if (contato) {
-
             const data = {
                 firstName: contato.firstName,
                 lastName: contato.lastName,
@@ -47,33 +31,24 @@ const API = {
                 comments: contato.info.comments
             }
 
-            console.log(JSON.stringify(data))
-
             return await fetch(
                 `http://contacts-api.azurewebsites.net/api/contacts/${contato.id}`,
                 {
                     method: 'PUT',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
                     body: JSON.stringify(data),
-
                 }
             ).then(resp => {
-                if (resp.status != 200) {
-                    throw resp.json()
-                }
+                if (resp.status != 200) { throw resp.json() }
                 return true
             })
                 .catch(e => {
                     const msg = Object.values(e)[0]
-                    if (msg) {
-                        alert(msg)
-                    }
+                    if (msg) { alert(msg) }
                     console.error('Erro ao editar contato.')
                     return false
                 })
+
         }
         console.error('Erro. É necessário que passe um contato para ser editado.')
         return false
@@ -109,23 +84,16 @@ const API = {
                 `http://contacts-api.azurewebsites.net/api/contacts`,
                 {
                     method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
                     body: JSON.stringify(contato)
                 }
             ).then(async resp => {
-                if (resp.status != 201) {
-                    throw await resp.json()
-                }
+                if (resp.status != 201) { throw await resp.json() }
                 return true
             })
                 .catch(e => {
                     const msg = Object.values(e)[0]
-                    if (msg) {
-                        alert(msg)
-                    }
+                    if (msg) { alert(msg) }
                     console.error('Erro ao criar novo contato')
                     return false
                 })
@@ -133,7 +101,6 @@ const API = {
         console.error('Erro. É necessário que passe o objeto do contato para salvar.')
         return false
     }
-
 }
 
 export default API

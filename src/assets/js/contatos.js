@@ -19,22 +19,15 @@ const Contatos = {
         Paginacao.redefinir()
         Contatos.listaPesquisa = Contatos.listaContatos.filter(e => {
             const nomeCompleto = `${e.firstName} ${e.lastName}`
-            if (nomeCompleto.includes(nome)) {
-                return e
-            }
+            if (nomeCompleto.includes(nome)) { return e }
         })
-        Contatos.init(Contatos.listaPesquisa)
+        Contatos.renderizarContatos(Contatos.listaPesquisa)
     },
 
     //Favoritar o contato
     async favoritar(element, status) {
         if (status != undefined) {
-            const contato = Contatos.listaContatos.filter(e => {
-                if (element.getAttribute('wm-id') == e.id) {
-                    return e
-                }
-            })[0]
-
+            const contato = Contatos.listaContatos.filter(e => element.getAttribute('wm-id') == e.id)[0]
             if (contato) {
                 contato.isFavorite = status
                 const res = await API.updateContato(contato)
@@ -54,19 +47,13 @@ const Contatos = {
                     alert(msg)
                     throw msg
                 }
-            } else {
-                throw 'Erro. Contato não encontrado'
-            }
-        } else {
-            throw 'Erro. É necessário passar um status de favorito para o contato'
-        }
-
+            } else { throw 'Erro. Contato não encontrado' }
+        } else { throw 'Erro. É necessário passar um status de favorito para o contato' }
     },
 
     //Editar informações do contato
     async updateContato() {
         if (Contatos.validarFormulario()) {
-
             const formDados = {
                 id: ElementosDOM.iIdContato.value,
                 firstName: ElementosDOM.iNome.value,
@@ -82,13 +69,10 @@ const Contatos = {
                     comments: ElementosDOM.tComentario.value
                 }
             }
-
             const resp = await API.updateContato(formDados)
-
             if (resp) {
                 Contatos.listaContatos = Contatos.listaContatos.map(e => {
-                    if(e.id == formDados.id){
-                        console.log('Encontrou')
+                    if (e.id == formDados.id) {
                         e = formDados
                     }
                     return e
@@ -97,7 +81,6 @@ const Contatos = {
                 Contatos.limparFormulario()
                 alert('Contato editado com sucesso!')
             }
-
         }
     },
 
@@ -136,42 +119,50 @@ const Contatos = {
             }
             const resp = await API.createContato(formDados)
             if (resp) {
-                Contatos.init()
+                Contatos.init() //Restarta a aplicação para pegar o ID do novo contato
                 Contatos.limparFormulario()
                 alert('Contato salvo com sucesso!')
             }
         }
     },
 
-    //Vefiricar se o cantato está favoritado e alterar icone de acordo.
-    estaFavoritado(flag) {
-        if (flag) {
-            return favFullSvg
-        } else {
-            return favBorderSvg
-        }
-    },
-
     //Renderizar os contatos na DOM
     renderizarContatos(data) {
 
+        //Limite de itens por página
         const limitItens = 10
 
-        ElementosDOM.lista_itens.innerHTML = ''
-
+        //Total de páginas possíveis
         Paginacao.totalPaginas = Math.ceil(data.length / limitItens);
+
+        //Determina o item inicial de cada página
         let count = (Paginacao.paginaAtual * limitItens) - limitItens;
+
+        //Determina o item final de cada página
         let delimitador = count + limitItens;
 
+        //Limpa o container de itens HTML dos contatos
+        ElementosDOM.lista_itens.innerHTML = ''
+
         if (Paginacao.paginaAtual <= Paginacao.totalPaginas) {
+
             Paginacao.habilitarBotoes(true)
+
             for (let i = count; i < delimitador; i++) {
-                if (data[i] == undefined) continue
+
+                //Evita itens undefineds
+                if (data[i] == undefined) {
+                    continue
+                }
+
                 if (Filtro.filtroSelecionado() == 'fFavoritos') {
                     if (!data[i].isFavorite) {
+                        delimitador++
                         continue
                     }
                 }
+
+                //Criação dos itens HTML da lista de contatos
                 const a = document.createElement('a')
                 a.onclick = () => {
                     Contatos.renderizarDetalhes(data[i].id)
@@ -193,7 +184,7 @@ const Contatos = {
 
                 const fav = document.createElement('img')
                 fav.setAttribute('class', 'fav')
-                fav.setAttribute('src', Contatos.estaFavoritado(data[i].isFavorite))
+                fav.setAttribute('src', (data[i].isFavorite == true) ? favFullSvg : favBorderSvg)
                 fav.setAttribute('wm-id', data[i].id)
                 if (data[i].isFavorite) {
                     a.setAttribute('wm-favorito', 'true')
@@ -209,8 +200,11 @@ const Contatos = {
                 li.append(fav)
                 a.append(li)
 
+                //Inseri o item gerado na DOM
                 ElementosDOM.lista_itens.append(a)
             }
+
+            //Seta os eventos para os itens HTML gerados
             Eventos.init()
         }
     },
@@ -236,6 +230,7 @@ const Contatos = {
                 ElementosDOM.iTelefone.value = e.info.phone
                 ElementosDOM.tComentario.value = e.info.comments
                 ElementosDOM.bRemover.style.display = 'flex'
+                return
             }
         })
     },
@@ -260,12 +255,17 @@ const Contatos = {
 
     //Validar o formulário de cadastro
     validarFormulario() {
+
         const array = []
 
         const alertBorda = (elements) => {
             alert('Preencha todos os campos corretamente!')
             elements.forEach(e => {
+                e.style.border = 'red solid 1px'
                 e.style.background = '#FFF0F5'
+                if (e.type == 'radio') {
+                    e.style.outline = 'red solid 1px'
+                }
             })
             setTimeout(() => {
                 elements.forEach(e => {
@@ -298,18 +298,9 @@ const Contatos = {
     },
 
     //Faz requisição, renderiza e atribui eventos aos contatos
-    async init(resultados) {
-        if (resultados) {
-            Paginacao.redefinir()
-            Contatos.renderizarContatos(resultados, Eventos.init)
-        } else {
-            if (Filtro.filtroSelecionado() == 'fTodos') {
-                Contatos.listaContatos = await API.getContatos()
-            } else {
-                Contatos.listaContatos = Contatos.listaContatos.filter(e => e.isFavorite == true)
-            }
-            Contatos.renderizarContatos(Contatos.listaContatos, Eventos.init)
-        }
+    async init() {
+        Contatos.listaContatos = await API.getContatos()
+        Contatos.renderizarContatos(Contatos.listaContatos)
     }
 
 }
