@@ -2,7 +2,7 @@ const API = {
 
     //Pegar todos os contatos
     async getContatos() {
-        const lista = await fetch('http://contacts-api.azurewebsites.net/api/contacts?limit=100')
+        const lista = await fetch('http://contacts-api.azurewebsites.net/api/contacts')
             .then(resp => {
                 if (resp.status != 200) {
                     throw `${resp.statusText} (${resp.status})`
@@ -47,6 +47,8 @@ const API = {
                 comments: contato.info.comments
             }
 
+            console.log(JSON.stringify(data))
+
             return await fetch(
                 `http://contacts-api.azurewebsites.net/api/contacts/${contato.id}`,
                 {
@@ -69,7 +71,7 @@ const API = {
                     if (msg) {
                         alert(msg)
                     }
-                    console.error('Erro ao mudar o status de favorito do contato.')
+                    console.error('Erro ao editar contato.')
                     return false
                 })
         }

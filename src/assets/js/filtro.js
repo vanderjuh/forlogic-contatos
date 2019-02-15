@@ -1,23 +1,24 @@
 import Contatos from "./contatos";
 import ElementosDOM from "./elementosDOM";
+import Paginacao from "./paginacao";
 
 const Filtro = {
 
     //Exibir na DOM todos os contatos
     mostrarTodos() {
-        Contatos.init()
+        Contatos.renderizarContatos(Contatos.listaContatos)
         Filtro.limparPesquisa()
     },
 
     //Exibir na DOM apenas os favoritos
     mostrarFavoritos() {
-        Contatos.init()
+        Contatos.renderizarContatos(Contatos.listaContatos)
         Filtro.limparPesquisa()
     },
 
     //Verifica ao filtro esta checked e aplica para exibição dos contatos
     aplicarFiltro() {
-        if (document.getElementsByClassName('fTodos')[0].checked) {
+        if (ElementosDOM.filtroMostrarTodos.checked) {
             Filtro.mostrarTodos()
         } else {
             Filtro.mostrarFavoritos()

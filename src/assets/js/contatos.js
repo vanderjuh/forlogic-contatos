@@ -11,8 +11,8 @@ import avatarSvg from '../img/round-person-24px.svg'
 
 const Contatos = {
 
-    listaContatos: {},
-    listaPesquisa: {},
+    listaContatos: [],
+    listaPesquisa: [],
 
     //Buscar contatos pelo nome
     buscarContatos(nome) {
@@ -63,6 +63,44 @@ const Contatos = {
 
     },
 
+    //Editar informações do contato
+    async updateContato() {
+        if (Contatos.validarFormulario()) {
+
+            const formDados = {
+                id: ElementosDOM.iIdContato.value,
+                firstName: ElementosDOM.iNome.value,
+                lastName: ElementosDOM.iSobrenome.value,
+                email: ElementosDOM.iEmail.value,
+                gender: (ElementosDOM.iFeminino.checked == true) ? 'f' : 'm',
+                isFavorite: false,
+                info: {
+                    company: ElementosDOM.iCompanhia.value,
+                    avatar: ElementosDOM.iAvatar.value,
+                    address: ElementosDOM.iEndereco.value,
+                    phone: ElementosDOM.iTelefone.value,
+                    comments: ElementosDOM.tComentario.value
+                }
+            }
+
+            const resp = await API.updateContato(formDados)
+
+            if (resp) {
+                Contatos.listaContatos = Contatos.listaContatos.map(e => {
+                    if(e.id == formDados.id){
+                        console.log('Encontrou')
+                        e = formDados
+                    }
+                    return e
+                })
+                Contatos.renderizarContatos(Contatos.listaContatos)
+                Contatos.limparFormulario()
+                alert('Contato editado com sucesso!')
+            }
+
+        }
+    },
+
     //Deletar contato
     async deletarContato() {
         const iIdContato = ElementosDOM.iIdContato.value
@@ -74,8 +112,9 @@ const Contatos = {
                         delete Contatos.listaContatos[i]
                     }
                 }
-                Contatos.init(Contatos.listaContatos)
+                Contatos.renderizarContatos(Contatos.listaContatos)
                 Contatos.limparFormulario()
+                alert('Contato deletado com sucesso!')
             }
         }
     },
@@ -114,61 +153,65 @@ const Contatos = {
     },
 
     //Renderizar os contatos na DOM
-    renderizarContatos(data, callback, paginaAtual, limitItens) {
+    renderizarContatos(data) {
+
+        const limitItens = 10
 
         ElementosDOM.lista_itens.innerHTML = ''
 
         Paginacao.totalPaginas = Math.ceil(data.length / limitItens);
-        let count = (paginaAtual * limitItens) - limitItens;
+        let count = (Paginacao.paginaAtual * limitItens) - limitItens;
         let delimitador = count + limitItens;
 
-        if (paginaAtual <= Paginacao.totalPaginas) {
+        if (Paginacao.paginaAtual <= Paginacao.totalPaginas) {
             Paginacao.habilitarBotoes(true)
             for (let i = count; i < delimitador; i++) {
-                if (data[i] != null) {
-                    const a = document.createElement('a')
-                    a.onclick = () => {
-                        Contatos.renderizarDetalhes(data[i].id)
-                        if (window.innerWidth <= 700) {
-                            Contatos.openModal()
-                        }
+                if (data[i] == undefined) continue
+                if (Filtro.filtroSelecionado() == 'fFavoritos') {
+                    if (!data[i].isFavorite) {
+                        continue
                     }
-
-                    const li = document.createElement('li')
-                    li.setAttribute('class', 'item_contato')
-
-                    const icon = document.createElement('img')
-                    icon.setAttribute('src', data[i].info.avatar)
-                    icon.setAttribute('alt', 'Icone de contato')
-
-                    const nome = document.createElement('div')
-                    nome.setAttribute('class', 'nome_contato')
-                    nome.innerText = `${data[i].firstName} ${data[i].lastName}`
-
-                    const fav = document.createElement('img')
-                    fav.setAttribute('class', 'fav')
-                    fav.setAttribute('src', Contatos.estaFavoritado(data[i].isFavorite))
-                    fav.setAttribute('wm-id', data[i].id)
-                    if (data[i].isFavorite) {
-                        a.setAttribute('wm-favorito', 'true')
-                        fav.setAttribute('alt', 'Icone de favoritado')
-                        fav.setAttribute('title', 'Desfavoritar')
-                    } else {
-                        fav.setAttribute('alt', 'Icone de desfavoritar')
-                        fav.setAttribute('title', 'Favoritar')
-                    }
-
-                    li.append(icon)
-                    li.append(nome)
-                    li.append(fav)
-                    a.append(li)
-
-                    ElementosDOM.lista_itens.append(a)
                 }
+                const a = document.createElement('a')
+                a.onclick = () => {
+                    Contatos.renderizarDetalhes(data[i].id)
+                    if (window.innerWidth <= 700) {
+                        Contatos.openModal()
+                    }
+                }
+
+                const li = document.createElement('li')
+                li.setAttribute('class', 'item_contato')
+
+                const icon = document.createElement('img')
+                icon.setAttribute('src', data[i].info.avatar)
+                icon.setAttribute('alt', 'Icone de contato')
+
+                const nome = document.createElement('div')
+                nome.setAttribute('class', 'nome_contato')
+                nome.innerText = `${data[i].firstName} ${data[i].lastName}`
+
+                const fav = document.createElement('img')
+                fav.setAttribute('class', 'fav')
+                fav.setAttribute('src', Contatos.estaFavoritado(data[i].isFavorite))
+                fav.setAttribute('wm-id', data[i].id)
+                if (data[i].isFavorite) {
+                    a.setAttribute('wm-favorito', 'true')
+                    fav.setAttribute('alt', 'Icone de favoritado')
+                    fav.setAttribute('title', 'Desfavoritar')
+                } else {
+                    fav.setAttribute('alt', 'Icone de desfavoritar')
+                    fav.setAttribute('title', 'Favoritar')
+                }
+
+                li.append(icon)
+                li.append(nome)
+                li.append(fav)
+                a.append(li)
+
+                ElementosDOM.lista_itens.append(a)
             }
-            if (callback) {
-                callback()
-            }
+            Eventos.init()
         }
     },
 
@@ -258,14 +301,14 @@ const Contatos = {
     async init(resultados) {
         if (resultados) {
             Paginacao.redefinir()
-            Contatos.renderizarContatos(resultados, Eventos.init, Paginacao.paginaAtual, 10)
+            Contatos.renderizarContatos(resultados, Eventos.init)
         } else {
             if (Filtro.filtroSelecionado() == 'fTodos') {
                 Contatos.listaContatos = await API.getContatos()
             } else {
-                Contatos.listaContatos = await API.getContatosFavoritos()
+                Contatos.listaContatos = Contatos.listaContatos.filter(e => e.isFavorite == true)
             }
-            Contatos.renderizarContatos(Contatos.listaContatos, Eventos.init, Paginacao.paginaAtual, 10)
+            Contatos.renderizarContatos(Contatos.listaContatos, Eventos.init)
         }
     }
 

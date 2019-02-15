@@ -11,12 +11,12 @@ const Eventos = {
     init() {
         //Filtrar por: Todos
         ElementosDOM.filtroMostrarTodos.onclick = () => {
-            Filtro.mostrarTodos()
+            Filtro.aplicarFiltro()
         }
 
         //Filtrar por: Favoritos
         ElementosDOM.filtroMostrarFavoritos.onclick = () => {
-            Filtro.mostrarFavoritos()
+            Filtro.aplicarFiltro()
         }
 
         //Pesquisar conforme for digitando
@@ -89,7 +89,7 @@ const Eventos = {
         //Salvar contato
         ElementosDOM.bSalvar.onclick = function(){
             if(ElementosDOM.iIdContato.value){
-                console.log('Editar')
+                Contatos.updateContato()
             } else {
                 Contatos.criarNovoContato()
             }
