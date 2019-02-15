@@ -5,6 +5,4 @@ import Contatos from './assets/js/contatos'
 import './assets/css/index.css'
 import './assets/css/responsividade.css'
 
-window.onload = async function () {
-    Contatos.init()
-}
+Contatos.init()

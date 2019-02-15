@@ -2,11 +2,18 @@ const API = {
 
     //Pegar todos os contatos
     async getContatos() {
-        const lista = await fetch('http://contacts-api.azurewebsites.net/api/contacts')
-            .then(data => {
-                return data.json()
+        const lista = await fetch('http://contacts-api.azurewebsites.net/api/contacts?limit=100')
+            .then(resp => {
+                if (resp.status != 200) {
+                    throw `${resp.statusText} (${resp.status})`
+                }
+                return resp.json()
             })
-        //window.localStorage.setItem('lista', JSON.stringify(lista))
+            .catch(e => {
+                alert('Não foi possível carregar seus contatos!')
+                console.error('Erro ao carregar os contatos: ', e)
+                return false
+            })
         return lista
     },
 
@@ -25,42 +32,49 @@ const API = {
 
     //Edtar o contato
     async updateContato(contato) {
-        const data = {
-            firstName: contato.firstName,
-            lastName: contato.lastName,
-            email: contato.email,
-            gender: contato.gender,
-            isFavorite: contato.isFavorite,
-            company: contato.info.company,
-            avatar: contato.info.avatar,
-            address: contato.info.address,
-            phone: contato.info.phone,
-            comments: contato.info.comments
-        }
+        if (contato) {
 
-        console.log(data)
+            const data = {
+                firstName: contato.firstName,
+                lastName: contato.lastName,
+                email: contato.email,
+                gender: contato.gender,
+                isFavorite: contato.isFavorite,
+                company: contato.info.company,
+                avatar: contato.info.avatar,
+                address: contato.info.address,
+                phone: contato.info.phone,
+                comments: contato.info.comments
+            }
 
-        return await fetch(
-            `http://contacts-api.azurewebsites.net/api/contacts/${contato.id}`,
-            {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                mode: 'cors',
-                body: JSON.stringify(data)
-            }
-        ).then(resp => {
-            if (resp.status != 200) {
-                throw `${resp.statusText} (${resp.status})`
-            }
-            return true
-        })
-            .catch(e => {
-                console.error('Erro ao mudar o status de favorito do contato: ', e)
-                return false
+            return await fetch(
+                `http://contacts-api.azurewebsites.net/api/contacts/${contato.id}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data),
+
+                }
+            ).then(resp => {
+                if (resp.status != 200) {
+                    throw resp.json()
+                }
+                return true
             })
+                .catch(e => {
+                    const msg = Object.values(e)[0]
+                    if (msg) {
+                        alert(msg)
+                    }
+                    console.error('Erro ao mudar o status de favorito do contato.')
+                    return false
+                })
+        }
+        console.error('Erro. É necessário que passe um contato para ser editado.')
+        return false
     },
 
     async deleteContato(id) {
@@ -78,6 +92,7 @@ const API = {
                 return true
             })
                 .catch(e => {
+                    alert('Não foi possível deletar o contato!')
                     console.error('Erro ao deletar contato: ', e)
                     return false
                 })
@@ -104,13 +119,14 @@ const API = {
                 }
                 return true
             })
-            .catch(e => {
-                if (e.email) {
-                    alert(e.email)
-                }
-                console.error('Erro ao criar novo contato')
-                return false
-            })
+                .catch(e => {
+                    const msg = Object.values(e)[0]
+                    if (msg) {
+                        alert(msg)
+                    }
+                    console.error('Erro ao criar novo contato')
+                    return false
+                })
         }
         console.error('Erro. É necessário que passe o objeto do contato para salvar.')
         return false
