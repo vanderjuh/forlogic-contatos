@@ -3,10 +3,21 @@ import ElementosDOM from './elementosDOM';
 
 const Paginacao = {
 
+    //Página atual
     paginaAtual: 1,
 
+    //Total de páginas
     totalPaginas: 0,
 
+    //Itens por página
+    limitItens: 10,
+
+    //Determina o item inicial de cada página
+    count: -1,
+
+    //Determina o item final de cada página
+    delimitador: -1,
+    
     //Habilitar paginador de contatos
     habilitarBotoes(flag = true) {
         if (flag) {
@@ -29,6 +40,15 @@ const Paginacao = {
         }
         return false
     },
+
+    init(qtdItens){
+        //Total de páginas possíveis
+        Paginacao.totalPaginas = Math.ceil(qtdItens / Paginacao.limitItens);
+        //Determina o item inicial de cada página
+        Paginacao.count = (Paginacao.paginaAtual * Paginacao.limitItens) - Paginacao.limitItens;
+        //Determina o item final de cada página
+        Paginacao.delimitador = Paginacao.count + Paginacao.limitItens;
+    }
 
 }
 

@@ -12,6 +12,14 @@ const API = {
                 console.error('Erro ao carregar os contatos: ', e)
                 return false
             })
+
+        //Ordem alfabética
+        lista.sort((a, b) => {
+            if (a.firstName > b.firstName) return 1
+            if (a.firstName < b.firstName) return -1
+            return 0
+        })
+        
         return lista
     },
 

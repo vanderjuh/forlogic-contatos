@@ -129,26 +129,15 @@ const Contatos = {
     //Renderizar os contatos na DOM
     renderizarContatos(data) {
 
-        //Limite de itens por página
-        const limitItens = 10
-
-        //Total de páginas possíveis
-        Paginacao.totalPaginas = Math.ceil(data.length / limitItens);
-
-        //Determina o item inicial de cada página
-        let count = (Paginacao.paginaAtual * limitItens) - limitItens;
-
-        //Determina o item final de cada página
-        let delimitador = count + limitItens;
+        //Iniciando a paginacao
+        Paginacao.init(data.length)
 
         //Limpa o container de itens HTML dos contatos
         ElementosDOM.lista_itens.innerHTML = ''
 
         if (Paginacao.paginaAtual <= Paginacao.totalPaginas) {
-
             Paginacao.habilitarBotoes(true)
-
-            for (let i = count; i < delimitador; i++) {
+            for (let i = Paginacao.count; i < Paginacao.delimitador; i++) {
 
                 //Evita itens undefineds
                 if (data[i] == undefined) {
@@ -157,7 +146,7 @@ const Contatos = {
 
                 if (Filtro.filtroSelecionado() == 'fFavoritos') {
                     if (!data[i].isFavorite) {
-                        delimitador++
+                        Paginacao.delimitador++
                         continue
                     }
                 }
@@ -251,6 +240,7 @@ const Contatos = {
         ElementosDOM.avatar.src = avatarSvg
         ElementosDOM.iIdContato.removeAttribute('value')
         ElementosDOM.formCadastro.reset()
+        document.on
     },
 
     //Validar o formulário de cadastro
@@ -276,7 +266,13 @@ const Contatos = {
 
         if (ElementosDOM.iNome.value == '') array.push(ElementosDOM.iNome)
         if (ElementosDOM.iSobrenome.value == '') array.push(ElementosDOM.iSobrenome)
-        if (ElementosDOM.iEmail.value == '') array.push(ElementosDOM.iEmail)
+        if (ElementosDOM.iEmail.value == '') {
+            array.push(ElementosDOM.iEmail)
+        } else {
+            if (!ElementosDOM.iEmail.value.match(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)) {
+                array.push(ElementosDOM.iEmail)
+            }
+        }
         if (!ElementosDOM.iFeminino.checked) {
             if (!ElementosDOM.iMasculino.checked) {
                 array.push(ElementosDOM.iFeminino)
