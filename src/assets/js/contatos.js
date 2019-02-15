@@ -279,7 +279,13 @@ const Contatos = {
                 array.push(ElementosDOM.iMasculino)
             }
         }
-        if (ElementosDOM.iAvatar.value == '') array.push(ElementosDOM.iAvatar)
+        if (ElementosDOM.iAvatar.value == '') {
+            array.push(ElementosDOM.iAvatar)
+        } else {
+            if (!ElementosDOM.iAvatar.value.match(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g)) {
+                array.push(ElementosDOM.iAvatar)
+            }
+        }
         if (ElementosDOM.iCompanhia.value == '') array.push(ElementosDOM.iCompanhia)
         if (ElementosDOM.iEndereco.value == '') array.push(ElementosDOM.iEndereco)
         if (ElementosDOM.iTelefone.value == '') array.push(ElementosDOM.iTelefone)

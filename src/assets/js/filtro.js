@@ -1,6 +1,5 @@
 import Contatos from "./contatos";
 import ElementosDOM from "./elementosDOM";
-import Paginacao from "./paginacao";
 
 const Filtro = {
 
