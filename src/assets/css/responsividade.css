@@ -1,3 +1,9 @@
+@media(max-height:680px){
+    .paginacao{
+        position: unset;
+    }
+}
+
 @media(max-width: 700px){
     main{
         flex-wrap: wrap;
@@ -31,10 +37,6 @@
 
     .hide{
         display: block;
-    }
-
-    .paginacao{
-        position: unset;
     }
     
 }

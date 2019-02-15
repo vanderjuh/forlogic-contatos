@@ -69,7 +69,12 @@ const Eventos = {
         * alterado a resolução, esta função monitora esta mudança e corrige.
         */
         window.onresize = function () {
-            if (window.innerWidth > 700) { ElementosDOM.detalhes_contato.removeAttribute('style') }
+            if (window.innerWidth > 700) { 
+                ElementosDOM.detalhes_contato.removeAttribute('style')
+                if(!ElementosDOM.iIdContato.value){
+                    ElementosDOM.buttonFechar.removeAttribute('style')
+                }
+            }
         }
 
         //Abre modal preparada para inserir novo contato
