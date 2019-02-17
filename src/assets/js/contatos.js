@@ -303,14 +303,15 @@ const Contatos = {
         try{
             Contatos.listaContatos = await API.getContatos()
             LocalStorage.salvarContatosFavoritos(Contatos.listaContatos.filter(e => e.isFavorite == true))
+            Contatos.renderizarContatos(Contatos.listaContatos)
         }catch(e){
             const contatosFavoritos = LocalStorage.getContatosFavoritos()
             if(contatosFavoritos){
                 Contatos.listaContatos = contatosFavoritos
+                Contatos.renderizarContatos(Contatos.listaContatos)
                 LocalStorage.modoOffine()
             }
         }
-        Contatos.renderizarContatos(Contatos.listaContatos)
     }
 
 }

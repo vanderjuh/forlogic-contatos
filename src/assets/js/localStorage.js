@@ -40,6 +40,11 @@ const LocalStorage = {
         ElementosDOM.filtroMostrarTodos.disabled = true
         ElementosDOM.filtroMostrarFavoritos.checked = true
 
+        //Removendo evento de favoritar
+        Array.from(ElementosDOM.fav).forEach(e => {
+            e.onclick = undefined
+        })
+
         //Remover botões essenciais da DOM
         ElementosDOM.bNovoContato.parentElement.remove()
         ElementosDOM.bSalvar.remove()
