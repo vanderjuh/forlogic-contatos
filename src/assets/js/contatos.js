@@ -3,6 +3,7 @@ import Eventos from './eventos'
 import Filtro from './filtro'
 import API from './api'
 import ElementosDOM from './elementosDOM'
+import LocalStorage from './localStorage'
 
 //SVGs
 import favFullSvg from '../img/baseline-favorite-24px.svg'
@@ -44,11 +45,11 @@ const Contatos = {
                     }
                 } else {
                     const msg = 'Não foi possível alterar o status de favorito do contato!'
+                    console.error(msg)
                     alert(msg)
-                    throw msg
                 }
-            } else { throw 'Erro. Contato não encontrado' }
-        } else { throw 'Erro. É necessário passar um status de favorito para o contato' }
+            } else { console.error('Erro. Contato não encontrado') }
+        } else { console.error('Erro. É necessário passar um status de favorito para o contato') }
     },
 
     //Editar informações do contato
@@ -162,6 +163,7 @@ const Contatos = {
                 li.setAttribute('class', 'item_contato')
 
                 const icon = document.createElement('img')
+                icon.setAttribute('class', 'avatarItemContato')
                 icon.setAttribute('src', data[i].info.avatar)
                 icon.setAttribute('alt', 'Icone de contato')
 
@@ -298,7 +300,16 @@ const Contatos = {
 
     //Faz requisição, renderiza e atribui eventos aos contatos
     async init() {
-        Contatos.listaContatos = await API.getContatos()
+        try{
+            Contatos.listaContatos = await API.getContatos()
+            LocalStorage.salvarContatosFavoritos(Contatos.listaContatos.filter(e => e.isFavorite == true))
+        }catch(e){
+            const contatosFavoritos = LocalStorage.getContatosFavoritos()
+            if(contatosFavoritos){
+                Contatos.listaContatos = contatosFavoritos
+                LocalStorage.modoOffine()
+            }
+        }
         Contatos.renderizarContatos(Contatos.listaContatos)
     }
 

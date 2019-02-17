@@ -147,7 +147,7 @@ main {
     width: 90%;
 }
 
-.item_contato img {
+.avatarItemContato {
     width: 25px;
     height: 25px;
     background-color: var(--background-avatar);
@@ -155,7 +155,7 @@ main {
     border-radius: 50%;
 }
 
-.item_contato img.fav {
+.avatarItemContato.fav {
     background-color:transparent;
     margin: 0;
     border-radius: 0;
