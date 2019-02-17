@@ -30,7 +30,6 @@ const Paginacao = {
     //Redefine os valores da paginação
     redefinir(){
         Paginacao.paginaAtual = 1
-        Paginacao.totalPaginas = 0
     },
 
     //Verifica se o usuário está fazendo uma pesquisa

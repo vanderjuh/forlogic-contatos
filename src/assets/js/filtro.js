@@ -1,5 +1,6 @@
 import Contatos from "./contatos";
 import ElementosDOM from "./elementosDOM";
+import Paginacao from "./paginacao";
 
 const Filtro = {
 
@@ -17,6 +18,7 @@ const Filtro = {
 
     //Verifica ao filtro esta checked e aplica para exibição dos contatos
     aplicarFiltro() {
+        Paginacao.redefinir()
         if (ElementosDOM.filtroMostrarTodos.checked) {
             Filtro.mostrarTodos()
         } else {

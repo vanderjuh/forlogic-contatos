@@ -32,8 +32,8 @@ const Contatos = {
                 contato.isFavorite = status
                 const res = await API.updateContato(contato)
                 if (res) {
-                    const flag = (element.parentNode.parentNode.getAttribute('wm-favorito')) ? false : true
-                    if (flag) {
+                    const statusAtual = (element.parentNode.parentNode.getAttribute('wm-favorito')) ? false : true
+                    if (statusAtual) {
                         element.src = favFullSvg
                         element.title = 'Desfavoritar'
                         element.parentNode.parentNode.setAttribute('wm-favorito', 'true')
@@ -72,9 +72,7 @@ const Contatos = {
             const resp = await API.updateContato(formDados)
             if (resp) {
                 Contatos.listaContatos = Contatos.listaContatos.map(e => {
-                    if (e.id == formDados.id) {
-                        e = formDados
-                    }
+                    if (e.id == formDados.id) { e = formDados }
                     return e
                 })
                 Contatos.renderizarContatos(Contatos.listaContatos)
@@ -240,7 +238,6 @@ const Contatos = {
         ElementosDOM.avatar.src = avatarSvg
         ElementosDOM.iIdContato.removeAttribute('value')
         ElementosDOM.formCadastro.reset()
-        document.on
     },
 
     //Validar o formulário de cadastro
