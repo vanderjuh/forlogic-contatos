@@ -2,6 +2,7 @@ import Contatos from './contatos'
 import Paginacao from './paginacao'
 import Filtro from './filtro'
 import ElementosDOM from './elementosDOM'
+import Upload from './upload'
 
 //SVG
 import avatarSvg from '../img/round-person-24px.svg'
@@ -96,13 +97,22 @@ const Eventos = {
         //Remover contato
         ElementosDOM.bRemover.onclick = Contatos.deletarContato
 
-        //Alteração do avatar
-        ElementosDOM.iAvatar.onkeyup = function () {
-            if (this.value.match(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g)) {
-                ElementosDOM.avatar.src = this.value
-            } else {
-                ElementosDOM.avatar.src = avatarSvg
-            }
+        //Botão de upload do avatar
+        ElementosDOM.bUpload.onclick = function (event) {
+            event.preventDefault()
+            ElementosDOM.iFile.click()
+        }
+
+        //Quando o avatar for selecionado para upload
+        ElementosDOM.iFile.onchange = function(){
+            const file = ElementosDOM.iFile.files[0]
+            Upload.uploadFile(file, ()=> {
+                if (ElementosDOM.iAvatar.value.match(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g)) {
+                    ElementosDOM.avatar.src = ElementosDOM.iAvatar.value
+                } else {
+                    ElementosDOM.avatar.src = avatarSvg
+                }
+            })
         }
     }
 }

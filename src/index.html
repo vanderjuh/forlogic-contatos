@@ -65,8 +65,16 @@
                         <legend>Outras informações: </legend>
                         <table>
                             <tr>
-                                <td><label for="iAvatar">Link do Avatar: </label></td>
-                                <td><input type="text" id="iAvatar"></td>
+                                <td><label for="iAvatar">Avatar: </label></td>
+                                <td class="tdUpload">
+                                    <input type="hidden" id="iAvatar">
+                                    <input type="file" id="iFile" accept="image/*">
+                                    <button id="bUpload" class="bUpload">
+                                        <img src="./assets/img/baseline-add_photo_alternate-24px.svg" alt="Adicionar avatar" title="Adicionar avatar">
+                                        Escolher avatar
+                                    </button>
+                                    <progress id="pUpload" value="0" max="100"></progress>
+                                </td>
                             </tr>
                             <tr>
                                 <td><label for="iCompanhia">Companhia</label></td>

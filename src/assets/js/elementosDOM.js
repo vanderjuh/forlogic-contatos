@@ -25,7 +25,10 @@ const ElementosDOM = {
     pagVoltar: document.getElementById('pagVoltar'),
     bNovoContato: document.getElementById('bNovoContato'),
     bSalvar: document.getElementById('bSalvar'),
-    paginacao: document.getElementsByClassName('paginacao')[0]
+    paginacao: document.getElementsByClassName('paginacao')[0],
+    iFile: document.getElementById('iFile'),
+    bUpload: document.getElementById('bUpload'),
+    pUpload: document.getElementById('pUpload')
 }
 
 export default ElementosDOM

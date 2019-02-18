@@ -281,7 +281,26 @@ main {
 }
 
 .cadastro input[type="file"]{
-    border: 0;
+    display: none
+
+}
+
+.tdUpload{
+    display: flex;
+    align-items: center;
+}
+
+.bUpload {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+progress{
+    width: 80%;
+    border-radius: 2px;
 }
 
 .btns-row{
