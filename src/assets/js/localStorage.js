@@ -34,7 +34,7 @@ const LocalStorage = {
     //
     modoOffine(){
         
-        alert('Mostrando apenas seus contatos favoritos existentes desde o último carregamento.')
+        alert('Problema na conexão à internet. Mostrando apenas seus contatos favoritos existentes desde o último carregamento.')
 
         //Definindo filtro
         ElementosDOM.filtroMostrarTodos.disabled = true
