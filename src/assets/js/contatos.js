@@ -251,6 +251,7 @@ const Contatos = {
         ElementosDOM.avatar.src = avatarSvg
         ElementosDOM.iIdContato.removeAttribute('value')
         ElementosDOM.pUpload.value = 0
+        ElementosDOM.iAvatar.removeAttribute('value')
         ElementosDOM.formCadastro.reset()
     },
 
