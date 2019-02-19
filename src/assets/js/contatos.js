@@ -150,10 +150,9 @@ const Contatos = {
             for (let i = Paginacao.count; i < Paginacao.delimitador; i++) {
 
                 //Evita itens undefineds
-                if (data[i] == undefined) {
-                    continue
-                }
+                if (data[i] == undefined) { continue }
 
+                //Filtro
                 if (Filtro.filtroSelecionado() == 'fFavoritos') {
                     if (!data[i].isFavorite) {
                         Paginacao.delimitador++

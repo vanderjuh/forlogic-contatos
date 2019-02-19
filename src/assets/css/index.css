@@ -177,11 +177,27 @@ main {
     position: absolute;
 }
 
+.itensPag{
+    display: flex;
+}
+
+.itemPaginacao {
+    width: 15px;
+    height: 15px;
+    background-color: #999;
+}
+
+.itemPaginaAtual{
+    background-color: #4682B4;
+}
+
+.sentidoPaginacao {
+    background-color: #333;
+}
+
 .paginacao a{
-    width: 100px;
     color: #FFF;
     text-align: center;
-    background-color: #4682B4;
     padding: 5px;
     margin: 0 10px;
     text-transform: uppercase;
@@ -189,7 +205,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 3px;
+    border-radius: 50%;
 }
 
 .filtro {
