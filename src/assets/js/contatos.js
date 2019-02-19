@@ -16,13 +16,24 @@ const Contatos = {
     listaPesquisa: [],
 
     //Buscar contatos pelo nome
-    buscarContatos(nome) {
-        Paginacao.redefinir()
-        Contatos.listaPesquisa = Contatos.listaContatos.filter(e => {
-            const nomeCompleto = `${e.firstName} ${e.lastName}`
-            if (nomeCompleto.includes(nome)) { return e }
-        })
-        Contatos.renderizarContatos(Contatos.listaPesquisa)
+    buscarContatos(nomeBusca) {
+        ElementosDOM.pesquisaInput.removeAttribute('style')
+
+        nomeBusca = nomeBusca.toLowerCase()
+        const regex = new RegExp(/^([a-zA-Zà-úÀ-Ú0-9]|'|\s)+$/)
+
+        if (nomeBusca === '' || regex.test(nomeBusca)) {
+            Paginacao.redefinir()
+            Contatos.listaPesquisa = Contatos.listaContatos.filter(e => {
+                const nomeCompleto = `${e.firstName} ${e.lastName}`.toLowerCase()
+                if (nomeCompleto.includes(nomeBusca)) { return e }
+            })
+            Contatos.renderizarContatos(Contatos.listaPesquisa)
+        } else {
+            ElementosDOM.pesquisaInput.style.background = '#FF6347'
+            ElementosDOM.pesquisaInput.style.color = '#FFF'
+        }
+
     },
 
     //Favoritar o contato
@@ -301,13 +312,13 @@ const Contatos = {
 
     //Faz requisição, renderiza e atribui eventos aos contatos
     async init() {
-        try{
+        try {
             Contatos.listaContatos = await API.getContatos()
             LocalStorage.salvarContatosFavoritos(Contatos.listaContatos.filter(e => e.isFavorite == true))
             Contatos.renderizarContatos(Contatos.listaContatos)
-        }catch(e){
+        } catch (e) {
             const contatosFavoritos = LocalStorage.getContatosFavoritos()
-            if(contatosFavoritos){
+            if (contatosFavoritos) {
                 Contatos.listaContatos = contatosFavoritos
                 Contatos.renderizarContatos(Contatos.listaContatos)
                 LocalStorage.modoOffine()
