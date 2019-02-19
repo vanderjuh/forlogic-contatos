@@ -19,13 +19,13 @@ const Contatos = {
     buscarContatos(nomeBusca) {
         ElementosDOM.pesquisaInput.removeAttribute('style')
 
-        nomeBusca = nomeBusca.toLowerCase()
         const regex = new RegExp(/^([a-zA-Zà-úÀ-Ú0-9]|'|\s)+$/)
 
         if (nomeBusca === '' || regex.test(nomeBusca)) {
             Paginacao.redefinir()
             Contatos.listaPesquisa = Contatos.listaContatos.filter(e => {
                 const nomeCompleto = `${e.firstName} ${e.lastName}`.toLowerCase()
+                nomeBusca = nomeBusca.toLowerCase()
                 if (nomeCompleto.includes(nomeBusca)) { return e }
             })
             Contatos.renderizarContatos(Contatos.listaPesquisa)
