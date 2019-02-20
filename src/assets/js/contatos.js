@@ -291,7 +291,7 @@ const Contatos = {
             }
         }
         if (ElementosDOM.iAvatar.value == '') {
-            array.push(ElementosDOM.iAvatar)
+            array.push(ElementosDOM.avatar)
         } else {
             if (!ElementosDOM.iAvatar.value.match(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g)) {
                 array.push(ElementosDOM.iAvatar)
