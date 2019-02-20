@@ -280,7 +280,7 @@ const Contatos = {
         if (ElementosDOM.iEmail.value == '') {
             array.push(ElementosDOM.iEmail)
         } else {
-            if (!ElementosDOM.iEmail.value.match(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)) {
+            if (!ElementosDOM.iEmail.value.match(/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i)) {
                 array.push(ElementosDOM.iEmail)
             }
         }
