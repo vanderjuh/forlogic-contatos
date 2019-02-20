@@ -177,20 +177,6 @@ main {
     position: absolute;
 }
 
-.itensPag{
-    display: flex;
-}
-
-.itemPaginacao {
-    width: 15px;
-    height: 15px;
-    background-color: #999;
-}
-
-.itemPaginaAtual{
-    background-color: #4682B4;
-}
-
 .sentidoPaginacao {
     background-color: #333;
 }
