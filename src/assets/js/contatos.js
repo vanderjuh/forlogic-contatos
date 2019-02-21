@@ -296,8 +296,14 @@ const Contatos = {
     async init() {
         try {
             Contatos.listaContatos = await API.getContatos()
-            LocalStorage.salvarContatosFavoritos(Contatos.listaContatos.filter(e => e.isFavorite == true))
-            Contatos.renderizarContatos(Contatos.listaContatos)
+            const favoritos = Contatos.listaContatos.filter(e => e.isFavorite == true)
+            LocalStorage.salvarContatosFavoritos(favoritos)
+            Filtro.aplicarFiltro()
+            if(LocalStorage.getFiltro() == 'fTodos'){
+                Contatos.renderizarContatos(Contatos.listaContatos)
+            } else {
+                Contatos.renderizarContatos(favoritos)
+            }
         } catch (e) {
             const contatosFavoritos = LocalStorage.getContatosFavoritos()
             if (contatosFavoritos) {

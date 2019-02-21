@@ -1,10 +1,21 @@
 import ElementosDOM from "./elementosDOM";
 import Contatos from "./contatos";
+import Filtro from './filtro'
 
 //SVG
 import avatarDefault from '../img/round-person-24px.svg'
 
 const LocalStorage = {
+
+    salvarFiltroSelecionado(){
+        if (LocalStorage.verificarSuporte()) {
+            window.localStorage.setItem('estadoFiltro', Filtro.filtroSelecionado())
+        }
+    },
+
+    getFiltro(){
+        return window.localStorage.getItem('estadoFiltro')
+    },
 
     //Verifica se existe suporte do navegador ao localStorage
     verificarSuporte() {
