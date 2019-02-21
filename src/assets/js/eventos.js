@@ -48,6 +48,9 @@ const Eventos = {
             }
         }
 
+        //Caso o link da imagem seja invalido
+        ElementosDOM.avatar.onerror = function () { this.src = avatarSvg }
+
         //Setar evento do botão de voltar do paginador
         ElementosDOM.pagVoltar.onclick = (event) => {
             event.preventDefault()

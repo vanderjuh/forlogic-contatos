@@ -177,6 +177,8 @@ const Contatos = {
                 icon.setAttribute('src', data[i].info.avatar)
                 icon.setAttribute('alt', 'Icone de contato')
 
+                icon.onerror = function () { this.src = avatarSvg }
+
                 const nome = document.createElement('div')
                 nome.setAttribute('class', 'nome_contato')
                 nome.innerText = `${data[i].firstName} ${data[i].lastName}`
