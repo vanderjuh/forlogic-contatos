@@ -18,22 +18,9 @@ const Contatos = {
     //Buscar contatos pelo nome
     buscarContatos(nomeBusca) {
         ElementosDOM.pesquisaInput.removeAttribute('style')
-
-        const regex = new RegExp(/^([a-zA-Zà-úÀ-Ú0-9]|'|\s)+$/)
-
-        if (nomeBusca === '' || regex.test(nomeBusca)) {
-            Paginacao.redefinir()
-            Contatos.listaPesquisa = Contatos.listaContatos.filter(e => {
-                const nomeCompleto = `${e.firstName} ${e.lastName}`.toLowerCase()
-                nomeBusca = nomeBusca.toLowerCase()
-                if (nomeCompleto.includes(nomeBusca)) { return e }
-            })
-            Contatos.renderizarContatos(Contatos.listaPesquisa)
-        } else {
-            ElementosDOM.pesquisaInput.style.background = '#FF6347'
-            ElementosDOM.pesquisaInput.style.color = '#FFF'
-        }
-
+        Contatos.listaPesquisa = Contatos.listaContatos.filter(e => new RegExp(nomeBusca, 'ig').test(`${e.firstName} ${e.lastName}`))
+        Paginacao.redefinir()
+        Contatos.renderizarContatos(Contatos.listaPesquisa)
     },
 
     //Favoritar o contato
@@ -262,29 +249,25 @@ const Contatos = {
         const array = []
 
         const alertBorda = (elements) => {
-            alert('Preencha todos os campos corretamente!')
+            let msg = ''
             elements.forEach(e => {
                 e.style.border = 'red solid 1px'
                 e.style.background = '#FFF0F5'
                 if (e.type == 'radio') {
                     e.style.outline = 'red solid 1px'
+                    if(!msg.includes(`O(a) ${e.name} é obrigatório.\n`)){ msg += `O(a) ${e.name} é obrigatório.\n` }
                 }
+                if(e.type == 'text' && e.name != 'e-mail' && e.value.length < 3){ msg += `O(a) ${e.name} deve conter pelo menos 3 caracteres.\n` }
+                if(e.name == 'e-mail') { msg += `O(a) ${e.name} não é válido.\n` }
             })
-            setTimeout(() => {
-                elements.forEach(e => {
-                    e.removeAttribute('style')
-                })
-            }, 5000)
+            if(msg != ''){ alert(msg) }
+            setTimeout(() => { elements.forEach(e => e.removeAttribute('style')) }, 5000)
         }
 
-        if (ElementosDOM.iNome.value == '') array.push(ElementosDOM.iNome)
-        if (ElementosDOM.iSobrenome.value == '') array.push(ElementosDOM.iSobrenome)
-        if (ElementosDOM.iEmail.value == '') {
+        if (ElementosDOM.iNome.value.length < 3){ array.push(ElementosDOM.iNome) }
+        if (ElementosDOM.iSobrenome.value.length < 3){ array.push(ElementosDOM.iSobrenome) }
+        if (!ElementosDOM.iEmail.value.match(/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i)) {
             array.push(ElementosDOM.iEmail)
-        } else {
-            if (!ElementosDOM.iEmail.value.match(/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i)) {
-                array.push(ElementosDOM.iEmail)
-            }
         }
         if (!ElementosDOM.iFeminino.checked) {
             if (!ElementosDOM.iMasculino.checked) {
@@ -292,17 +275,14 @@ const Contatos = {
                 array.push(ElementosDOM.iMasculino)
             }
         }
-        if (ElementosDOM.iAvatar.value == '') {
-            array.push(ElementosDOM.avatar)
-        } else {
+        if (ElementosDOM.iAvatar.value != '') {
             if (!ElementosDOM.iAvatar.value.match(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g)) {
                 array.push(ElementosDOM.iAvatar)
             }
         }
-        if (ElementosDOM.iCompanhia.value == '') array.push(ElementosDOM.iCompanhia)
-        if (ElementosDOM.iEndereco.value == '') array.push(ElementosDOM.iEndereco)
-        if (ElementosDOM.iTelefone.value == '') array.push(ElementosDOM.iTelefone)
-        if (ElementosDOM.iCompanhia.value == '') array.push(ElementosDOM.iCompanhia)
+        if (ElementosDOM.iCompanhia.value.length < 3){ array.push(ElementosDOM.iCompanhia) }
+        if (ElementosDOM.iEndereco.value.length < 3){ array.push(ElementosDOM.iEndereco) }
+        if (ElementosDOM.iTelefone.value.length < 3){ array.push(ElementosDOM.iTelefone) }
 
         if (array.length > 0) {
             alertBorda(array)

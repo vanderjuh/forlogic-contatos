@@ -29,7 +29,7 @@ const Upload = {
         })
 
         //Finalização do upload
-        xhr.onreadystatechange = function (e) {
+        xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 const res = JSON.parse(xhr.responseText)
                 const url = res.secure_url
