@@ -1,5 +1,5 @@
-import ElementosDOM from "./elementosDOM";
-import Contatos from "./contatos";
+import ElementosDOM from "./elementosDOM"
+import Contatos from "./contatos"
 import Filtro from './filtro'
 
 //SVG
@@ -14,7 +14,9 @@ const LocalStorage = {
     },
 
     getFiltro(){
-        return window.localStorage.getItem('estadoFiltro')
+        if (LocalStorage.verificarSuporte()) {
+            return window.localStorage.getItem('estadoFiltro')
+        }
     },
 
     //Verifica se existe suporte do navegador ao localStorage

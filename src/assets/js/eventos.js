@@ -3,6 +3,7 @@ import Paginacao from './paginacao'
 import Filtro from './filtro'
 import ElementosDOM from './elementosDOM'
 import Upload from './upload'
+import LocalStorage from './localStorage'
 
 //SVG
 import avatarSvg from '../img/round-person-24px.svg'
@@ -12,10 +13,16 @@ const Eventos = {
     init() {
 
         //Filtrar por: Todos
-        ElementosDOM.filtroMostrarTodos.onclick = Filtro.aplicarFiltro
+        ElementosDOM.filtroMostrarTodos.onclick = function(){
+            LocalStorage.salvarFiltroSelecionado()
+            Filtro.aplicarFiltro()
+        }
 
         //Filtrar por: Favoritos
-        ElementosDOM.filtroMostrarFavoritos.onclick = Filtro.aplicarFiltro
+        ElementosDOM.filtroMostrarFavoritos.onclick = function(){
+            LocalStorage.salvarFiltroSelecionado()
+            Filtro.aplicarFiltro()
+        }
 
         //Pesquisar conforme for digitando
         ElementosDOM.pesquisaInput.onkeyup = function () {

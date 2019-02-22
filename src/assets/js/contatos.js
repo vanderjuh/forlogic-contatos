@@ -298,10 +298,11 @@ const Contatos = {
             Contatos.listaContatos = await API.getContatos()
             const favoritos = Contatos.listaContatos.filter(e => e.isFavorite == true)
             LocalStorage.salvarContatosFavoritos(favoritos)
-            Filtro.aplicarFiltro()
             if(LocalStorage.getFiltro() == 'fTodos'){
+                ElementosDOM.filtroMostrarTodos.checked = true
                 Contatos.renderizarContatos(Contatos.listaContatos)
             } else {
+                ElementosDOM.filtroMostrarFavoritos.checked = true
                 Contatos.renderizarContatos(favoritos)
             }
         } catch (e) {
