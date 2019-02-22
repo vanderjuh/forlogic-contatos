@@ -49,9 +49,13 @@ const Eventos = {
                 if (Paginacao.estaProcurando()) {
                     lista = Contatos.listaPesquisa
                 } else {
-                    lista = Contatos.listaContatos
+                    if(Filtro.filtroSelecionado() == 'fTodos'){
+                        lista = Contatos.listaContatos
+                    } else {
+                        lista = Contatos.listaContatosFavoritos
+                    }
                 }
-                Contatos.renderizarContatos(lista, Eventos.init, Paginacao.paginaAtual, 10)
+                Contatos.renderizarContatos(lista)
             }
         }
 
@@ -67,9 +71,13 @@ const Eventos = {
                 if (Paginacao.estaProcurando()) {
                     lista = Contatos.listaPesquisa
                 } else {
-                    lista = Contatos.listaContatos
+                    if(Filtro.filtroSelecionado() == 'fTodos'){
+                        lista = Contatos.listaContatos
+                    } else {
+                        lista = Contatos.listaContatosFavoritos
+                    }
                 }
-                Contatos.renderizarContatos(lista, Eventos.init, Paginacao.paginaAtual, 10)
+                Contatos.renderizarContatos(lista)
             }
         }
 

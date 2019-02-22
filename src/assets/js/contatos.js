@@ -1,9 +1,9 @@
 import Paginacao from './paginacao'
 import Eventos from './eventos'
-import Filtro from './filtro'
 import API from './api'
 import ElementosDOM from './elementosDOM'
 import LocalStorage from './localStorage'
+import Filtro from './filtro'
 
 //SVGs
 import favFullSvg from '../img/baseline-favorite-24px.svg'
@@ -13,12 +13,14 @@ import avatarSvg from '../img/round-person-24px.svg'
 const Contatos = {
 
     listaContatos: [],
+    listaContatosFavoritos: [],
     listaPesquisa: [],
 
     //Buscar contatos pelo nome
     buscarContatos(nomeBusca) {
         ElementosDOM.pesquisaInput.removeAttribute('style')
-        Contatos.listaPesquisa = Contatos.listaContatos.filter(e => new RegExp(nomeBusca, 'ig').test(`${e.firstName} ${e.lastName}`))
+        const lista = (Filtro.filtroSelecionado() == 'fTodos') ? Contatos.listaContatos : Contatos.listaContatosFavoritos
+        Contatos.listaPesquisa = lista.filter(e => new RegExp(nomeBusca, 'ig').test(`${e.firstName} ${e.lastName}`))
         Paginacao.redefinir()
         Contatos.renderizarContatos(Contatos.listaPesquisa)
     },
@@ -139,13 +141,13 @@ const Contatos = {
                 //Evita itens undefineds
                 if (data[i] == undefined) { continue }
 
-                //Filtro
-                if (Filtro.filtroSelecionado() == 'fFavoritos') {
-                    if (!data[i].isFavorite) {
-                        Paginacao.delimitador++
-                        continue
-                    }
-                }
+                // //Filtro
+                // if (Filtro.filtroSelecionado() == 'fFavoritos') {
+                //     if (!data[i].isFavorite) {
+                //         Paginacao.delimitador++
+                //         continue
+                //     }
+                // }
 
                 //Criação dos itens HTML da lista de contatos
                 const a = document.createElement('a')
@@ -296,14 +298,14 @@ const Contatos = {
     async init() {
         try {
             Contatos.listaContatos = await API.getContatos()
-            const favoritos = Contatos.listaContatos.filter(e => e.isFavorite == true)
-            LocalStorage.salvarContatosFavoritos(favoritos)
+            Contatos.listaContatosFavoritos = Contatos.listaContatos.filter(e => e.isFavorite == true)
+            LocalStorage.salvarContatosFavoritos(Contatos.listaContatosFavoritos)
             if(LocalStorage.getFiltro() == 'fTodos'){
                 ElementosDOM.filtroMostrarTodos.checked = true
                 Contatos.renderizarContatos(Contatos.listaContatos)
             } else {
                 ElementosDOM.filtroMostrarFavoritos.checked = true
-                Contatos.renderizarContatos(favoritos)
+                Contatos.renderizarContatos(Contatos.listaContatosFavoritos)
             }
         } catch (e) {
             const contatosFavoritos = LocalStorage.getContatosFavoritos()

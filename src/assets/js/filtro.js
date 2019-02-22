@@ -8,7 +8,11 @@ const Filtro = {
     aplicarFiltro() {
         Filtro.limparPesquisa()
         Paginacao.redefinir()
-        Contatos.renderizarContatos(Contatos.listaContatos)
+        if(Filtro.filtroSelecionado() == 'fTodos'){
+            Contatos.renderizarContatos(Contatos.listaContatos)
+        } else {
+            Contatos.renderizarContatos(Contatos.listaContatosFavoritos)
+        }
     },
     
     filtroSelecionado(){
