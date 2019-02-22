@@ -4,7 +4,7 @@ const API = {
     async getContatos() {
         let lista = undefined
         try {
-            const res = await fetch('http://contacts-api.azurewebsites.net/api/contacts?limit=107')
+            const res = await fetch('http://contacts-api.azurewebsites.net/api/contacts')
             if (res.status == 200) {
                 lista = await res.json()
                 lista.sort((a, b) => {
