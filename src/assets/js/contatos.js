@@ -310,8 +310,8 @@ const Contatos = {
         } catch (e) {
             const contatosFavoritos = LocalStorage.getContatosFavoritos()
             if (contatosFavoritos) {
-                Contatos.listaContatos = contatosFavoritos
-                Contatos.renderizarContatos(Contatos.listaContatos)
+                Contatos.listaContatosFavoritos = contatosFavoritos
+                Contatos.renderizarContatos(Contatos.listaContatosFavoritos)
                 LocalStorage.modoOffine()
             }
         }
