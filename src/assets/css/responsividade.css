@@ -9,14 +9,14 @@
         flex-wrap: wrap;
     }
 
-    app-detalhes-contato{
+    .detalhes_contato{
         width: 100%;
         z-index: 99;
         position: relative;
         display: none;
     }
 
-    app-lista-contatos{
+    .contatos{
         width: 100%;
         min-height: calc(100vh - var(--height-menu));
         position: absolute;

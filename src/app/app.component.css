@@ -1,8 +1,0 @@
-main {
-    width: 100%;
-    height: calc(100vh - var(--height-menu));
-    display: flex;
-    flex-direction: row;
-    flex-flow: row-reverse;
-    margin-top: var(--height-menu);
-}
