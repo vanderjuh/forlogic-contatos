@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import IconFavoritado from '../../assets/img/baseline-favorite-24px.svg'
+import { ApiService } from './api.service';
 
 @Component({
   selector: 'app-lista-contatos',
@@ -8,86 +8,65 @@ import IconFavoritado from '../../assets/img/baseline-favorite-24px.svg'
 })
 export class ListaContatosComponent implements OnInit {
 
-  iconFavoritado: any = IconFavoritado;
+  private listaContatos: object[] = undefined;
 
-  listaContatos: any[] = [
-    {
-      id: 1,
-      firstName: 'Vanderley',
-      lastName: 'Sousa da Silva Junior',
-      email: 'vanderley@forlogic.net',
-      gender: 'm',
-      isFavorite: false,
-      info: {
-        id: 1,
-        company: 'Forlogic',
-        // tslint:disable-next-line:max-line-length
-        avatar: 'https://trello-attachments.s3.amazonaws.com/5c59aed4db6b3938eaa9e254/300x300/f70f3c1d8ff9481cd524b664587f3973/vanderley-02.jpg',
-        address: 'Rua A',
-        phone: '43991841963',
-        comments: 'dev'
-      },
-      created: '2019-02-27T11:44:56.773Z'
-    },
-    {
-      id: 1,
-      firstName: 'Vanderley',
-      lastName: 'Sousa da Silva Junior',
-      email: 'vanderley@forlogic.net',
-      gender: 'm',
-      isFavorite: true,
-      info: {
-        id: 1,
-        company: 'Forlogic',
-        // tslint:disable-next-line:max-line-length
-        avatar: 'https://trello-attachments.s3.amazonaws.com/5c59aed4db6b3938eaa9e254/300x300/f70f3c1d8ff9481cd524b664587f3973/vanderley-02.jpg',
-        address: 'Rua A',
-        phone: '43991841963',
-        comments: 'dev'
-      },
-      created: '2019-02-27T11:44:56.773Z'
-    },
-    {
-      id: 1,
-      firstName: 'Vanderley',
-      lastName: 'Sousa da Silva Junior',
-      email: 'vanderley@forlogic.net',
-      gender: 'm',
-      isFavorite: true,
-      info: {
-        id: 1,
-        company: 'Forlogic',
-        // tslint:disable-next-line:max-line-length
-        avatar: 'https://trello-attachments.s3.amazonaws.com/5c59aed4db6b3938eaa9e254/300x300/f70f3c1d8ff9481cd524b664587f3973/vanderley-02.jpg',
-        address: 'Rua A',
-        phone: '43991841963',
-        comments: 'dev'
-      },
-      created: '2019-02-27T11:44:56.773Z'
-    },
-    {
-      id: 1,
-      firstName: 'Vanderley',
-      lastName: 'Sousa da Silva Junior',
-      email: 'vanderley@forlogic.net',
-      gender: 'm',
-      isFavorite: true,
-      info: {
-        id: 1,
-        company: 'Forlogic',
-        // tslint:disable-next-line:max-line-length
-        avatar: 'https://trello-attachments.s3.amazonaws.com/5c59aed4db6b3938eaa9e254/300x300/f70f3c1d8ff9481cd524b664587f3973/vanderley-02.jpg',
-        address: 'Rua A',
-        phone: '43991841963',
-        comments: 'dev'
-      },
-      created: '2019-02-27T11:44:56.773Z'
-    }
-  ]
-
-  constructor() { }
+  constructor(private apiService: ApiService) { }
 
   ngOnInit() {
+    this.getContatos();
+  }
+
+  getContatos(filtro?: string): object[] {
+    if (!this.listaContatos) {
+      console.log('Conexão com a API: pegar contatos');
+      this.listaContatos = this.apiService.getContatos();
+    }
+    switch (filtro) {
+      case 'favoritos':
+        return this.filtroFavoritos(this.listaContatos);
+      default:
+        return this.listaContatos;
+    }
+  }
+
+  aplicarFiltro(filtro: string): void {
+    switch (filtro) {
+      case 'favoritos':
+        console.log('Filtro: favoritos');
+        break;
+      case 'todos':
+        console.log('Filtro: todos');
+        break;
+      default:
+        console.error('Filtro desconhecido');
+    }
+  }
+
+  buscarContato(iPesquisa: HTMLInputElement): void {
+    if (this.listaContatos) {
+      if (iPesquisa.value) { console.log(iPesquisa.value); }
+    } else { console.error('Erro. É necessário passar o elemento HTML da pesquisa'); }
+  }
+
+  exibirDetalhesContato(contato: any): void {
+    if (contato) {
+      console.log('Detalhes de: ', contato.firstName);
+    } else { console.error('Erro. É preciso passar um contato para exibir os detalhes.'); }
+  }
+
+  private filtroFavoritos(lista: any[]): object[] {
+    console.log('Filtro de favoritos');
+    if (lista) {
+      const listaFavoritos = lista.filter(e => e.isFavorite === true);
+      console.log(listaFavoritos);
+      return listaFavoritos;
+    }
+  }
+
+  favoritarContato(contato: object): void {
+    if (contato) {
+      console.log('Contato favoritado');
+    } else { console.error('Erro. É necessário que passe um objeto de contato para remover'); }
   }
 
 }

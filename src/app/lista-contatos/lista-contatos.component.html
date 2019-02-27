@@ -1,20 +1,50 @@
 <section id="contatos" class="contatos">
-    <input class="pesquisaInput" type="text" placeholder="Pesquise por alguém...">
+    <input #pesquisaInput
+        class="pesquisaInput" 
+        type="text" 
+        placeholder="Pesquise por alguém..."
+        (keyup)="buscarContato(pesquisaInput)"
+    >
     <ul class="filtro">
         <img src="./assets/img/round-filter_list-24px.svg" alt="">
-        <li><input type="radio" name="filtro" id="fTodos" class="fTodos">Todos</li>
-        <li><input type="radio" name="filtro" id="fFavoritos" class="fFavoritos">Favoritos</li>
+        <li>
+            <input 
+                type="radio" 
+                name="filtro" 
+                id="fTodos" 
+                class="fTodos"
+                (click)="aplicarFiltro('todos')"
+            >
+            Todos
+        </li>
+        <li>
+            <input 
+                type="radio" 
+                name="filtro" 
+                id="fFavoritos" 
+                class="fFavoritos"
+                (click)="aplicarFiltro('favoritos')"
+            >
+            Favoritos
+        </li>
     </ul>
     <ul class="lista_itens">
-        <!-- <li class="loader">
+        <li class="loader" *ngIf="getContatos() == undefined">
           <img src="./assets/img/baseline-autorenew-24px.svg" alt="Loader">
           Carregando...
-      </li> -->
-        <a *ngFor="let contato of listaContatos">
+      </li>
+        <a *ngFor="let contato of getContatos()" (click)="exibirDetalhesContato(contato)">
             <li class="item_contato">
                 <img class="avatarItemContato" src="{{contato.info.avatar}}" alt="Icone de contato">
                 <div class="nome_contato">{{contato.firstName}} {{contato.lastName}}</div>
-                <img src="../../assets/img/baseline-favorite-24px.svg" alt="Icone de favoritado" class="fav">
+                <img 
+                    [src]="contato.isFavorite 
+                        ? '../../assets/img/baseline-favorite-24px.svg' 
+                        : '../../assets/img/baseline-favorite_border-24px.svg'"
+                    alt="Icone de favoritado"
+                    class="fav"
+                    (click)="favoritarContato(contato)"
+                >
             </li>
         </a>
     </ul>

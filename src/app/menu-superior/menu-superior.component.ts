@@ -12,4 +12,8 @@ export class MenuSuperiorComponent implements OnInit {
   ngOnInit() {
   }
 
+  abrirNovoContato(): void {
+    console.log('Não implementado');
+  }
+
 }

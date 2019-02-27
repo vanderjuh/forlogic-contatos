@@ -12,4 +12,9 @@ export class DetalhesContatoComponent implements OnInit {
   ngOnInit() {
   }
 
+  abrirSelecionarAvatar(event: MouseEvent): void {
+    event.preventDefault();
+    console.log(iFile);
+  }
+
 }

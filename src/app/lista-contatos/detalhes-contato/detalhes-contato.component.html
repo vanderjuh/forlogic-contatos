@@ -39,8 +39,8 @@
                       <td><label for="iAvatar">Avatar: </label></td>
                       <td class="tdUpload">
                           <input type="hidden" id="iAvatar">
-                          <input type="file" id="iFile" accept="image/*">
-                          <button id="bUpload" class="bUpload">
+                          <input #iFile type="file" id="iFile" accept="image/*">
+                          <button id="bUpload" class="bUpload" (click)="abrirSelecionarAvatar($event)">
                               <img src="./assets/img/baseline-add_photo_alternate-24px.svg" alt="Adicionar avatar" title="Adicionar avatar">
                           </button>
                           <progress id="pUpload" value="0" max="100"></progress>

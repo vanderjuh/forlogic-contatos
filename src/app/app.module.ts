@@ -4,7 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { MenuSuperiorComponent } from './menu-superior/menu-superior.component';
 import { ListaContatosComponent } from './lista-contatos/lista-contatos.component';
-import { DetalhesContatoComponent } from './detalhes-contato/detalhes-contato.component';
+import { DetalhesContatoComponent } from './lista-contatos/detalhes-contato/detalhes-contato.component';
+import { ApiService } from './lista-contatos/api.service';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,9 @@ import { DetalhesContatoComponent } from './detalhes-contato/detalhes-contato.co
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [
+    ApiService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
