@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-detalhes-contato',
@@ -7,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetalhesContatoComponent implements OnInit {
 
+  @ViewChild('iAvatar') iAvatar: ElementRef;
+  @ViewChild('iFile') iFile: ElementRef;
+  @ViewChild('bUpload') bUpload: ElementRef;
+  @ViewChild('pUpload') pUpload: ElementRef;
+
   constructor() { }
 
   ngOnInit() {
@@ -14,7 +19,7 @@ export class DetalhesContatoComponent implements OnInit {
 
   abrirSelecionarAvatar(event: MouseEvent): void {
     event.preventDefault();
-    console.log(iFile);
+    this.iFile.nativeElement.click();
   }
 
 }
