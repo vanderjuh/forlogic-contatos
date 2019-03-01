@@ -1,81 +1,80 @@
 <section class="detalhes_contato">
-  <div class="cadastro">
-      <button class="buttonFechar">
-          <img src="./assets/img/baseline-close-24px.svg" alt="Fechar">
-      </button>
-      <form id="formCadastro" action="#" method="post">
-          <input id="iIdContato" type="hidden">
-          <img id="avatar" class="avatar" src="./assets/img/round-person-24px.svg" alt="Icone de contato">
-          <fieldset>
-              <legend>Dados pessoais:</legend>
-              <table>
-                  <tr>
-                      <td><label for="iNome">Primeiro nome: </label></td>
-                      <td><input type="text" id="iNome" name="nome"></td>
-                  </tr>
-                  <tr>
-                      <td><label for="iSobrenome">Sobrenome: </label></td>
-                      <td><input type="text" id="iSobrenome" name="sobrenome"></td>
-                  </tr>
-                  <tr>
-                      <td><label for="iEmail">E-mail: </label></td>
-                      <td><input type="text" name="e-mail" id="iEmail"></td>
-                  </tr>
-                  <tr>
-                      <td>Gênero: </td>
-                      <td>
-                          <input type="radio" name="genero" value="f" id="gF"> <label
-                              for="gF">Feminino</label>
-                          <input type="radio" name="genero" value="m" id="gM"> <label
-                              for="gM">Masculino</label>
-                      </td>
-                  </tr>
-              </table>
-          </fieldset>
-          <fieldset>
-              <legend>Outras informações: </legend>
-              <table>
-                  <tr>
-                      <td><label for="iAvatar">Avatar: </label></td>
-                      <td class="tdUpload">
-                          <input #iAvatar type="hidden" id="iAvatar">
-                          <input #iFile type="file" id="iFile" accept="image/*">
-                          <button #bUpload id="bUpload" class="bUpload" (click)="abrirSelecionarAvatar($event)">
-                              <img src="./assets/img/baseline-add_photo_alternate-24px.svg" alt="Adicionar avatar" title="Adicionar avatar">
-                          </button>
-                          <progress #pUpload id="pUpload" value="0" max="100"></progress>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td><label for="iCompanhia">Companhia</label></td>
-                      <td><input type="text" id="iCompanhia" name="companhia"></td>
-                  </tr>
-                  <tr>
-                      <td><label for="iEndereco">Endereço: </label></td>
-                      <td><input type="text" id="iEndereco" name="endereço"></td>
-                  </tr>
-                  <tr>
-                      <td><label for="iTelefone">Telefone: </label></td>
-                      <td>
-                          <input type="text" id="iTelefone" name="telefone">
-                      </td>
-                  </tr>
-                  <tr>
-                      <td><label for="tComentario">Comentário: </label></td>
-                      <td><textarea name="" id="tComentario"></textarea></td>
-                  </tr>
-              </table>
-          </fieldset>
-          <div class="btns-row">
-              <button id="bSalvar" type="button">
-                  <img src="./assets/img/baseline-save-24px.svg" alt="Salvar">
-                  Salvar
-              </button>
-              <button id="bRemover" class="btnRemove" type="button">
-                  <img src="./assets/img/baseline-delete-24px.svg" alt="Salvar">
-                  Remover
-              </button>
-          </div>
-      </form>
-  </div>
+    <div class="cadastro">
+        <button class="buttonFechar">
+            <img src="./assets/img/baseline-close-24px.svg" alt="Fechar">
+        </button>
+        <form id="formCadastro" action="#" method="post">
+            <input id="iIdContato" type="hidden">
+            <img id="avatar" class="avatar" src="./assets/img/round-person-24px.svg" alt="Icone de contato">
+            <fieldset>
+                <legend>Dados pessoais:</legend>
+                <table>
+                    <tr>
+                        <td><label for="iNome">Primeiro nome: </label></td>
+                        <td><input #iNome type="text" id="iNome" name="nome"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="iSobrenome">Sobrenome: </label></td>
+                        <td><input #iSobrenome type="text" id="iSobrenome" name="sobrenome"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="iEmail">E-mail: </label></td>
+                        <td><input #iEmail type="text" name="e-mail" id="iEmail"></td>
+                    </tr>
+                    <tr>
+                        <td>Gênero: </td>
+                        <td>
+                            <input #gF type="radio" name="genero" value="f" id="gF"> <label for="gF">Feminino</label>
+                            <input #gM type="radio" name="genero" value="m" id="gM"> <label for="gM">Masculino</label>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+            <fieldset>
+                <legend>Outras informações: </legend>
+                <table>
+                    <tr>
+                        <td><label for="iAvatar">Avatar: </label></td>
+                        <td class="tdUpload">
+                            <input #iAvatar type="hidden" id="iAvatar">
+                            <input #iFile type="file" id="iFile" accept="image/*">
+                            <button #bUpload id="bUpload" class="bUpload" (click)="abrirSelecionarAvatar($event)">
+                                <img src="./assets/img/baseline-add_photo_alternate-24px.svg" alt="Adicionar avatar"
+                                    title="Adicionar avatar">
+                            </button>
+                            <progress #pUpload id="pUpload" value="0" max="100"></progress>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="iCompanhia">Companhia</label></td>
+                        <td><input #iCompanhia type="text" id="iCompanhia" name="companhia"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="iEndereco">Endereço: </label></td>
+                        <td><input #iEndereco type="text" id="iEndereco" name="endereço"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="iTelefone">Telefone: </label></td>
+                        <td>
+                            <input #iTelefone type="text" id="iTelefone" name="telefone">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="tComentario">Comentário: </label></td>
+                        <td><textarea #tComentario name="" id="tComentario"></textarea></td>
+                    </tr>
+                </table>
+            </fieldset>
+            <div class="btns-row">
+                <button #bSalvar id="bSalvar" type="button" (click)="salvarContato()">
+                    <img src="./assets/img/baseline-save-24px.svg" alt="Salvar">
+                    Salvar
+                </button>
+                <button #bRemover id="bRemover" class="btnRemove" type="button">
+                    <img src="./assets/img/baseline-delete-24px.svg" alt="Salvar">
+                    Remover
+                </button>
+            </div>
+        </form>
+    </div>
 </section>

@@ -6,6 +6,7 @@ import { MenuSuperiorComponent } from './menu-superior/menu-superior.component';
 import { ListaContatosComponent } from './lista-contatos/lista-contatos.component';
 import { DetalhesContatoComponent } from './lista-contatos/detalhes-contato/detalhes-contato.component';
 import { ApiService } from './lista-contatos/api.service';
+import { ApiCorreiosService } from './lista-contatos/api-correios.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ApiService } from './lista-contatos/api.service';
     BrowserModule
   ],
   providers: [
-    ApiService
+    ApiService,
+    ApiCorreiosService
   ],
   bootstrap: [AppComponent]
 })
