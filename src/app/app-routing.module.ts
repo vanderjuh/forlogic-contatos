@@ -5,8 +5,8 @@ import {RouterModule, Routes } from '@angular/router';
 import { DetalhesContatoComponent } from './lista-contatos/detalhes-contato/detalhes-contato.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/', pathMatch: 'full'},
-  {path: '', component: DetalhesContatoComponent},
+  {path: '', redirectTo: 'contatos', pathMatch: 'full'},
+  {path: 'contatos', component: DetalhesContatoComponent},
   {path: 'contato/:id', component: DetalhesContatoComponent}
 ];
 

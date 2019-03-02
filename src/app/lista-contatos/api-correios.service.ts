@@ -5,10 +5,6 @@ import { Injectable } from '@angular/core';
 })
 export class ApiCorreiosService {
 
-  constructor() {
-    console.log(this);
-  }
-
   getEnderecoByCEP(cep: number): any {
     return {
       rua: 'Rua A',

@@ -29,11 +29,11 @@
         </li>
     </ul>
     <ul class="lista_itens">
-        <li class="loader" *ngIf="getContatos() == undefined">
+        <li class="loader" *ngIf="apiService.listaContatos == undefined">
           <img src="./assets/img/baseline-autorenew-24px.svg" alt="Loader">
           Carregando...
       </li>
-        <a *ngFor="let contato of getContatos()" [routerLink]="['/contato', contato.id]">
+        <a *ngFor="let contato of apiService.listaContatos" [routerLink]="['/contato', contato.id]">
             <li class="item_contato">
                 <img class="avatarItemContato" src="{{contato.info.avatar}}" alt="Icone de contato">
                 <div class="nome_contato">{{contato.firstName}} {{contato.lastName}}</div>

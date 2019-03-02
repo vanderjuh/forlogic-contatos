@@ -1,59 +1,72 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, OnInit } from '@angular/core';
 import { ApiCorreiosService } from './api-correios.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  emitirNovoContato = new  EventEmitter<object>();
+  contatosCarregados = new EventEmitter<boolean>();
+  emitirNovoContato = new EventEmitter<object>();
+  listaContatos: object[];
 
-  private listaContatos: object[];
+  constructor(
+    private apiCorreios: ApiCorreiosService,
+    private router: Router
+  ) { }
 
-  constructor(private apiCorreios: ApiCorreiosService) {
-    console.log(this);
-    this.listaContatos = [
-      {
-        id: 1,
-        firstName: 'Vanderley',
-        lastName: 'Sousa da Silva Junior',
-        email: 'vanderley@forlogic.net',
-        gender: 'm',
-        isFavorite: false,
-        info: {
-          id: 1,
-          company: 'Forlogic',
-          // tslint:disable-next-line:max-line-length
-          avatar: 'https://trello-attachments.s3.amazonaws.com/5c59aed4db6b3938eaa9e254/300x300/f70f3c1d8ff9481cd524b664587f3973/vanderley-02.jpg',
-          address: 'Rua A',
-          phone: '43991841963',
-          comments: 'dev'
-        },
-        created: '2019-02-27T11:44:56.773Z'
-      },
-      {
-        id: 2,
-        firstName: 'Vitor',
-        lastName: 'Vinicius Gomes da Silva',
-        email: 'vanderley@forlogic.net',
-        gender: 'f',
-        isFavorite: true,
-        info: {
-          id: 2,
-          company: 'Forlogic',
-          // tslint:disable-next-line:max-line-length
-          avatar: 'https://trello-attachments.s3.amazonaws.com/5c59aed4db6b3938eaa9e254/300x300/f70f3c1d8ff9481cd524b664587f3973/vanderley-02.jpg',
-          address: 'Rua A',
-          phone: '43991841963',
-          comments: 'dev'
-        },
-        created: '2019-02-27T11:44:56.773Z'
+  async getContatosFromServer(): Promise<any> {
+    let lista: any = [];
+    try {
+      const res = await fetch('http://contacts-api.azurewebsites.net/api/contacts?limit=10');
+      if (res.status === 200) {
+        lista = await res.json();
+        lista.sort((a: any, b: any) => {
+          if (a.firstName > b.firstName) { return 1; }
+          if (a.firstName < b.firstName) { return -1; }
+          return 0;
+        });
+        this.listaContatos = lista;
+        this.contatosCarregados.emit(true);
+        return this.listaContatos;
       }
-    ];
+      throw { status: res.status, statustext: res.statusText };
+    } catch (e) {
+      console.error('Erro: ', e);
+      if (e.status) { console.error(`${e.statusText} (${e.status})`); }
+      this.listaContatos = lista;
+      this.contatosCarregados.emit(true);
+      return this.listaContatos;
+    }
   }
 
-  getContatos(): object[] {
-    return this.listaContatos;
+  async getContatoFromServer(id: number): Promise<any> {
+    let lista: any = [];
+    try {
+      const res = await fetch(`http://contacts-api.azurewebsites.net/api/contacts/${id}`);
+      if (res.status === 200) {
+        lista = await res.json();
+        lista.sort((a: any, b: any) => {
+          if (a.firstName > b.firstName) { return 1; }
+          if (a.firstName < b.firstName) { return -1; }
+          return 0;
+        });
+        this.listaContatos = lista;
+        return this.listaContatos;
+      }
+      throw { status: res.status, statustext: res.statusText };
+    } catch (e) {
+      console.error('Erro: ', e);
+      if (e.status) { console.error(`${e.statusText} (${e.status})`); }
+      this.listaContatos = lista;
+      return this.listaContatos;
+    }
+  }
+
+  async getContatos(): Promise<any> {
+    this.listaContatos = await this.getContatosFromServer();
+    return await this.listaContatos;
   }
 
   getContato(id: number): any {

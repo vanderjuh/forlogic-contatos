@@ -8,26 +8,9 @@ import { ApiService } from './api.service';
 })
 export class ListaContatosComponent implements OnInit {
 
-  private listaContatos: object[] = undefined;
-
   constructor(private apiService: ApiService) { }
 
-  ngOnInit() {
-    this.getContatos();
-  }
-
-  getContatos(filtro?: string): object[] {
-    if (!this.listaContatos) {
-      console.log('Conexão com a API: pegar contatos');
-      this.listaContatos = this.apiService.getContatos();
-    }
-    switch (filtro) {
-      case 'favoritos':
-        return this.filtroFavoritos(this.listaContatos);
-      default:
-        return this.listaContatos;
-    }
-  }
+  ngOnInit() { }
 
   aplicarFiltro(filtro: string): void {
     switch (filtro) {
@@ -43,7 +26,7 @@ export class ListaContatosComponent implements OnInit {
   }
 
   buscarContato(iPesquisa: HTMLInputElement): void {
-    if (this.listaContatos) {
+    if (this.apiService.listaContatos) {
       if (iPesquisa.value) { console.log(iPesquisa.value); }
     } else { console.error('Erro. É necessário passar o elemento HTML da pesquisa'); }
   }

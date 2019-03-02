@@ -53,19 +53,22 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
   }
 
   getContatoFromIdRoute(): void {
-    this.route.params.subscribe((params) => {
-      if (params.id) {
-        this.contatoAtual = this.apiService.getContato(+params.id);
-        this.renderDetalhesContatoAtual();
-      }
+    this.apiService.contatosCarregados.subscribe(() => {
+      this.route.params.subscribe((params) => {
+        if (params.id) {
+          this.contatoAtual = this.apiService.getContato(+params.id);
+          this.renderDetalhes();
+        }
+      });
     });
   }
 
-  renderDetalhesContatoAtual(): void {
+  renderDetalhes(): void {
     this.iNome.nativeElement.value = this.contatoAtual[0].firstName;
     this.iSobrenome.nativeElement.value = this.contatoAtual[0].lastName;
     this.iEmail.nativeElement.value = this.contatoAtual[0].email;
-    if (this.contatoAtual[0].gender === 'f') { this.gF.nativeElement.checked = true;
+    if (this.contatoAtual[0].gender === 'f') {
+      this.gF.nativeElement.checked = true;
     } else {
       this.gM.nativeElement.checked = true;
     }
