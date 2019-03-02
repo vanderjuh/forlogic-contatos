@@ -30,7 +30,8 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
 
   contatoAtual: object;
 
-  inscricao: Subscription;
+  inscricaoEmitirNovoContato: Subscription;
+  inscricaoContatosCarregados: Subscription;
 
   constructor(
     private apiService: ApiService,
@@ -43,17 +44,17 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.inscricao.unsubscribe();
+    this.inscricaoEmitirNovoContato.unsubscribe();
   }
 
   emitirNovoContato(): void {
-    this.inscricao = this.apiService.emitirNovoContato.subscribe((contato: any) => {
+    this.inscricaoEmitirNovoContato = this.apiService.emitirNovoContato.subscribe((contato: any) => {
       console.log('Emitiu: ', contato);
     });
   }
 
   getContatoFromIdRoute(): void {
-    this.apiService.contatosCarregados.subscribe(() => {
+    this.inscricaoContatosCarregados = this.apiService.contatosCarregados.subscribe(() => {
       this.route.params.subscribe((params) => {
         if (params.id) {
           this.contatoAtual = this.apiService.getContato(+params.id);

@@ -10,7 +10,13 @@ export class ListaContatosComponent implements OnInit {
 
   constructor(private apiService: ApiService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.apiService.getContatosFromServer();
+  }
+
+  getContatos(): any[] {
+    return this.apiService.listaContatos;
+  }
 
   aplicarFiltro(filtro: string): void {
     switch (filtro) {

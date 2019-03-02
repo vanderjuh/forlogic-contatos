@@ -1,54 +1,38 @@
 <section id="contatos" class="contatos">
-    <input #pesquisaInput
-        class="pesquisaInput" 
-        type="text" 
-        placeholder="Pesquise por alguém..."
-        (keyup)="buscarContato(pesquisaInput)"
-    >
+    <input #pesquisaInput class="pesquisaInput" type="text" placeholder="Pesquise por alguém..."
+        (keyup)="buscarContato(pesquisaInput)">
     <ul class="filtro">
         <img src="./assets/img/round-filter_list-24px.svg" alt="">
         <li>
-            <input 
-                type="radio" 
-                name="filtro" 
-                id="fTodos" 
-                class="fTodos"
-                (click)="aplicarFiltro('todos')"
-            >
+            <input type="radio" name="filtro" id="fTodos" class="fTodos" (click)="aplicarFiltro('todos')">
             Todos
         </li>
         <li>
-            <input 
-                type="radio" 
-                name="filtro" 
-                id="fFavoritos" 
-                class="fFavoritos"
-                (click)="aplicarFiltro('favoritos')"
-            >
+            <input type="radio" name="filtro" id="fFavoritos" class="fFavoritos" (click)="aplicarFiltro('favoritos')">
             Favoritos
         </li>
     </ul>
     <ul class="lista_itens">
-        <li class="loader" *ngIf="apiService.listaContatos == undefined">
-          <img src="./assets/img/baseline-autorenew-24px.svg" alt="Loader">
-          Carregando...
-      </li>
-        <a *ngFor="let contato of apiService.listaContatos" [routerLink]="['/contato', contato.id]">
+        <li class="loader" *ngIf="getContatos() == undefined">
+            <img src="./assets/img/baseline-autorenew-24px.svg" alt="Loader">
+            Carregando...
+        </li>
+        <a *ngFor="let contato of getContatos()" [routerLink]="['/contato', contato.id]">
             <li class="item_contato">
                 <img class="avatarItemContato" src="{{contato.info.avatar}}" alt="Icone de contato">
                 <div class="nome_contato">{{contato.firstName}} {{contato.lastName}}</div>
-                <img 
-                    [src]="contato.isFavorite 
+                <img [src]="contato.isFavorite 
                         ? '../../assets/img/baseline-favorite-24px.svg' 
-                        : '../../assets/img/baseline-favorite_border-24px.svg'"
-                    alt="Icone de favoritado"
-                    class="fav"
-                    (click)="favoritarContato(contato)"
-                >
+                        : '../../assets/img/baseline-favorite_border-24px.svg'" alt="Icone de favoritado" class="fav"
+                    (click)="favoritarContato(contato)">
             </li>
         </a>
     </ul>
-    <nav class="paginacao">
+    <nav class="paginacao" *ngIf="getContatos() !== undefined" [ngStyle]="
+        {
+            'display': apiService.listaContatos.length > 10 ? 'flex' : 'none'
+        }
+    ">
         <a class="sentidoPaginacao" id="pagVoltar" href="#">
             <img src="./assets/img/round-arrow_back-24px.svg" alt="Voltar">
             Voltar
