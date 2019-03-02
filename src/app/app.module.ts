@@ -7,6 +7,7 @@ import { ListaContatosComponent } from './lista-contatos/lista-contatos.componen
 import { DetalhesContatoComponent } from './lista-contatos/detalhes-contato/detalhes-contato.component';
 import { ApiService } from './lista-contatos/api.service';
 import { ApiCorreiosService } from './lista-contatos/api-correios.service';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ApiCorreiosService } from './lista-contatos/api-correios.service';
     DetalhesContatoComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule
   ],
   providers: [
     ApiService,

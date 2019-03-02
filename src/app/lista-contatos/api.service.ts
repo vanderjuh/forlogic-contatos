@@ -33,10 +33,10 @@ export class ApiService {
       },
       {
         id: 2,
-        firstName: 'Vanderley',
-        lastName: 'Sousa da Silva Junior',
+        firstName: 'Vitor',
+        lastName: 'Vinicius Gomes da Silva',
         email: 'vanderley@forlogic.net',
-        gender: 'm',
+        gender: 'f',
         isFavorite: true,
         info: {
           id: 2,
@@ -54,6 +54,11 @@ export class ApiService {
 
   getContatos(): object[] {
     return this.listaContatos;
+  }
+
+  getContato(id: number): any {
+    const obj =  this.listaContatos.filter((contato: any) => contato.id === id);
+    return obj;
   }
 
   insertContato(contato): void {

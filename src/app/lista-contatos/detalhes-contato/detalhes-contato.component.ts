@@ -1,14 +1,17 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { ApiService } from '../api.service';
 import { EventEmitter } from 'protractor';
+import { Subscription, Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-detalhes-contato',
   templateUrl: './detalhes-contato.component.html',
   styleUrls: ['./detalhes-contato.component.css']
 })
-export class DetalhesContatoComponent implements OnInit {
+export class DetalhesContatoComponent implements OnInit, OnDestroy {
 
+  @ViewChild('avatar') avatar: ElementRef;
   @ViewChild('iNome') iNome: ElementRef;
   @ViewChild('iSobrenome') iSobrenome: ElementRef;
   @ViewChild('iEmail') iEmail: ElementRef;
@@ -27,12 +30,50 @@ export class DetalhesContatoComponent implements OnInit {
 
   contatoAtual: object;
 
-  constructor(private apiService: ApiService) {}
+  inscricao: Subscription;
 
-  ngOnInit() {
-    this.apiService.emitirNovoContato.subscribe((contato: any) => {
+  constructor(
+    private apiService: ApiService,
+    private route: ActivatedRoute
+  ) { }
+
+  ngOnInit(): void {
+    this.emitirNovoContato();
+    this.getContatoFromIdRoute();
+  }
+
+  ngOnDestroy(): void {
+    this.inscricao.unsubscribe();
+  }
+
+  emitirNovoContato(): void {
+    this.inscricao = this.apiService.emitirNovoContato.subscribe((contato: any) => {
       console.log('Emitiu: ', contato);
     });
+  }
+
+  getContatoFromIdRoute(): void {
+    this.route.params.subscribe((params) => {
+      if (params.id) {
+        this.contatoAtual = this.apiService.getContato(+params.id);
+        this.renderDetalhesContatoAtual();
+      }
+    });
+  }
+
+  renderDetalhesContatoAtual(): void {
+    this.iNome.nativeElement.value = this.contatoAtual[0].firstName;
+    this.iSobrenome.nativeElement.value = this.contatoAtual[0].lastName;
+    this.iEmail.nativeElement.value = this.contatoAtual[0].email;
+    if (this.contatoAtual[0].gender === 'f') { this.gF.nativeElement.checked = true;
+    } else {
+      this.gM.nativeElement.checked = true;
+    }
+    this.avatar.nativeElement.src = this.contatoAtual[0].info.avatar;
+    this.iCompanhia.nativeElement.value = this.contatoAtual[0].info.company;
+    this.iEndereco.nativeElement.value = this.contatoAtual[0].info.address;
+    this.iTelefone.nativeElement.value = this.contatoAtual[0].info.phone;
+    this.tComentario.nativeElement.value = this.contatoAtual[0].info.comments;
   }
 
   abrirSelecionarAvatar(event: MouseEvent): void {
