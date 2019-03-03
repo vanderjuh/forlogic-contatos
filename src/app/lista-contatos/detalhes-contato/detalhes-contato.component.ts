@@ -62,7 +62,7 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
   }
 
   emitirNovoContato(): void {
-    this.inscricaoEmitirNovoContato = this.apiService.emitirNovoContato.subscribe((contato: any) => {
+    this.inscricaoEmitirNovoContato = this.apiService.emitirContatoSalvo.subscribe((contato: any) => {
       console.log('Emitiu: ', contato);
     });
   }

@@ -8,8 +8,9 @@ import { Router } from '@angular/router';
 export class ApiService {
 
   emitirContatosCarregados = new EventEmitter<boolean>();
-  emitirNovoContato = new EventEmitter<object>();
+  emitirContatoSalvo = new EventEmitter<object>();
   emitirContatoRemovido = new EventEmitter<number>();
+  emitirErroConexao = new EventEmitter<string>();
   listaContatos: object[];
 
   constructor(
@@ -34,8 +35,7 @@ export class ApiService {
       }
       throw { status: res.status, statustext: res.statusText };
     } catch (e) {
-      console.error('Erro: ', e);
-      if (e.status) { console.error(`${e.statusText} (${e.status})`); }
+      this.errorConexao(e);
       this.listaContatos = lista;
       this.emitirContatosCarregados.emit(true);
       return this.listaContatos;
@@ -58,8 +58,7 @@ export class ApiService {
       }
       throw { status: res.status, statustext: res.statusText };
     } catch (e) {
-      console.error('Erro: ', e);
-      if (e.status) { console.error(`${e.statusText} (${e.status})`); }
+      this.errorConexao(e);
       this.listaContatos = lista;
       return this.listaContatos;
     }
@@ -96,12 +95,7 @@ export class ApiService {
         if (res.status === 200) { return true; }
         throw await res.json();
       } catch (e) {
-        console.error('Erro: ', e);
-        const msg = Object.values(e)[0];
-        if (msg) {
-          alert(msg);
-          console.error('Erro: ', msg);
-        }
+        this.errorConexao(e);
         return false;
       }
     }
@@ -123,12 +117,7 @@ export class ApiService {
         if (res.status === 200) { return true; }
         throw await res.json();
       } catch (e) {
-        console.error('Erro: ', e);
-        const msg = Object.values(e)[0];
-        if (msg) {
-          alert(msg);
-          console.error('Erro: ', msg);
-        }
+        this.errorConexao(e);
         return false;
       }
     }
@@ -151,7 +140,20 @@ export class ApiService {
       }
     };
     this.listaContatos.push(contato);
-    this.emitirNovoContato.emit(contato);
+    this.emitirContatoSalvo.emit(contato);
+  }
+
+  errorConexao(e: any): void {
+    console.error('Erro: ', e);
+    if ((e + '') === 'TypeError: Failed to fetch') {
+      this.emitirErroConexao.emit('Cheque sua conexão com a internet!');
+    }
+    if (e.status) { console.error(`${e.statusText} (${e.status})`); }
+    const msg = Object.values(e)[0];
+    if (msg) {
+      alert(msg);
+      console.error('Erro: ', msg);
+    }
   }
 
 }

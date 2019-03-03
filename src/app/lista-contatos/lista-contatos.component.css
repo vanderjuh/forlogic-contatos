@@ -15,6 +15,18 @@
     margin-right: 5px;
 }
 
+.warningAlert {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    color:#FF8C00;
+}
+
+.warningAlert img {
+    margin-right: 5px;
+}
+
 .pesquisaInput{
     width: calc(100% - 35px);
     height: 30px;

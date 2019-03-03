@@ -17,8 +17,11 @@ export class ListaContatosComponent implements OnInit {
   private qtdContatosPorPagina = 10;
   private contatosPaginados: any[];
 
+  erroConexao: string;
+
   inscriCarregarContatos: Subscription;
   inscriContatoRemovido: Subscription;
+  inscriErroServidor: Subscription;
 
   @ViewChild('fTodos') fTodos: ElementRef;
   @ViewChild('fFavoritos') fFavoritos: ElementRef;
@@ -32,6 +35,7 @@ export class ListaContatosComponent implements OnInit {
     this.apiService.getContatosFromServer();
     this.inscricaoContatosCarregados();
     this.inscricaoContatoRemovido();
+    this.inscricaoErroConexao();
   }
 
   inscricaoContatosCarregados(): void {
@@ -46,6 +50,13 @@ export class ListaContatosComponent implements OnInit {
         return e;
       }));
       this.router.navigate(['/contatos']);
+    });
+  }
+
+  inscricaoErroConexao(): void {
+    this.inscriErroServidor = this.apiService.emitirErroConexao.subscribe((msg: string) => {
+      this.erroConexao = msg;
+      console.error(msg);
     });
   }
 
