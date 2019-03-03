@@ -7,8 +7,9 @@ import { Router } from '@angular/router';
 })
 export class ApiService {
 
-  contatosCarregados = new EventEmitter<boolean>();
+  emitirContatosCarregados = new EventEmitter<boolean>();
   emitirNovoContato = new EventEmitter<object>();
+  emitirContatoRemovido = new EventEmitter<number>();
   listaContatos: object[];
 
   constructor(
@@ -28,7 +29,7 @@ export class ApiService {
           return 0;
         });
         this.listaContatos = lista;
-        this.contatosCarregados.emit(true);
+        this.emitirContatosCarregados.emit(true);
         return this.listaContatos;
       }
       throw { status: res.status, statustext: res.statusText };
@@ -36,7 +37,7 @@ export class ApiService {
       console.error('Erro: ', e);
       if (e.status) { console.error(`${e.statusText} (${e.status})`); }
       this.listaContatos = lista;
-      this.contatosCarregados.emit(true);
+      this.emitirContatosCarregados.emit(true);
       return this.listaContatos;
     }
   }
@@ -69,7 +70,7 @@ export class ApiService {
     return await this.listaContatos;
   }
 
-  async updateContato(contato: any) {
+  async updateContatoFromServer(contato: any) {
     if (contato) {
       const data = {
         firstName: contato.firstName,
@@ -88,7 +89,7 @@ export class ApiService {
           `http://contacts-api.azurewebsites.net/api/contacts/${contato.id}`,
           {
             method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
           }
         );
@@ -106,6 +107,33 @@ export class ApiService {
     }
     alert('Erro. Não foi possível alterar contato');
     console.error('Erro. É necessário que passe um contato para ser editado.');
+    return false;
+  }
+
+  async deleteContatoFromServer(id: number) {
+    if (id) {
+      try {
+        const res = await fetch(
+          `http://contacts-api.azurewebsites.net/api/contacts/${id}`,
+          {
+            method: 'DELETE',
+            headers: new Headers()
+          }
+        );
+        if (res.status === 200) { return true; }
+        throw await res.json();
+      } catch (e) {
+        console.error('Erro: ', e);
+        const msg = Object.values(e)[0];
+        if (msg) {
+          alert(msg);
+          console.error('Erro: ', msg);
+        }
+        return false;
+      }
+    }
+    alert('Erro. Não foi possível remover contato');
+    console.error('Erro. É necessário que passe o ID do contato para deleta-lo');
     return false;
   }
 

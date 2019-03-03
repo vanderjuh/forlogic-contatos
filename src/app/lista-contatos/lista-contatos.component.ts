@@ -3,6 +3,7 @@ import { ApiService } from './api.service';
 
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lista-contatos',
@@ -16,17 +17,35 @@ export class ListaContatosComponent implements OnInit {
   private qtdContatosPorPagina = 10;
   private contatosPaginados: any[];
 
-  private inscricaoCarregarContatos: Subscription;
+  inscriCarregarContatos: Subscription;
+  inscriContatoRemovido: Subscription;
 
   @ViewChild('fTodos') fTodos: ElementRef;
   @ViewChild('fFavoritos') fFavoritos: ElementRef;
 
-  constructor(private apiService: ApiService) { }
+  constructor(
+    private apiService: ApiService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.apiService.getContatosFromServer();
-    this.inscricaoCarregarContatos = this.apiService.contatosCarregados.subscribe(() => {
+    this.inscricaoContatosCarregados();
+    this.inscricaoContatoRemovido();
+  }
+
+  inscricaoContatosCarregados(): void {
+    this.inscriCarregarContatos = this.apiService.emitirContatosCarregados.subscribe(() => {
       this.setContatosPaginados(this.getContatos());
+    });
+  }
+
+  inscricaoContatoRemovido(): void {
+    this.inscriContatoRemovido = this.apiService.emitirContatoRemovido.subscribe((id: number) => {
+      this.setContatosPaginados(this.getContatos().map(e => {
+        return e;
+      }));
+      this.router.navigate(['/contatos']);
     });
   }
 
@@ -118,7 +137,7 @@ export class ListaContatosComponent implements OnInit {
   async favoritarContato(contato: any, iconFav: any) {
     if (contato) {
       contato.isFavorite = !contato.isFavorite;
-      const resp = await this.apiService.updateContato(contato);
+      const resp = await this.apiService.updateContatoFromServer(contato);
       if (resp) {
         this.getContatos().forEach(e => {
           if (e.id === contato.id) {

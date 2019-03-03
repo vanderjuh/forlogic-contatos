@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { ApiService } from '../api.service';
-import { EventEmitter } from 'protractor';
 import { Subscription, Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
@@ -28,7 +27,7 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
   @ViewChild('bSalvar') bSalvar: ElementRef;
   @ViewChild('bRemover') bRemover: ElementRef;
 
-  contatoAtual: object;
+  contatoAtual: any;
 
   inscricaoEmitirNovoContato: Subscription;
 
@@ -44,6 +43,18 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.inscricaoEmitirNovoContato.unsubscribe();
+  }
+
+  async deletarContato() {
+    console.log(this.contatoAtual[0].id);
+    if (this.contatoAtual[0] && confirm('Deseja realmente deletar este contato?')) {
+      const resp = await this.apiService.deleteContatoFromServer(this.contatoAtual[0].id);
+      if (resp) {
+        this.apiService.listaContatos = this.apiService.listaContatos.filter((e: any) => e.id !== this.contatoAtual[0].id);
+        this.apiService.emitirContatoRemovido.emit(this.contatoAtual[0].id);
+        alert('Contato deletado com sucesso!');
+      }
+    }
   }
 
   getContatos(): any[] {

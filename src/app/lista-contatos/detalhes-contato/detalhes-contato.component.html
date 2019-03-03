@@ -70,7 +70,7 @@
                     <img src="./assets/img/baseline-save-24px.svg" alt="Salvar">
                     Salvar
                 </button>
-                <button *ngIf="contatoAtual" #bRemover id="bRemover" class="btnRemove" type="button">
+                <button #bRemover *ngIf="contatoAtual" (click)="deletarContato()" id="bRemover" class="btnRemove" type="button">
                     <img src="./assets/img/baseline-delete-24px.svg" alt="Salvar">
                     Remover
                 </button>
