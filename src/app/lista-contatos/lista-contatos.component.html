@@ -12,12 +12,18 @@
             Favoritos
         </li>
     </ul>
-    <ul class="lista_itens">
+    <ul *ngIf="contatosPaginados === undefined" class="lista_itens">
+            <li class="loader" *ngIf="getContatos() == undefined">
+                <img src="./assets/img/baseline-autorenew-24px.svg" alt="Loader">
+                Carregando...
+            </li>
+    </ul>
+    <ul *ngIf="contatosPaginados !== undefined" class="lista_itens">
         <li class="loader" *ngIf="getContatos() == undefined">
             <img src="./assets/img/baseline-autorenew-24px.svg" alt="Loader">
             Carregando...
         </li>
-        <a *ngFor="let contato of getContatos()" [routerLink]="['/contato', contato.id]">
+        <a *ngFor="let contato of contatosPorPaginacao()" [routerLink]="['/contato', contato.id]">
             <li class="item_contato">
                 <img class="avatarItemContato" src="{{contato.info.avatar}}" alt="Icone de contato">
                 <div class="nome_contato">{{contato.firstName}} {{contato.lastName}}</div>
@@ -33,11 +39,11 @@
             'display': apiService.listaContatos.length > 10 ? 'flex' : 'none'
         }
     ">
-        <a class="sentidoPaginacao" id="pagVoltar" href="#">
+        <a class="sentidoPaginacao" id="pagVoltar" (click)="paginaAnterior($event)">
             <img src="./assets/img/round-arrow_back-24px.svg" alt="Voltar">
             Voltar
         </a>
-        <a class="sentidoPaginacao" id="pagProximo" href="#">
+        <a class="sentidoPaginacao" id="pagProximo" (click)="proximaPagina($event)">
             Próximo
             <img src="./assets/img/round-arrow_forward-24px.svg" alt="Próximo">
         </a>
