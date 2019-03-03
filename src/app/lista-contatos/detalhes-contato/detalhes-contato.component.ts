@@ -31,7 +31,6 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
   contatoAtual: object;
 
   inscricaoEmitirNovoContato: Subscription;
-  inscricaoContatosCarregados: Subscription;
 
   constructor(
     private apiService: ApiService,
@@ -47,6 +46,10 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
     this.inscricaoEmitirNovoContato.unsubscribe();
   }
 
+  getContatos(): any[] {
+    return this.apiService.listaContatos;
+  }
+
   emitirNovoContato(): void {
     this.inscricaoEmitirNovoContato = this.apiService.emitirNovoContato.subscribe((contato: any) => {
       console.log('Emitiu: ', contato);
@@ -54,13 +57,11 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
   }
 
   getContatoFromIdRoute(): void {
-    this.inscricaoContatosCarregados = this.apiService.contatosCarregados.subscribe(() => {
-      this.route.params.subscribe((params) => {
-        if (params.id) {
-          this.contatoAtual = this.apiService.getContato(+params.id);
-          this.renderDetalhes();
-        }
-      });
+    this.route.params.subscribe((params) => {
+      if (params.id) {
+        this.contatoAtual = this.apiService.getContato(+params.id);
+        this.renderDetalhes();
+      }
     });
   }
 

@@ -1,6 +1,6 @@
 <section class="detalhes_contato">
     <div class="cadastro">
-        <button class="buttonFechar">
+        <button *ngIf="contatoAtual" class="buttonFechar" [routerLink]="['/contatos']">
             <img src="./assets/img/baseline-close-24px.svg" alt="Fechar">
         </button>
         <form id="formCadastro" action="#" method="post">

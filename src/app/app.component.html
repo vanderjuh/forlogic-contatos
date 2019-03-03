@@ -1,5 +1,5 @@
 <app-menu-superior></app-menu-superior>
 <main>
-  <router-outlet></router-outlet>
   <app-lista-contatos></app-lista-contatos>
+  <router-outlet *ngIf="getContatos()"></router-outlet>
 </main>

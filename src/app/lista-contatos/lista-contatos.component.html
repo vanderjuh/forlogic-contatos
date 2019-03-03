@@ -13,10 +13,10 @@
         </li>
     </ul>
     <ul *ngIf="contatosPaginados === undefined" class="lista_itens">
-            <li class="loader" *ngIf="getContatos() == undefined">
-                <img src="./assets/img/baseline-autorenew-24px.svg" alt="Loader">
-                Carregando...
-            </li>
+        <li class="loader" *ngIf="getContatos() == undefined">
+            <img src="./assets/img/baseline-autorenew-24px.svg" alt="Loader">
+            Carregando...
+        </li>
     </ul>
     <ul *ngIf="contatosPaginados !== undefined" class="lista_itens">
         <li class="loader" *ngIf="getContatos() == undefined">

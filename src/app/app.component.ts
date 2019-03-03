@@ -6,4 +6,12 @@ import { ApiService } from './lista-contatos/api.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent { }
+export class AppComponent {
+
+  constructor(private apiService: ApiService) { }
+
+  getContatos(): any[] {
+    return this.apiService.listaContatos;
+  }
+
+}

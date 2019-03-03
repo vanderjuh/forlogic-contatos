@@ -23,8 +23,7 @@ export class ListaContatosComponent implements OnInit {
   ngOnInit() {
     this.apiService.getContatosFromServer();
     this.inscricaoCarregarContatos = this.apiService.contatosCarregados.subscribe(() => {
-      this.contatosPaginados = _.chunk(this.getContatos(), this.qtdContatosPorPagina);
-      this.totalPaginas = this.contatosPaginados.length;
+      this.setContatosPaginados(this.getContatos());
     });
   }
 
@@ -48,6 +47,11 @@ export class ListaContatosComponent implements OnInit {
     }
   }
 
+  setContatosPaginados(lista: any[]): void {
+    this.contatosPaginados = _.chunk(lista, this.qtdContatosPorPagina);
+    this.totalPaginas = this.contatosPaginados.length;
+  }
+
   contatosPorPaginacao(): any[] {
     return this.contatosPaginados[this.paginaAtual];
   }
@@ -56,13 +60,19 @@ export class ListaContatosComponent implements OnInit {
     return this.apiService.listaContatos;
   }
 
+  exibirFavoritos(): void {
+    this.rederinirPaginacao();
+    const lista = this.getContatos().filter(e => e.isFavorite);
+    this.setContatosPaginados(lista);
+  }
+
   aplicarFiltro(filtro: string): void {
     switch (filtro) {
       case 'favoritos':
-        console.log('Filtro: favoritos');
+        this.exibirFavoritos();
         break;
       case 'todos':
-        console.log('Filtro: todos');
+        this.setContatosPaginados(this.getContatos());
         break;
       default:
         console.error('Filtro desconhecido');
@@ -70,9 +80,11 @@ export class ListaContatosComponent implements OnInit {
   }
 
   buscarContato(iPesquisa: HTMLInputElement): void {
-    this.rederinirPaginacao();
-    if (this.apiService.listaContatos) {
-      if (iPesquisa.value) { console.log(iPesquisa.value); }
+    if (this.getContatos()) {
+      this.rederinirPaginacao();
+      const lista = this.getContatos().filter(e => new RegExp(iPesquisa.value, 'ig').test(`${e.firstName} ${e.lastName}`));
+      this.contatosPaginados = _.chunk(lista, this.qtdContatosPorPagina);
+      this.totalPaginas = this.contatosPaginados.length;
     } else { console.error('Erro. É necessário passar o elemento HTML da pesquisa'); }
   }
 
