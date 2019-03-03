@@ -94,7 +94,7 @@ export class ListaContatosComponent implements OnInit {
     let listaBusca: any[];
     if (this.getContatos()) {
       this.rederinirPaginacao();
-      if(this.filtroSelecionado() === 'fTodos'){
+      if (this.filtroSelecionado() === 'fTodos') {
         listaBusca = this.getContatos().filter(e => new RegExp(iPesquisa.value, 'ig').test(`${e.firstName} ${e.lastName}`));
       } else {
         listaBusca = this.getContatos()
@@ -115,9 +115,25 @@ export class ListaContatosComponent implements OnInit {
     }
   }
 
-  favoritarContato(contato: object): void {
+  async favoritarContato(contato: any, iconFav: any) {
     if (contato) {
-      console.log('Contato favoritado');
+      contato.isFavorite = !contato.isFavorite;
+      const resp = await this.apiService.updateContato(contato);
+      if (resp) {
+        this.getContatos().forEach(e => {
+          if (e.id === contato.id) {
+            if (e.isFavorite) {
+              iconFav.src = '../../assets/img/baseline-favorite-24px.svg';
+            } else { iconFav.src = '../../assets/img/baseline-favorite_border-24px.svg'; }
+            e.isFavorite = contato.isFavorite;
+            return;
+          }
+        });
+      } else {
+        const msg = 'Não foi possível alterar o status de favorito do contato!';
+        console.error(msg);
+        alert(msg);
+      }
     } else { console.error('Erro. É necessário que passe um objeto de contato para remover'); }
   }
 

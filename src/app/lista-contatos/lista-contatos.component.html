@@ -4,11 +4,13 @@
     <ul class="filtro">
         <img src="./assets/img/round-filter_list-24px.svg" alt="">
         <li>
-            <input #fTodos type="radio" name="filtro" id="fTodos" class="fTodos" (click)="aplicarFiltro('todos')" [disabled]="getContatos() == undefined" checked>
+            <input #fTodos type="radio" name="filtro" id="fTodos" class="fTodos" (click)="aplicarFiltro('todos')"
+                [disabled]="getContatos() == undefined" checked>
             Todos
         </li>
         <li>
-            <input #fFavoritos type="radio" name="filtro" id="fFavoritos" class="fFavoritos" (click)="aplicarFiltro('favoritos')" [disabled]="getContatos() == undefined">
+            <input #fFavoritos type="radio" name="filtro" id="fFavoritos" class="fFavoritos"
+                (click)="aplicarFiltro('favoritos')" [disabled]="getContatos() == undefined">
             Favoritos
         </li>
     </ul>
@@ -25,12 +27,13 @@
         </li>
         <a *ngFor="let contato of contatosPorPaginacao()" [routerLink]="['/contato', contato.id]">
             <li class="item_contato">
-                <img class="avatarItemContato" src="{{contato.info.avatar}}" alt="Icone de contato">
+                <img class="avatarItemContato" src="{{contato.info.avatar}}" alt="Icone de contato" title="{{contato.firstName}} {{contato.lastName}}">
                 <div class="nome_contato">{{contato.firstName}} {{contato.lastName}}</div>
-                <img [src]="contato.isFavorite 
+                <img #iconFav [src]="contato.isFavorite 
                         ? '../../assets/img/baseline-favorite-24px.svg' 
                         : '../../assets/img/baseline-favorite_border-24px.svg'" alt="Icone de favoritado" class="fav"
-                    (click)="favoritarContato(contato)">
+                    (click)="favoritarContato(contato, iconFav)"
+                    [title]="contato.isFavorite ? 'Click para desfavoritar' : 'Click para favoritar'">
             </li>
         </a>
     </ul>

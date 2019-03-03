@@ -69,8 +69,48 @@ export class ApiService {
     return await this.listaContatos;
   }
 
+  async updateContato(contato: any) {
+    if (contato) {
+      const data = {
+        firstName: contato.firstName,
+        lastName: contato.lastName,
+        email: contato.email,
+        gender: contato.gender,
+        isFavorite: contato.isFavorite,
+        company: contato.info.company,
+        avatar: contato.info.avatar,
+        address: contato.info.address,
+        phone: contato.info.phone,
+        comments: contato.info.comments
+      };
+      try {
+        const res = await fetch(
+          `http://contacts-api.azurewebsites.net/api/contacts/${contato.id}`,
+          {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data),
+          }
+        );
+        if (res.status === 200) { return true; }
+        throw await res.json();
+      } catch (e) {
+        console.error('Erro: ', e);
+        const msg = Object.values(e)[0];
+        if (msg) {
+          alert(msg);
+          console.error('Erro: ', msg);
+        }
+        return false;
+      }
+    }
+    alert('Erro. Não foi possível alterar contato');
+    console.error('Erro. É necessário que passe um contato para ser editado.');
+    return false;
+  }
+
   getContato(id: number): any {
-    const obj =  this.listaContatos.filter((contato: any) => contato.id === id);
+    const obj = this.listaContatos.filter((contato: any) => contato.id === id);
     return obj;
   }
 

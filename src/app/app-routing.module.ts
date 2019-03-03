@@ -6,8 +6,8 @@ import { DetalhesContatoComponent } from './lista-contatos/detalhes-contato/deta
 
 const routes: Routes = [
   {path: '', redirectTo: 'contatos', pathMatch: 'full'},
-  {path: 'contatos', component: DetalhesContatoComponent},
-  {path: 'contato/:id', component: DetalhesContatoComponent}
+  {path: 'contato/:id', component: DetalhesContatoComponent},
+  {path: 'contatos', component: DetalhesContatoComponent}
 ];
 
 @NgModule({
