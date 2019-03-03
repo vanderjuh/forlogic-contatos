@@ -27,6 +27,18 @@
     margin-right: 5px;
 }
 
+.infoAlert {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    color:#1E90FF;
+}
+
+.infoAlert img {
+    margin-right: 5px;
+}
+
 .pesquisaInput{
     width: calc(100% - 35px);
     height: 30px;

@@ -20,7 +20,7 @@
             Carregando...
         </li>
         <li class="warningAlert" *ngIf="erroConexao">
-            <img src="./assets/img/baseline-warning-24px.svg" alt="Loader">
+            <img src="./assets/img/baseline-warning-24px.svg" alt="Alerta">
             {{erroConexao}}
         </li>
     </ul>
@@ -40,6 +40,10 @@
                     [title]="contato.isFavorite ? 'Click para desfavoritar' : 'Click para favoritar'">
             </li>
         </a>
+        <li class="infoAlert" *ngIf="contatosPorPaginacao() === undefined">
+            <img src="./assets/img/baseline-info-24px.svg" alt="Info">
+            Não há nenhum contato para mostrar!
+        </li>
     </ul>
     <nav class="paginacao" *ngIf="getContatos() !== undefined" [ngStyle]="
         {
