@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ApiService } from './api.service';
 
 import * as _ from 'lodash';
@@ -17,6 +17,9 @@ export class ListaContatosComponent implements OnInit {
   private contatosPaginados: any[];
 
   private inscricaoCarregarContatos: Subscription;
+
+  @ViewChild('fTodos') fTodos: ElementRef;
+  @ViewChild('fFavoritos') fFavoritos: ElementRef;
 
   constructor(private apiService: ApiService) { }
 
@@ -79,11 +82,26 @@ export class ListaContatosComponent implements OnInit {
     }
   }
 
+  filtroSelecionado(): string {
+    if (this.fTodos.nativeElement.checked) {
+      return 'fTodos';
+    } else {
+      return 'fFavoritos';
+    }
+  }
+
   buscarContato(iPesquisa: HTMLInputElement): void {
+    let listaBusca: any[];
     if (this.getContatos()) {
       this.rederinirPaginacao();
-      const lista = this.getContatos().filter(e => new RegExp(iPesquisa.value, 'ig').test(`${e.firstName} ${e.lastName}`));
-      this.contatosPaginados = _.chunk(lista, this.qtdContatosPorPagina);
+      if(this.filtroSelecionado() === 'fTodos'){
+        listaBusca = this.getContatos().filter(e => new RegExp(iPesquisa.value, 'ig').test(`${e.firstName} ${e.lastName}`));
+      } else {
+        listaBusca = this.getContatos()
+          .filter(e => e.isFavorite)
+          .filter(e => new RegExp(iPesquisa.value, 'ig').test(`${e.firstName} ${e.lastName}`));
+      }
+      this.contatosPaginados = _.chunk(listaBusca, this.qtdContatosPorPagina);
       this.totalPaginas = this.contatosPaginados.length;
     } else { console.error('Erro. É necessário passar o elemento HTML da pesquisa'); }
   }

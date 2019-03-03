@@ -19,7 +19,7 @@ export class ApiService {
   async getContatosFromServer(): Promise<any> {
     let lista: any = [];
     try {
-      const res = await fetch('http://contacts-api.azurewebsites.net/api/contacts?limit=101');
+      const res = await fetch('http://contacts-api.azurewebsites.net/api/contacts');
       if (res.status === 200) {
         lista = await res.json();
         lista.sort((a: any, b: any) => {

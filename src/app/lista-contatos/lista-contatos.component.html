@@ -4,11 +4,11 @@
     <ul class="filtro">
         <img src="./assets/img/round-filter_list-24px.svg" alt="">
         <li>
-            <input type="radio" name="filtro" id="fTodos" class="fTodos" (click)="aplicarFiltro('todos')">
+            <input #fTodos type="radio" name="filtro" id="fTodos" class="fTodos" (click)="aplicarFiltro('todos')" [disabled]="getContatos() == undefined" checked>
             Todos
         </li>
         <li>
-            <input type="radio" name="filtro" id="fFavoritos" class="fFavoritos" (click)="aplicarFiltro('favoritos')">
+            <input #fFavoritos type="radio" name="filtro" id="fFavoritos" class="fFavoritos" (click)="aplicarFiltro('favoritos')" [disabled]="getContatos() == undefined">
             Favoritos
         </li>
     </ul>
