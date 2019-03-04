@@ -145,6 +145,10 @@ export class ListaContatosComponent implements OnInit {
     }
   }
 
+  onErrorAvatar(itemAvatar): void {
+    console.log(itemAvatar);
+  }
+
   async favoritarContato(contato: any, iconFav: any) {
     if (contato) {
       contato.isFavorite = !contato.isFavorite;

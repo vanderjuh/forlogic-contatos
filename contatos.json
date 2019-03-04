@@ -1310,21 +1310,17 @@
       "created": "2019-02-13T11:17:53.1389225"
     },
     {
-      "id": 353,
       "firstName": "Cleo",
       "lastName": "Cordia",
       "email": "Alyson_Franecki36@hotmail.com",
       "gender": "m",
       "isFavorite": false,
-      "info": {
-        "id": 353,
-        "company": "Flatley - Hyatt",
-        "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg",
-        "address": "17187 Arnulfo Keys, North Emiliamouth, Montserrat",
-        "phone": "(11) 87023-6559",
-        "comments": "Triple-buffered ADP XML withdrawal extensible Chief gold Incredible Refined Wooden Pants Licensed Rubber Computer Programmable Distributed intranet Borders Shoal Bedfordshire Garden North Dakota content-based Faroe Islands COM purple Clothing & Garden Indiana Greens override black Walks back-end interactive Inlet copying EXE Credit Card Account EXE Refined Cotton Computer Small Concrete Chair program RSS Computers, Games & Music concept help-desk"
-      },
-      "created": "2019-02-13T11:17:53.1390231"
+      "company": "Flatley - Hyatt",
+      "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg",
+      "address": "17187 Arnulfo Keys, North Emiliamouth, Montserrat",
+      "phone": "(11) 87023-6559",
+      "comments": "Triple-buffered ADP XML withdrawal extensible Chief gold Incredible Refined Wooden Pants Licensed Rubber Computer Programmable Distributed intranet Borders Shoal Bedfordshire Garden North Dakota content-based Faroe Islands COM purple Clothing & Garden Indiana Greens override black Walks back-end interactive Inlet copying EXE Credit Card Account EXE Refined Cotton Computer Small Concrete Chair program RSS Computers, Games & Music concept help-desk",
+      "id": 353
     },
     {
       "id": 354,
@@ -2211,21 +2207,17 @@
       "created": "2019-02-13T11:26:08.2950593"
     },
     {
-      "id": 430,
       "firstName": "Germaine",
       "lastName": "Scot",
       "email": "Morton_Konopelski@hotmail.com",
       "gender": "m",
       "isFavorite": false,
-      "info": {
-        "id": 430,
-        "company": "Macejkovic - Pfannerstill",
-        "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/lebronjennan/128.jpg",
-        "address": "601 Armstrong Mission, Jaronchester, Argentina",
-        "phone": "(04) 89544-7924",
-        "comments": "multi-byte Profound Metal Future-proofed Small Zambian Kwacha override Stravenue matrices redundant Handcrafted partnerships Data web-readiness Clothing, Garden & Health Intelligent Frozen Table streamline Future collaborative Producer back-end value-added Lane brand Practical Wooden Mouse Metal conglomeration pink empowering synthesize US Dollar Guinea-Bissau Operations GB monitor action-items Metal Small niches transition e-commerce Soft monitoring synthesize Baby withdrawal help-desk interactive Multi-tiered generating SMS out-of-the-box"
-      },
-      "created": "2019-02-13T11:26:08.2953213"
+      "company": "Macejkovic - Pfannerstill",
+      "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/lebronjennan/128.jpg",
+      "address": "601 Armstrong Mission, Jaronchester, Argentina",
+      "phone": "(04) 89544-7924",
+      "comments": "multi-byte Profound Metal Future-proofed Small Zambian Kwacha override Stravenue matrices redundant Handcrafted partnerships Data web-readiness Clothing, Garden & Health Intelligent Frozen Table streamline Future collaborative Producer back-end value-added Lane brand Practical Wooden Mouse Metal conglomeration pink empowering synthesize US Dollar Guinea-Bissau Operations GB monitor action-items Metal Small niches transition e-commerce Soft monitoring synthesize Baby withdrawal help-desk interactive Multi-tiered generating SMS out-of-the-box",
+      "id": 430
     },
     {
       "id": 431,
@@ -3059,19 +3051,6 @@
         "comments": ""
       },
       "created": "2019-02-26T13:56:44.0376938"
-    },
-    {
-      "firstName": "Alex",
-      "lastName": "Teste",
-      "email": "alexteste@test.com",
-      "gender": "m",
-      "isFavorite": true,
-      "company": "Teste",
-      "avatar": "https://trello-attachments.s3.amazonaws.com/5c59af35f317007fe99fe41d/300x300/6e705f3f6e67829783f04d8b55a26c52/lucas-tarumoto-01.jpg",
-      "address": "210 Teste, SP, São Paulo",
-      "phone": "(11) 8888-8888",
-      "comments": "",
-      "id": 1905
     },
     {
       "id": 1907,
