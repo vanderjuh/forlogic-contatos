@@ -160,6 +160,7 @@ export class ListaContatosComponent implements OnInit {
           }
         });
       } else {
+        contato.isFavorite = !contato.isFavorite;
         const msg = 'Não foi possível alterar o status de favorito do contato!';
         console.error(msg);
         alert(msg);

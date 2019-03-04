@@ -40,7 +40,7 @@
                     [title]="contato.isFavorite ? 'Click para desfavoritar' : 'Click para favoritar'">
             </li>
         </a>
-        <li class="infoAlert" *ngIf="contatosPorPaginacao() === undefined">
+        <li class="infoAlert" *ngIf="contatosPorPaginacao() === undefined && erroConexao === undefined">
             <img src="./assets/img/baseline-info-24px.svg" alt="Info">
             Não há nenhum contato para mostrar!
         </li>

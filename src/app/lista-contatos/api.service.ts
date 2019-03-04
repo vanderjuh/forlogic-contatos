@@ -21,7 +21,7 @@ export class ApiService {
   async getContatosFromServer(): Promise<any> {
     let lista: any = [];
     try {
-      const res = await fetch('http://contacts-api.azurewebsites.net/api/contacts');
+      const res = await fetch('http://localhost:3000/contatos');
       if (res.status === 200) {
         lista = await res.json();
         lista.sort((a: any, b: any) => {
@@ -45,7 +45,7 @@ export class ApiService {
   async getContatoFromServer(id: number): Promise<any> {
     let lista: any = [];
     try {
-      const res = await fetch(`http://contacts-api.azurewebsites.net/api/contacts/${id}`);
+      const res = await fetch(`http://localhost:3000/contatos/${id}`);
       if (res.status === 200) {
         lista = await res.json();
         lista.sort((a: any, b: any) => {
@@ -85,7 +85,7 @@ export class ApiService {
       };
       try {
         const res = await fetch(
-          `http://contacts-api.azurewebsites.net/api/contacts/${contato.id}`,
+          `http://localhost:3000/contatos/${contato.id}`,
           {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -108,7 +108,7 @@ export class ApiService {
     if (id) {
       try {
         const res = await fetch(
-          `http://contacts-api.azurewebsites.net/api/contacts/${id}`,
+          `http://localhost:3000/contatos/${id}`,
           {
             method: 'DELETE',
             headers: new Headers()
