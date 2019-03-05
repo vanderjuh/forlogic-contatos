@@ -27,6 +27,7 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
   @ViewChild('bSalvar') bSalvar: ElementRef;
   @ViewChild('bRemover') bRemover: ElementRef;
 
+  editandoContato: boolean;
   contatoAtual: any;
 
   inscricaoEmitirNovoContato: Subscription;
@@ -109,6 +110,11 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
     this.contatoAtual = contato;
     console.log(this.contatoAtual);
     this.apiService.insertContato(this.contatoAtual);
+  }
+
+  onEditandoContato(): void {
+    this.editandoContato = true;
+    console.log(this.editandoContato);
   }
 
 }

@@ -11,21 +11,21 @@
                 <table>
                     <tr>
                         <td><label for="iNome">Primeiro nome: </label></td>
-                        <td><input #iNome type="text" id="iNome" name="nome"></td>
+                        <td><input #iNome type="text" id="iNome" name="nome" (input)="onEditandoContato()"></td>
                     </tr>
                     <tr>
                         <td><label for="iSobrenome">Sobrenome: </label></td>
-                        <td><input #iSobrenome type="text" id="iSobrenome" name="sobrenome"></td>
+                        <td><input #iSobrenome type="text" id="iSobrenome" name="sobrenome" (input)="onEditandoContato()"></td>
                     </tr>
                     <tr>
                         <td><label for="iEmail">E-mail: </label></td>
-                        <td><input #iEmail type="text" name="e-mail" id="iEmail"></td>
+                        <td><input #iEmail type="text" name="e-mail" id="iEmail" (input)="onEditandoContato()"></td>
                     </tr>
                     <tr>
                         <td>Gênero: </td>
                         <td>
-                            <input #gF type="radio" name="genero" value="f" id="gF"> <label for="gF">Feminino</label>
-                            <input #gM type="radio" name="genero" value="m" id="gM"> <label for="gM">Masculino</label>
+                            <input #gF type="radio" name="genero" value="f" id="gF" (input)="onEditandoContato()"> <label for="gF">Feminino</label>
+                            <input #gM type="radio" name="genero" value="m" id="gM" (input)="onEditandoContato()"> <label for="gM">Masculino</label>
                         </td>
                     </tr>
                 </table>
@@ -36,8 +36,8 @@
                     <tr>
                         <td><label for="iAvatar">Avatar: </label></td>
                         <td class="tdUpload">
-                            <input #iAvatar type="hidden" id="iAvatar">
-                            <input #iFile type="file" id="iFile" accept="image/*">
+                            <input #iAvatar type="hidden" id="iAvatar" (input)="onEditandoContato()">
+                            <input #iFile type="file" id="iFile" accept="image/*" (input)="onEditandoContato()">
                             <button #bUpload id="bUpload" class="bUpload" (click)="abrirSelecionarAvatar($event)">
                                 <img src="./assets/img/baseline-add_photo_alternate-24px.svg" alt="Adicionar avatar"
                                     title="Adicionar avatar">
@@ -47,21 +47,21 @@
                     </tr>
                     <tr>
                         <td><label for="iCompanhia">Companhia</label></td>
-                        <td><input #iCompanhia type="text" id="iCompanhia" name="companhia"></td>
+                        <td><input #iCompanhia type="text" id="iCompanhia" name="companhia" (input)="onEditandoContato()"></td>
                     </tr>
                     <tr>
                         <td><label for="iEndereco">Endereço: </label></td>
-                        <td><input #iEndereco type="text" id="iEndereco" name="endereço"></td>
+                        <td><input #iEndereco type="text" id="iEndereco" name="endereço" (input)="onEditandoContato()"></td>
                     </tr>
                     <tr>
                         <td><label for="iTelefone">Telefone: </label></td>
                         <td>
-                            <input #iTelefone type="text" id="iTelefone" name="telefone">
+                            <input #iTelefone type="text" id="iTelefone" name="telefone" (input)="onEditandoContato()">
                         </td>
                     </tr>
                     <tr>
                         <td><label for="tComentario">Comentário: </label></td>
-                        <td><textarea #tComentario name="" id="tComentario"></textarea></td>
+                        <td><textarea #tComentario name="" id="tComentario" (input)="onEditandoContato()"></textarea></td>
                     </tr>
                 </table>
             </fieldset>
