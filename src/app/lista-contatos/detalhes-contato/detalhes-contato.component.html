@@ -11,11 +11,11 @@
                 <table>
                     <tr>
                         <td><label for="iNome">Primeiro nome: </label></td>
-                        <td><input type="text" formControlName="nome" (input)="onEditandoContato()" [ngStyle]="onValidarForm('nome')"></td>
+                        <td><input type="text" formControlName="firstName" (input)="onEditandoContato()" [ngStyle]="onValidarForm('firstName')"></td>
                     </tr>
                     <tr>
                         <td><label for="iSobrenome">Sobrenome: </label></td>
-                        <td><input type="text" formControlName="sobrenome" (input)="onEditandoContato()" [ngStyle]="onValidarForm('sobrenome')"></td>
+                        <td><input type="text" formControlName="lastName" (input)="onEditandoContato()" [ngStyle]="onValidarForm('lastName')"></td>
                     </tr>
                     <tr>
                         <td><label for="iEmail">E-mail: </label></td>
@@ -24,13 +24,13 @@
                     <tr>
                         <td>Gênero: </td>
                         <td>
-                            <input type="radio" formControlName="genero" value="f" (input)="onEditandoContato()" [ngStyle]="onValidarForm('genero')"> <label for="gF">Feminino</label>
-                            <input type="radio" formControlName="genero" value="m" (input)="onEditandoContato()" [ngStyle]="onValidarForm('genero')"> <label for="gM">Masculino</label>
+                            <input type="radio" formControlName="gender" value="f" (input)="onEditandoContato()" [ngStyle]="onValidarForm('gender')"> <label for="gF">Feminino</label>
+                            <input type="radio" formControlName="gender" value="m" (input)="onEditandoContato()" [ngStyle]="onValidarForm('gender')"> <label for="gM">Masculino</label>
                         </td>
                     </tr>
                 </table>
             </fieldset>
-            <fieldset>
+            <fieldset formGroupName="info">
                 <legend>Outras informações: </legend>
                 <table>
                     <tr>
@@ -47,21 +47,21 @@
                     </tr>
                     <tr>
                         <td><label for="iCompanhia">Companhia</label></td>
-                        <td><input type="text" formControlName="companhia" (input)="onEditandoContato()" [ngStyle]="onValidarForm('companhia')"></td>
+                        <td><input type="text" formControlName="company" (input)="onEditandoContato()" [ngStyle]="onValidarForm('info.company')"></td>
                     </tr>
                     <tr>
                         <td><label for="iEndereco">Endereço: </label></td>
-                        <td><input type="text" formControlName="endereco" (input)="onEditandoContato()"></td>
+                        <td><input type="text" formControlName="address" (input)="onEditandoContato()"></td>
                     </tr>
                     <tr>
                         <td><label for="iTelefone">Telefone: </label></td>
                         <td>
-                            <input type="text" formControlName="telefone" (input)="onEditandoContato()">
+                            <input type="text" formControlName="phone" (input)="onEditandoContato()">
                         </td>
                     </tr>
                     <tr>
                         <td><label for="tComentario">Comentário: </label></td>
-                        <td><textarea formControlName="comentario" (input)="onEditandoContato()"></textarea></td>
+                        <td><textarea formControlName="comments" (input)="onEditandoContato()"></textarea></td>
                     </tr>
                 </table>
             </fieldset>

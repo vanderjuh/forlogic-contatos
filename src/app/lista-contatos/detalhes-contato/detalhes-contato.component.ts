@@ -37,15 +37,17 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
 
   reactiveFormulario(): void {
     this.formulario = this.formBuilder.group({
-      nome: [null, [Validators.required, Validators.minLength(3)]],
-      sobrenome: [null, [Validators.required, Validators.minLength(3)]],
+      firstName: [null, [Validators.required, Validators.minLength(3)]],
+      lastName: [null, [Validators.required, Validators.minLength(3)]],
       email: [null, [Validators.required, Validators.email]],
-      genero: [null, [Validators.required, Validators.pattern(/^[mf]$/)]],
-      avatar: [null],
-      companhia: [null, Validators.minLength(3)],
-      endereco: [null],
-      telefone: [null],
-      comentario: [null]
+      gender: [null, [Validators.required, Validators.pattern(/^[mf]$/)]],
+      info: this.formBuilder.group({
+        avatar: [null],
+        company: [null, Validators.minLength(3)],
+        address: [null],
+        phone: [null],
+        comments: [null]
+      })
     });
   }
 
@@ -82,15 +84,8 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
   }
 
   renderDetalhes(): void {
-    this.formulario.controls.nome.setValue(this.contatoAtual[0].firstName);
-    this.formulario.controls.sobrenome.setValue(this.contatoAtual[0].lastName);
-    this.formulario.controls.email.setValue(this.contatoAtual[0].email);
-    this.formulario.controls.genero.setValue(this.contatoAtual[0].gender);
     this.avatar.nativeElement.src = this.contatoAtual[0].info.avatar;
-    this.formulario.controls.companhia.setValue(this.contatoAtual[0].info.company);
-    this.formulario.controls.endereco.setValue(this.contatoAtual[0].info.address);
-    this.formulario.controls.telefone.setValue(this.contatoAtual[0].info.phone);
-    this.formulario.controls.comentario.setValue(this.contatoAtual[0].info.comments);
+    this.formulario.patchValue(this.contatoAtual[0]);
   }
 
   abrirSelecionarAvatar(event: MouseEvent): void {
@@ -103,7 +98,7 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if(this.formulario.valid){
+    if (this.formulario.valid) {
       console.log(this.formulario);
     } else { alert('Existem campos do formulário que requerem atenção!'); }
   }
@@ -113,7 +108,7 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
   }
 
   onValidarForm(component: any): object {
-    if (this.validarFormComponente(this.formulario.controls[component])) {
+    if (this.validarFormComponente(this.formulario.get(component))) {
       return { backgroundColor: '#FA8072' };
     }
     return {};
