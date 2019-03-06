@@ -59,6 +59,15 @@
 
 }
 
+.formInvalido {
+    width: 95%;
+    color: red;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin: 20px 0;
+}
+
 .tdUpload{
     display: flex;
     align-items: center;

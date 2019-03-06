@@ -9,6 +9,7 @@ import { ApiService } from './lista-contatos/api.service';
 import { ApiCorreiosService } from './lista-contatos/api-correios.service';
 import { AppRoutingModule } from './app-routing.module';
 import { ContatoGuard } from './lista-contatos/guard/contato.guard';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,9 @@ import { ContatoGuard } from './lista-contatos/guard/contato.guard';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     ApiService,

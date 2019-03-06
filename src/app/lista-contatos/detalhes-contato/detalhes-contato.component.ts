@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/co
 import { ApiService } from '../api.service';
 import { Subscription, Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-detalhes-contato',
@@ -11,39 +12,41 @@ import { ActivatedRoute } from '@angular/router';
 export class DetalhesContatoComponent implements OnInit, OnDestroy {
 
   @ViewChild('avatar') avatar: ElementRef;
-  @ViewChild('iNome') iNome: ElementRef;
-  @ViewChild('iSobrenome') iSobrenome: ElementRef;
-  @ViewChild('iEmail') iEmail: ElementRef;
-  @ViewChild('gF') gF: ElementRef;
-  @ViewChild('gM') gM: ElementRef;
-  @ViewChild('iAvatar') iAvatar: ElementRef;
   @ViewChild('iFile') iFile: ElementRef;
-  @ViewChild('bUpload') bUpload: ElementRef;
-  @ViewChild('pUpload') pUpload: ElementRef;
-  @ViewChild('iCompanhia') iCompanhia: ElementRef;
-  @ViewChild('iEndereco') iEndereco: ElementRef;
-  @ViewChild('iTelefone') iTelefone: ElementRef;
-  @ViewChild('tComentario') tComentario: ElementRef;
-  @ViewChild('bSalvar') bSalvar: ElementRef;
-  @ViewChild('bRemover') bRemover: ElementRef;
 
+  formulario: FormGroup;
   editandoContato: boolean;
   contatoAtual: any;
-
   inscricaoEmitirNovoContato: Subscription;
 
   constructor(
     private apiService: ApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
+    this.reactiveFormulario();
     this.emitirNovoContato();
     this.getContatoFromIdRoute();
   }
 
   ngOnDestroy(): void {
     this.inscricaoEmitirNovoContato.unsubscribe();
+  }
+
+  reactiveFormulario(): void {
+    this.formulario = this.formBuilder.group({
+      nome: [null, [Validators.required, Validators.minLength(3)]],
+      sobrenome: [null, [Validators.required, Validators.minLength(3)]],
+      email: [null, [Validators.required, Validators.email]],
+      genero: [null, [Validators.required, Validators.pattern(/^[mf]$/)]],
+      avatar: [null],
+      companhia: [null, Validators.minLength(3)],
+      endereco: [null],
+      telefone: [null],
+      comentario: [null]
+    });
   }
 
   async deletarContato() {
@@ -72,25 +75,22 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
     this.route.params.subscribe((params) => {
       if (params.id) {
         this.contatoAtual = this.apiService.getContato(+params.id);
+        this.editandoContato = false;
         this.renderDetalhes();
       }
     });
   }
 
   renderDetalhes(): void {
-    this.iNome.nativeElement.value = this.contatoAtual[0].firstName;
-    this.iSobrenome.nativeElement.value = this.contatoAtual[0].lastName;
-    this.iEmail.nativeElement.value = this.contatoAtual[0].email;
-    if (this.contatoAtual[0].gender === 'f') {
-      this.gF.nativeElement.checked = true;
-    } else {
-      this.gM.nativeElement.checked = true;
-    }
+    this.formulario.controls.nome.setValue(this.contatoAtual[0].firstName);
+    this.formulario.controls.sobrenome.setValue(this.contatoAtual[0].lastName);
+    this.formulario.controls.email.setValue(this.contatoAtual[0].email);
+    this.formulario.controls.genero.setValue(this.contatoAtual[0].gender);
     this.avatar.nativeElement.src = this.contatoAtual[0].info.avatar;
-    this.iCompanhia.nativeElement.value = this.contatoAtual[0].info.company;
-    this.iEndereco.nativeElement.value = this.contatoAtual[0].info.address;
-    this.iTelefone.nativeElement.value = this.contatoAtual[0].info.phone;
-    this.tComentario.nativeElement.value = this.contatoAtual[0].info.comments;
+    this.formulario.controls.companhia.setValue(this.contatoAtual[0].info.company);
+    this.formulario.controls.endereco.setValue(this.contatoAtual[0].info.address);
+    this.formulario.controls.telefone.setValue(this.contatoAtual[0].info.phone);
+    this.formulario.controls.comentario.setValue(this.contatoAtual[0].info.comments);
   }
 
   abrirSelecionarAvatar(event: MouseEvent): void {
@@ -98,23 +98,25 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
     this.iFile.nativeElement.click();
   }
 
-  salvarContato(): void {
-    const contato = {
-      firstName: this.iNome.nativeElement.value,
-      lastName: this.iSobrenome.nativeElement.value,
-      email: this.iEmail.nativeElement.value,
-      info: {
-        avatar: ''
-      }
-    };
-    this.contatoAtual = contato;
-    console.log(this.contatoAtual);
-    this.apiService.insertContato(this.contatoAtual);
-  }
-
   onEditandoContato(): void {
     this.editandoContato = true;
-    console.log(this.editandoContato);
+  }
+
+  onSubmit(): void {
+    if(this.formulario.valid){
+      console.log(this.formulario);
+    } else { alert('Existem campos do formulário que requerem atenção!'); }
+  }
+
+  private validarFormComponente(componente: any): boolean {
+    return componente.errors && componente.touched;
+  }
+
+  onValidarForm(component: any): object {
+    if (this.validarFormComponente(this.formulario.controls[component])) {
+      return { backgroundColor: '#FA8072' };
+    }
+    return {};
   }
 
 }
