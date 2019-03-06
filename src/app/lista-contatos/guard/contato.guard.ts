@@ -3,7 +3,9 @@ import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } f
 import { DetalhesContatoComponent } from '../detalhes-contato/detalhes-contato.component';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ContatoGuard implements CanDeactivate<DetalhesContatoComponent> {
 
   canDeactivate(
