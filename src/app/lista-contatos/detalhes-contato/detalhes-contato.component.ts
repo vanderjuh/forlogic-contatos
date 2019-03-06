@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/co
 import { ApiService } from '../api.service';
 import { Subscription, Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-detalhes-contato',
@@ -27,19 +27,18 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.reactiveFormulario();
-    this.emitirNovoContato();
     this.getContatoFromIdRoute();
   }
 
   ngOnDestroy(): void {
-    this.inscricaoEmitirNovoContato.unsubscribe();
+    if (this.inscricaoEmitirNovoContato) { this.inscricaoEmitirNovoContato.unsubscribe(); }
   }
 
   reactiveFormulario(): void {
     this.formulario = this.formBuilder.group({
       firstName: [null, [Validators.required, Validators.minLength(3)]],
       lastName: [null, [Validators.required, Validators.minLength(3)]],
-      email: [null, [Validators.required, Validators.email]],
+      email: [null, [Validators.required, Validators.email, this.emailValidator()]],
       gender: [null, [Validators.required, Validators.pattern(/^[mf]$/)]],
       info: this.formBuilder.group({
         avatar: [null],
@@ -67,12 +66,6 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
     return this.apiService.listaContatos;
   }
 
-  emitirNovoContato(): void {
-    this.inscricaoEmitirNovoContato = this.apiService.emitirContatoSalvo.subscribe((contato: any) => {
-      console.log('Emitiu: ', contato);
-    });
-  }
-
   getContatoFromIdRoute(): void {
     this.route.params.subscribe((params) => {
       if (params.id) {
@@ -91,6 +84,19 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
   abrirSelecionarAvatar(event: MouseEvent): void {
     event.preventDefault();
     this.iFile.nativeElement.click();
+  }
+
+  emailValidator(): (formControl: FormControl) => void {
+    const validator = (formControl: FormControl) => {
+      if (!formControl.root || !(formControl.root as FormGroup).root) { return null; }
+      const email = (formControl.root as FormGroup).get('email');
+      if (email) {
+        console.log('Email: ', email.value);
+        return null;
+      }
+      //return {emailEquals: true};
+    };
+    return validator;
   }
 
   onEditandoContato(): void {
