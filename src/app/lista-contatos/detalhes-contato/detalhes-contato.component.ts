@@ -36,6 +36,7 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
 
   reactiveFormulario(): void {
     this.formulario = this.formBuilder.group({
+      id: [null],
       firstName: [null, [Validators.required, Validators.minLength(3)]],
       lastName: [null, [Validators.required, Validators.minLength(3)]],
       email: [null, [Validators.required, Validators.email, this.emailValidator()]],
@@ -88,13 +89,24 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
 
   emailValidator(): (formControl: FormControl) => void {
     const validator = (formControl: FormControl) => {
+      if (!this.editandoContato) { return; }
+      if (this.contatoAtual) { return; }
       if (!formControl.root || !(formControl.root as FormGroup).root) { return null; }
       const email = (formControl.root as FormGroup).get('email');
       if (email) {
-        console.log('Email: ', email.value);
-        return null;
+        let flag: boolean;
+        this.apiService.listaContatos.forEach((c: any) => {
+          if (c.email === email.value) {
+            flag = true;
+            return;
+          }
+        });
+        if (flag) {
+          alert('Este e-mail já está sendo utilizado!');
+          return { emailEquals: true };
+        }
       }
-      //return {emailEquals: true};
+      return null;
     };
     return validator;
   }
@@ -114,16 +126,16 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
     }
   }
 
-  private validarFormComponente(componente: any): boolean {
-    return componente.errors && componente.touched;
-  }
-
   onValidarForm(component: any): object {
     if (this.validarFormComponente(this.formulario.get(component))) {
       this.editandoContato = true;
       return { color: 'red' };
     }
     return {};
+  }
+
+  private validarFormComponente(componente: any): boolean {
+    return componente.errors && componente.touched;
   }
 
 }
