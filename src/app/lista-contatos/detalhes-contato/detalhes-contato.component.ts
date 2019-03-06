@@ -43,9 +43,9 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
       gender: [null, [Validators.required, Validators.pattern(/^[mf]$/)]],
       info: this.formBuilder.group({
         avatar: [null],
-        company: [null, Validators.minLength(3)],
-        address: [null],
-        phone: [null],
+        company: [null, [Validators.required, Validators.minLength(3)]],
+        address: [null, Validators.minLength(3)],
+        phone: [null, Validators.minLength(3)],
         comments: [null]
       })
     });
@@ -100,7 +100,12 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     if (this.formulario.valid) {
       console.log(this.formulario);
-    } else { alert('Existem campos do formulário que requerem atenção!'); }
+    } else {
+      Object.keys(this.formulario.controls).forEach(componente => {
+        const controle = this.formulario.get(componente);
+        controle.markAsTouched();
+      });
+    }
   }
 
   private validarFormComponente(componente: any): boolean {
@@ -109,7 +114,8 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
 
   onValidarForm(component: any): object {
     if (this.validarFormComponente(this.formulario.get(component))) {
-      return { backgroundColor: '#FA8072' };
+      this.editandoContato = true;
+      return { color: 'red' };
     }
     return {};
   }

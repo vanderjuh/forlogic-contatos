@@ -10,22 +10,22 @@
                 <legend>Dados pessoais:</legend>
                 <table>
                     <tr>
-                        <td><label for="iNome">Primeiro nome: </label></td>
-                        <td><input type="text" formControlName="firstName" (input)="onEditandoContato()" [ngStyle]="onValidarForm('firstName')"></td>
+                        <td><label for="iNome" [ngStyle]="onValidarForm('firstName')">Primeiro nome: </label></td>
+                        <td><input type="text" formControlName="firstName" (input)="onEditandoContato()"></td>
                     </tr>
                     <tr>
-                        <td><label for="iSobrenome">Sobrenome: </label></td>
-                        <td><input type="text" formControlName="lastName" (input)="onEditandoContato()" [ngStyle]="onValidarForm('lastName')"></td>
+                        <td><label for="iSobrenome" [ngStyle]="onValidarForm('lastName')">Sobrenome: </label></td>
+                        <td><input type="text" formControlName="lastName" (input)="onEditandoContato()"></td>
                     </tr>
                     <tr>
-                        <td><label for="iEmail">E-mail: </label></td>
-                        <td><input type="text" formControlName="email" (input)="onEditandoContato()" [ngStyle]="onValidarForm('email')"></td>
+                        <td><label for="iEmail" [ngStyle]="onValidarForm('email')">E-mail: </label></td>
+                        <td><input type="text" formControlName="email" (input)="onEditandoContato()"></td>
                     </tr>
                     <tr>
-                        <td>Gênero: </td>
+                        <td [ngStyle]="onValidarForm('gender')">Gênero: </td>
                         <td>
-                            <input type="radio" formControlName="gender" value="f" (input)="onEditandoContato()" [ngStyle]="onValidarForm('gender')"> <label for="gF">Feminino</label>
-                            <input type="radio" formControlName="gender" value="m" (input)="onEditandoContato()" [ngStyle]="onValidarForm('gender')"> <label for="gM">Masculino</label>
+                            <input type="radio" formControlName="gender" value="f" (input)="onEditandoContato()"><label for="gF">Feminino</label>
+                            <input type="radio" formControlName="gender" value="m" (input)="onEditandoContato()"> <label for="gM">Masculino</label>
                         </td>
                     </tr>
                 </table>
@@ -46,8 +46,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><label for="iCompanhia">Companhia</label></td>
-                        <td><input type="text" formControlName="company" (input)="onEditandoContato()" [ngStyle]="onValidarForm('info.company')"></td>
+                        <td><label for="iCompanhia" [ngStyle]="onValidarForm('info.company')">Companhia</label></td>
+                        <td><input type="text" formControlName="company" (input)="onEditandoContato()"></td>
                     </tr>
                     <tr>
                         <td><label for="iEndereco">Endereço: </label></td>
