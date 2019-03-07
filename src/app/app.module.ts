@@ -5,11 +5,9 @@ import { AppComponent } from './app.component';
 import { MenuSuperiorComponent } from './menu-superior/menu-superior.component';
 import { ListaContatosComponent } from './lista-contatos/lista-contatos.component';
 import { DetalhesContatoComponent } from './lista-contatos/detalhes-contato/detalhes-contato.component';
-import { ApiService } from './lista-contatos/api.service';
-import { ApiCorreiosService } from './lista-contatos/api-correios.service';
 import { AppRoutingModule } from './app-routing.module';
-import { ContatoGuard } from './lista-contatos/guard/contato.guard';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,7 +20,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

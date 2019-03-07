@@ -1,159 +1,68 @@
 import { Injectable, EventEmitter, OnInit } from '@angular/core';
-import { ApiCorreiosService } from './api-correios.service';
-import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Observable, empty } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  emitirContatosCarregados = new EventEmitter<boolean>();
-  emitirContatoSalvo = new EventEmitter<object>();
   emitirContatoRemovido = new EventEmitter<number>();
   emitirErroConexao = new EventEmitter<string>();
+  emitirContatoCriado = new EventEmitter();
+  emitirContatoEditado = new EventEmitter();
+
   listaContatos: object[];
 
-  constructor(
-    private apiCorreios: ApiCorreiosService,
-    private router: Router
-  ) { }
+  constructor(private http: HttpClient) { }
 
-  async getContatosFromServer(): Promise<any> {
-    let lista: any = [];
-    try {
-      const res = await fetch('http://localhost:3000/contatos');
-      if (res.status === 200) {
-        lista = await res.json();
-        lista.sort((a: any, b: any) => {
-          if (a.firstName > b.firstName) { return 1; }
-          if (a.firstName < b.firstName) { return -1; }
-          return 0;
-        });
-        this.listaContatos = lista;
-        this.emitirContatosCarregados.emit(true);
-        return this.listaContatos;
-      }
-      throw { status: res.status, statustext: res.statusText };
-    } catch (e) {
-      this.errorConexao(e);
-      this.listaContatos = lista;
-      this.emitirContatosCarregados.emit(true);
-      return this.listaContatos;
-    }
+  getContatosFromServer(): Observable<any[]> {
+    return this.http.get<any[]>(`http://localhost:3000/contatos`)
+      .pipe(
+        catchError((error: any) => {
+          this.emitirErroConexao.emit('Cheque sua conexão com a internet!');
+          // tslint:disable-next-line: deprecation
+          return empty();
+        })
+      );
   }
 
-  async getContatoFromServer(id: number): Promise<any> {
-    let lista: any = [];
-    try {
-      const res = await fetch(`http://localhost:3000/contatos/${id}`);
-      if (res.status === 200) {
-        lista = await res.json();
-        lista.sort((a: any, b: any) => {
-          if (a.firstName > b.firstName) { return 1; }
-          if (a.firstName < b.firstName) { return -1; }
-          return 0;
-        });
-        this.listaContatos = lista;
-        return this.listaContatos;
-      }
-      throw { status: res.status, statustext: res.statusText };
-    } catch (e) {
-      this.errorConexao(e);
-      this.listaContatos = lista;
-      return this.listaContatos;
-    }
-  }
-
-  async getContatos(): Promise<any> {
-    this.listaContatos = await this.getContatosFromServer();
-    return await this.listaContatos;
-  }
-
-  async updateContatoFromServer(contato: any) {
-    if (contato) {
-      const data = {
-        firstName: contato.firstName,
-        lastName: contato.lastName,
-        email: contato.email,
-        gender: contato.gender,
-        isFavorite: contato.isFavorite,
-        company: contato.info.company,
-        avatar: contato.info.avatar,
-        address: contato.info.address,
-        phone: contato.info.phone,
-        comments: contato.info.comments
-      };
-      try {
-        const res = await fetch(
-          `http://localhost:3000/contatos/${contato.id}`,
-          {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-          }
-        );
-        if (res.status === 200) { return true; }
-        throw await res.json();
-      } catch (e) {
-        this.errorConexao(e);
-        return false;
-      }
-    }
+  updateContatoFromServer(contato: any): Observable<any> {
+    if (contato) { return this.http.put<any>(`http://localhost:3000/contatos/${contato.id}`, contato); }
     alert('Erro. Não foi possível alterar contato');
     console.error('Erro. É necessário que passe um contato para ser editado.');
-    return false;
   }
 
-  async deleteContatoFromServer(id: number) {
+  deleteContatoFromServer(id: number): void {
     if (id) {
-      try {
-        const res = await fetch(
-          `http://localhost:3000/contatos/${id}`,
-          {
-            method: 'DELETE',
-            headers: new Headers()
-          }
-        );
-        if (res.status === 200) { return true; }
-        throw await res.json();
-      } catch (e) {
-        this.errorConexao(e);
-        return false;
-      }
+      this.http.delete(`http://localhost:3000/contatos/${id}`)
+        .pipe(
+          catchError((error) => {
+            this.emitirErroConexao.emit('Cheque sua conexão com a internet!');
+            // tslint:disable-next-line: deprecation
+            return empty();
+          })
+        )
+        .subscribe(() => {
+          this.listaContatos = this.listaContatos.filter((e: any) => e.id !== id);
+          this.emitirContatoRemovido.emit(id);
+        });
+    } else {
+      alert('Erro. Não foi possível remover contato');
+      console.error('Erro. É necessário que passe o ID do contato para deleta-lo');
     }
-    alert('Erro. Não foi possível remover contato');
-    console.error('Erro. É necessário que passe o ID do contato para deleta-lo');
-    return false;
+  }
+
+  createContatoInServer(contato: any) {
+    if (contato) { return this.http.post<any>(`http://localhost:3000/contatos`, contato); }
+    alert('Erro. Não foi possível inserir contato');
+    console.error('Erro. É necessário que passe um contato para ser inserido.');
   }
 
   getContato(id: number): any {
     const obj = this.listaContatos.filter((contato: any) => contato.id === id);
     return obj;
-  }
-
-  insertContato(contato): void {
-    contato = {
-      ...contato,
-      info: {
-        ...contato.info,
-        address: this.apiCorreios.getEnderecoByCEP(123).rua
-      }
-    };
-    this.listaContatos.push(contato);
-    this.emitirContatoSalvo.emit(contato);
-  }
-
-  errorConexao(e: any): void {
-    console.error('Erro: ', e);
-    if ((e + '') === 'TypeError: Failed to fetch') {
-      this.emitirErroConexao.emit('Cheque sua conexão com a internet!');
-    }
-    if (e.status) { console.error(`${e.statusText} (${e.status})`); }
-    const msg = Object.values(e)[0];
-    if (msg) {
-      alert(msg);
-      console.error('Erro: ', msg);
-    }
   }
 
 }

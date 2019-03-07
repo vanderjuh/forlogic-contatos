@@ -5,7 +5,7 @@
         </button>
         <form method="post" [formGroup]="formulario" (ngSubmit)="onSubmit()">
             <input type="hidden" formControlName="id">
-            <img #avatar class="avatar" src="./assets/img/round-person-24px.svg" alt="Icone de contato">
+            <img #avatar (error)="onErrorAvatar(avatar)" class="avatar" src="./assets/img/round-person-24px.svg" alt="Icone de contato">
             <fieldset>
                 <legend>Dados pessoais:</legend>
                 <table>

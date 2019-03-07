@@ -31,7 +31,9 @@
         </li>
         <a *ngFor="let contato of contatosPorPaginacao()" [routerLink]="['/contato', contato.id]">
             <li class="item_contato">
-                <img class="avatarItemContato" src="{{contato.info.avatar}}" alt="Icone de contato" title="{{contato.firstName}} {{contato.lastName}}">
+                <img #avatarItemContato (error)="onErrorAvatar(avatarItemContato)" class="avatarItemContato"
+                    src="{{contato.info.avatar}}" alt="Icone de contato"
+                    title="{{contato.firstName}} {{contato.lastName}}">
                 <div class="nome_contato">{{contato.firstName}} {{contato.lastName}}</div>
                 <img #iconFav [src]="contato.isFavorite 
                         ? '../../assets/img/baseline-favorite-24px.svg' 

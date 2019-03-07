@@ -1,16 +1,17 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { ApiService } from './api.service';
 
 import * as _ from 'lodash';
-import { Subscription } from 'rxjs';
+import { Subscription, empty } from 'rxjs';
 import { Router } from '@angular/router';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-lista-contatos',
   templateUrl: './lista-contatos.component.html',
   styleUrls: ['./lista-contatos.component.css']
 })
-export class ListaContatosComponent implements OnInit {
+export class ListaContatosComponent implements OnInit, OnDestroy {
 
   private paginaAtual = 0;
   private totalPaginas: number;
@@ -22,6 +23,8 @@ export class ListaContatosComponent implements OnInit {
   inscriCarregarContatos: Subscription;
   inscriContatoRemovido: Subscription;
   inscriErroServidor: Subscription;
+  inscriContatoCriado: Subscription;
+  inscriContatoEditado: Subscription;
 
   @ViewChild('fTodos') fTodos: ElementRef;
   @ViewChild('fFavoritos') fFavoritos: ElementRef;
@@ -36,19 +39,43 @@ export class ListaContatosComponent implements OnInit {
     this.inscricaoContatosCarregados();
     this.inscricaoContatoRemovido();
     this.inscricaoErroConexao();
+    this.inscricaoContatoCriado();
+    this.inscricaoContatoEditado();
+  }
+
+  ngOnDestroy() {
+    if (this.inscriCarregarContatos) { this.inscriCarregarContatos.unsubscribe(); }
+    if (this.inscriContatoRemovido) { this.inscriContatoRemovido.unsubscribe(); }
+    if (this.inscriErroServidor) { this.inscriErroServidor.unsubscribe(); }
+    if (this.inscriContatoCriado) { this.inscriContatoCriado.unsubscribe(); }
+    if (this.inscriContatoEditado) { this.inscriContatoEditado.unsubscribe(); }
+  }
+
+  inscricaoContatoEditado(): void {
+    this.inscriContatoEditado = this.apiService.emitirContatoEditado.subscribe(() => {
+      this.setContatosPaginados(this.apiService.listaContatos);
+    });
+  }
+
+  inscricaoContatoCriado(): void {
+    this.inscriContatoCriado = this.apiService.emitirContatoCriado.subscribe(() => {
+      this.apiService.getContatosFromServer().subscribe((data) => {
+        this.apiService.listaContatos = data;
+        this.setContatosPaginados(this.getContatos());
+      });
+    });
   }
 
   inscricaoContatosCarregados(): void {
-    this.inscriCarregarContatos = this.apiService.emitirContatosCarregados.subscribe(() => {
+    this.inscriCarregarContatos = this.apiService.getContatosFromServer().subscribe((data) => {
+      this.apiService.listaContatos = data;
       this.setContatosPaginados(this.getContatos());
     });
   }
 
   inscricaoContatoRemovido(): void {
     this.inscriContatoRemovido = this.apiService.emitirContatoRemovido.subscribe((id: number) => {
-      this.setContatosPaginados(this.getContatos().map(e => {
-        return e;
-      }));
+      this.setContatosPaginados(this.getContatos());
       this.router.navigate(['/contatos']);
     });
   }
@@ -136,39 +163,36 @@ export class ListaContatosComponent implements OnInit {
     } else { console.error('Erro. É necessário passar o elemento HTML da pesquisa'); }
   }
 
-  private filtroFavoritos(lista: any[]): object[] {
-    console.log('Filtro de favoritos');
-    if (lista) {
-      const listaFavoritos = lista.filter(e => e.isFavorite === true);
-      console.log(listaFavoritos);
-      return listaFavoritos;
-    }
+  onErrorAvatar(itemAvatar: any): void {
+    itemAvatar.src = '../../assets/img/round-person-24px.svg';
   }
 
-  onErrorAvatar(itemAvatar): void {
-    console.log(itemAvatar);
-  }
-
-  async favoritarContato(contato: any, iconFav: any) {
+  favoritarContato(contato: any, iconFav: any) {
     if (contato) {
       contato.isFavorite = !contato.isFavorite;
-      const resp = await this.apiService.updateContatoFromServer(contato);
-      if (resp) {
-        this.getContatos().forEach(e => {
-          if (e.id === contato.id) {
-            if (e.isFavorite) {
-              iconFav.src = '../../assets/img/baseline-favorite-24px.svg';
-            } else { iconFav.src = '../../assets/img/baseline-favorite_border-24px.svg'; }
-            e.isFavorite = contato.isFavorite;
-            return;
-          }
+      this.apiService.updateContatoFromServer(contato)
+        .pipe(
+          catchError((error: any) => {
+            const msg = 'Não foi possível alterar o status de favorito do contato!';
+            contato.isFavorite = !contato.isFavorite;
+            console.error(msg);
+            alert(msg);
+            this.apiService.emitirErroConexao.emit('Cheque sua conexão com a internet!');
+            // tslint:disable-next-line: deprecation
+            return empty();
+          })
+        )
+        .subscribe((data) => {
+          this.getContatos().forEach(e => {
+            if (e.id === contato.id) {
+              if (e.isFavorite) {
+                iconFav.src = '../../assets/img/baseline-favorite-24px.svg';
+              } else { iconFav.src = '../../assets/img/baseline-favorite_border-24px.svg'; }
+              e.isFavorite = contato.isFavorite;
+              return;
+            }
+          });
         });
-      } else {
-        contato.isFavorite = !contato.isFavorite;
-        const msg = 'Não foi possível alterar o status de favorito do contato!';
-        console.error(msg);
-        alert(msg);
-      }
     } else { console.error('Erro. É necessário que passe um objeto de contato para remover'); }
   }
 

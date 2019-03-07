@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { ApiService } from '../api.service';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, empty } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { catchError, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-detalhes-contato',
@@ -51,20 +52,62 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
     });
   }
 
-  async deletarContato() {
-    console.log(this.contatoAtual[0].id);
+  deletarContato() {
     if (this.contatoAtual[0] && confirm('Deseja realmente deletar este contato?')) {
-      const resp = await this.apiService.deleteContatoFromServer(this.contatoAtual[0].id);
-      if (resp) {
-        this.apiService.listaContatos = this.apiService.listaContatos.filter((e: any) => e.id !== this.contatoAtual[0].id);
-        this.apiService.emitirContatoRemovido.emit(this.contatoAtual[0].id);
-        alert('Contato deletado com sucesso!');
-      }
+      this.apiService.deleteContatoFromServer(this.contatoAtual[0].id);
     }
   }
 
   getContatos(): any[] {
     return this.apiService.listaContatos;
+  }
+
+  criarContato(): void {
+    this.apiService.createContatoInServer(this.formulario.value)
+      .pipe(
+        catchError(() => {
+          // tslint:disable-next-line: deprecation
+          return empty();
+        })
+      )
+      .subscribe(() => {
+        this.apiService.emitirContatoCriado.emit();
+        this.resetarFormulario();
+      });
+  }
+
+  editarContato() {
+    this.apiService.updateContatoFromServer(this.formulario.value)
+      .pipe(
+        catchError(() => {
+          const msg = 'Não foi possível alterar o contato!';
+          console.error(msg);
+          alert(msg);
+          this.apiService.emitirErroConexao.emit('Cheque sua conexão com a internet!');
+          // tslint:disable-next-line: deprecation
+          return empty();
+        })
+      )
+      .subscribe(() => {
+        this.apiService.listaContatos = this.apiService.listaContatos.map((e: any) => {
+          if (e.id === this.formulario.value.id) {
+            e = {...this.formulario.value};
+          }
+          return e;
+        });
+        this.apiService.emitirContatoEditado.emit();
+        this.editandoContato = false;
+      });
+  }
+
+  resetarFormulario(): void {
+    this.formulario.reset();
+    this.contatoAtual = undefined;
+    this.editandoContato = false;
+  }
+
+  onErrorAvatar(itemAvatar: any): void {
+    itemAvatar.src = '../../../assets/img/round-person-24px.svg';
   }
 
   getContatoFromIdRoute(): void {
@@ -117,7 +160,9 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.formulario.valid) {
-      console.log(this.formulario);
+      if (!this.contatoAtual) {
+        this.criarContato();
+      } else { this.editarContato(); }
     } else {
       Object.keys(this.formulario.controls).forEach(componente => {
         const controle = this.formulario.get(componente);
