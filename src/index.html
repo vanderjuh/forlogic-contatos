@@ -1,138 +1,14 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Contatos</title>
+  <meta charset="utf-8">
+  <title>Contatos</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
-
 <body>
-    <menu>
-        <div class="menu_superior">
-            <ul>
-                <li>
-                    <a class="titulo" href="#">
-                        <img src="./assets/img/round-contacts-24px.svg" alt="Agenda">
-                        Contatos
-                    </a>
-                </li>
-                <li class="hide">
-                    <button id="bNovoContato">
-                        <img src="./assets/img/baseline-playlist_add-24px.svg" alt="Adicionar novo contato" title="Adicionar novo contato">
-                    </button>
-                </li>
-            </ul>
-        </div>
-    </menu>
-    <main>
-        <section class="detalhes_contato">
-            <div class="cadastro">
-                <button class="buttonFechar">
-                    <img src="./assets/img/baseline-close-24px.svg" alt="Fechar">
-                </button>
-                <form id="formCadastro" action="#" method="post">
-                    <input id="iIdContato" type="hidden">
-                    <img id="avatar" class="avatar" src="./assets/img/round-person-24px.svg" alt="Icone de contato">
-                    <fieldset>
-                        <legend>Dados pessoais:</legend>
-                        <table>
-                            <tr>
-                                <td><label for="iNome">Primeiro nome: </label></td>
-                                <td><input type="text" id="iNome" name="nome"></td>
-                            </tr>
-                            <tr>
-                                <td><label for="iSobrenome">Sobrenome: </label></td>
-                                <td><input type="text" id="iSobrenome" name="sobrenome"></td>
-                            </tr>
-                            <tr>
-                                <td><label for="iEmail">E-mail: </label></td>
-                                <td><input type="text" name="e-mail" id="iEmail"></td>
-                            </tr>
-                            <tr>
-                                <td>Gênero: </td>
-                                <td>
-                                    <input type="radio" name="genero" value="f" id="gF"> <label
-                                        for="gF">Feminino</label>
-                                    <input type="radio" name="genero" value="m" id="gM"> <label
-                                        for="gM">Masculino</label>
-                                </td>
-                            </tr>
-                        </table>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Outras informações: </legend>
-                        <table>
-                            <tr>
-                                <td><label for="iAvatar">Avatar: </label></td>
-                                <td class="tdUpload">
-                                    <input type="hidden" id="iAvatar">
-                                    <input type="file" id="iFile" accept="image/*">
-                                    <button id="bUpload" class="bUpload">
-                                        <img src="./assets/img/baseline-add_photo_alternate-24px.svg" alt="Adicionar avatar" title="Adicionar avatar">
-                                    </button>
-                                    <progress id="pUpload" value="0" max="100"></progress>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><label for="iCompanhia">Companhia</label></td>
-                                <td><input type="text" id="iCompanhia" name="companhia"></td>
-                            </tr>
-                            <tr>
-                                <td><label for="iEndereco">Endereço: </label></td>
-                                <td><input type="text" id="iEndereco" name="endereço"></td>
-                            </tr>
-                            <tr>
-                                <td><label for="iTelefone">Telefone: </label></td>
-                                <td>
-                                    <input type="text" id="iTelefone" name="telefone">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><label for="tComentario">Comentário: </label></td>
-                                <td><textarea name="" id="tComentario"></textarea></td>
-                            </tr>
-                        </table>
-                    </fieldset>
-                    <div class="btns-row">
-                        <button id="bSalvar" type="button">
-                            <img src="./assets/img/baseline-save-24px.svg" alt="Salvar">
-                            Salvar
-                        </button>
-                        <button id="bRemover" class="btnRemove" type="button">
-                            <img src="./assets/img/baseline-delete-24px.svg" alt="Salvar">
-                            Remover
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </section>
-        <section id="contatos" class="contatos">
-            <input class="pesquisaInput" type="text" placeholder="Pesquise por alguém...">
-            <ul class="filtro">
-                <img src="./assets/img/round-filter_list-24px.svg" alt="">
-                <li><input type="radio" name="filtro" id="fTodos" class="fTodos">Todos</li>
-                <li><input type="radio" name="filtro" id="fFavoritos" class="fFavoritos">Favoritos</li>
-            </ul>
-            <ul class="lista_itens">
-                <li class="loader">
-                    <img src="./assets/img/baseline-autorenew-24px.svg" alt="Loader">
-                    Carregando...
-                </li>
-            </ul>
-            <nav class="paginacao">
-                <a class="sentidoPaginacao" id="pagVoltar" href="#">
-                    <img src="./assets/img/round-arrow_back-24px.svg" alt="Voltar">
-                    Voltar
-                </a>
-                <a class="sentidoPaginacao" id="pagProximo" href="#">
-                    Próximo
-                    <img src="./assets/img/round-arrow_forward-24px.svg" alt="Próximo">
-                </a>
-            </nav>
-        </section>
-    </main>
+  <app-root></app-root>
 </body>
-
 </html>

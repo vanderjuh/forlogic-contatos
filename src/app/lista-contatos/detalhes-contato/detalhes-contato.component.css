@@ -1,0 +1,134 @@
+.cadastro{
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.buttonFechar {
+    width: 50px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: 0;
+    position: absolute;
+    right: 5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: #FF6347;
+    font-weight: 700;
+    
+}
+
+.buttonFechar img {
+    width: 100%;
+    height: 100%;
+}
+
+.cadastro form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cadastro table {
+    width: 100%;
+}
+
+.cadastro table td:first-child {
+    width: 110px;
+}
+
+.cadastro input[type="text"],[type="email"],[type="file"]{
+    width: 100%;
+    height: 30px;
+    border-radius: 4px;
+    border: solid 1px #999;
+}
+
+.cadastro textarea {
+    width: 100%;
+    height: 200px;
+    border-radius: 4px;
+    border: solid 1px #999;
+}
+
+.cadastro input[type="file"]{
+    display: none
+
+}
+
+.formInvalido {
+    width: 95%;
+    color: red;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin: 20px 0;
+}
+
+.tdUpload{
+    display: flex;
+    align-items: center;
+}
+
+.bUpload {
+    width: 5%;
+    min-width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+progress{
+    width: 95%;
+    border-radius: 2px;
+}
+
+.btns-row{
+    width: 95%;
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+}
+
+.btns-row button{
+    padding: 5px 10px;
+    margin-top: 10px;
+    background-color: #333;
+    color: #FFF;
+    border: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    margin: 10px 5px;
+}
+
+.btns-row button.btnRemove{
+    background-color: red;
+}
+
+.avatar {
+    width: 200px;
+    height: 200px;
+    border: solid 1px #CCC;
+    border-radius: 50%;
+    margin: 20px 0;
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+fieldset {
+    width: 90%;
+    border: #E9E9E9 1px solid;
+}
+
+legend {
+    font-weight: bold;
+}

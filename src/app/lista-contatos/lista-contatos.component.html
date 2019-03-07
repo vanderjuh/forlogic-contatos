@@ -1,0 +1,64 @@
+<section id="contatos" class="contatos">
+    <input #pesquisaInput class="pesquisaInput" type="text" placeholder="Pesquise por alguém..."
+        (keyup)="buscarContato(pesquisaInput)">
+    <ul class="filtro">
+        <img src="./assets/img/round-filter_list-24px.svg" alt="">
+        <li>
+            <input #fTodos type="radio" name="filtro" id="fTodos" class="fTodos" (click)="aplicarFiltro('todos')"
+                [disabled]="getContatos() == undefined" checked>
+            Todos
+        </li>
+        <li>
+            <input #fFavoritos type="radio" name="filtro" id="fFavoritos" class="fFavoritos"
+                (click)="aplicarFiltro('favoritos')" [disabled]="getContatos() == undefined">
+            Favoritos
+        </li>
+    </ul>
+    <ul class="lista_itens">
+        <li class="loader" *ngIf="getContatos() == undefined">
+            <img src="./assets/img/baseline-autorenew-24px.svg" alt="Loader">
+            Carregando...
+        </li>
+        <li class="warningAlert" *ngIf="erroConexao">
+            <img src="./assets/img/baseline-warning-24px.svg" alt="Alerta">
+            {{erroConexao}}
+        </li>
+    </ul>
+    <ul *ngIf="contatosPaginados !== undefined" class="lista_itens">
+        <li class="loader" *ngIf="getContatos() == undefined">
+            <img src="./assets/img/baseline-autorenew-24px.svg" alt="Loader">
+            Carregando...
+        </li>
+        <a *ngFor="let contato of contatosPorPaginacao()" [routerLink]="['/contato', contato.id]">
+            <li class="item_contato">
+                <img #avatarItemContato (error)="onErrorAvatar(avatarItemContato)" class="avatarItemContato"
+                    src="{{contato.info.avatar}}" alt="Icone de contato"
+                    title="{{contato.firstName}} {{contato.lastName}}">
+                <div class="nome_contato">{{contato.firstName}} {{contato.lastName}}</div>
+                <img #iconFav [src]="contato.isFavorite 
+                        ? '../../assets/img/baseline-favorite-24px.svg' 
+                        : '../../assets/img/baseline-favorite_border-24px.svg'" alt="Icone de favoritado" class="fav"
+                    (click)="favoritarContato(contato, iconFav)"
+                    [title]="contato.isFavorite ? 'Click para desfavoritar' : 'Click para favoritar'">
+            </li>
+        </a>
+        <li class="infoAlert" *ngIf="contatosPorPaginacao() === undefined && erroConexao === undefined">
+            <img src="./assets/img/baseline-info-24px.svg" alt="Info">
+            Não há nenhum contato para mostrar!
+        </li>
+    </ul>
+    <nav class="paginacao" *ngIf="getContatos() !== undefined" [ngStyle]="
+        {
+            'display': apiService.listaContatos.length > 10 ? 'flex' : 'none'
+        }
+    ">
+        <a class="sentidoPaginacao" id="pagVoltar" (click)="paginaAnterior($event)">
+            <img src="./assets/img/round-arrow_back-24px.svg" alt="Voltar">
+            Voltar
+        </a>
+        <a class="sentidoPaginacao" id="pagProximo" (click)="proximaPagina($event)">
+            Próximo
+            <img src="./assets/img/round-arrow_forward-24px.svg" alt="Próximo">
+        </a>
+    </nav>
+</section>

@@ -1,0 +1,84 @@
+<section class="detalhes_contato">
+    <div class="cadastro">
+        <button *ngIf="contatoAtual" class="buttonFechar" [routerLink]="['/contatos']">
+            <img src="./assets/img/baseline-close-24px.svg" alt="Fechar">
+        </button>
+        <form method="post" [formGroup]="formulario" (ngSubmit)="onSubmit()">
+            <input type="hidden" formControlName="id">
+            <img #avatar (error)="onErrorAvatar(avatar)" class="avatar" src="./assets/img/round-person-24px.svg" alt="Icone de contato">
+            <fieldset>
+                <legend>Dados pessoais:</legend>
+                <table>
+                    <tr>
+                        <td><label for="iNome" [ngStyle]="onValidarForm('firstName')">Primeiro nome: </label></td>
+                        <td><input type="text" formControlName="firstName" (input)="onEditandoContato()"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="iSobrenome" [ngStyle]="onValidarForm('lastName')">Sobrenome: </label></td>
+                        <td><input type="text" formControlName="lastName" (input)="onEditandoContato()"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="iEmail" [ngStyle]="onValidarForm('email')">E-mail: </label></td>
+                        <td><input type="text" formControlName="email" (input)="onEditandoContato()"></td>
+                    </tr>
+                    <tr>
+                        <td [ngStyle]="onValidarForm('gender')">Gênero: </td>
+                        <td>
+                            <input type="radio" formControlName="gender" value="f" (input)="onEditandoContato()"><label for="gF">Feminino</label>
+                            <input type="radio" formControlName="gender" value="m" (input)="onEditandoContato()"> <label for="gM">Masculino</label>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+            <fieldset formGroupName="info">
+                <legend>Outras informações: </legend>
+                <table>
+                    <tr>
+                        <td><label for="iAvatar">Avatar: </label></td>
+                        <td class="tdUpload">
+                            <input type="hidden" formControlName="avatar" (input)="onEditandoContato()">
+                            <input #iFile type="file" accept="image/*" (input)="onEditandoContato()">
+                            <button class="bUpload" (click)="abrirSelecionarAvatar($event)">
+                                <img src="./assets/img/baseline-add_photo_alternate-24px.svg" alt="Adicionar avatar"
+                                    title="Adicionar avatar">
+                            </button>
+                            <progress value="0" max="100"></progress>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="iCompanhia" [ngStyle]="onValidarForm('info.company')">Companhia</label></td>
+                        <td><input type="text" formControlName="company" (input)="onEditandoContato()"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="iEndereco">Endereço: </label></td>
+                        <td><input type="text" formControlName="address" (input)="onEditandoContato()"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="iTelefone">Telefone: </label></td>
+                        <td>
+                            <input type="text" formControlName="phone" (input)="onEditandoContato()">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="tComentario">Comentário: </label></td>
+                        <td><textarea formControlName="comments" (input)="onEditandoContato()"></textarea></td>
+                    </tr>
+                </table>
+            </fieldset>
+            <div class="formInvalido" *ngIf="editandoContato === true && formulario.valid === false">
+                <img src="../../../assets/img/baseline-error-24px.svg" alt="Erro">
+                Existem campos do formulário que requerem atenção!
+            </div>
+            <div class="btns-row">
+                <button id="bSalvar" type="submit">
+                    <img src="./assets/img/baseline-save-24px.svg" alt="Salvar">
+                    Salvar
+                </button>
+                <button *ngIf="contatoAtual" (click)="deletarContato()" class="btnRemove" type="button">
+                    <img src="./assets/img/baseline-delete-24px.svg" alt="Salvar">
+                    Remover
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
