@@ -1,13 +1,29 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
-import { AppComponent } from './app.component';
-import { MenuSuperiorComponent } from './menu-superior/menu-superior.component';
-import { ListaContatosComponent } from './lista-contatos/lista-contatos.component';
-import { DetalhesContatoComponent } from './lista-contatos/detalhes-contato/detalhes-contato.component';
-import { AppRoutingModule } from './app-routing.module';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { DetalhesContatoComponent } from './lista-contatos/detalhes-contato/detalhes-contato.component';
+import { ListaContatosComponent } from './lista-contatos/lista-contatos.component';
+import { MenuSuperiorComponent } from './menu-superior/menu-superior.component';
+import {
+  MatButtonModule,
+  MatCheckboxModule,
+  MatIconModule,
+  MatDividerModule,
+  MatListModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatRadioModule,
+  MatPaginatorModule,
+  MatOptionModule,
+  MatSelectModule,
+  MatSpinner,
+  MatProgressSpinnerModule,
+  MatProgressBarModule
+} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -21,7 +37,20 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatDividerModule,
+    MatListModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRadioModule,
+    MatPaginatorModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatProgressBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

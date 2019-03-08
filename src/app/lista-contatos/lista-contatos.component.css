@@ -1,81 +1,51 @@
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.loader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-
-.loader img {
-    animation: spin 2s linear infinite;
-    margin-right: 5px;
-}
-
-.warningAlert {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    color:#FF8C00;
-}
-
-.warningAlert img {
-    margin-right: 5px;
-}
-
-.infoAlert {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    color:#1E90FF;
-}
-
-.infoAlert img {
-    margin-right: 5px;
-}
-
 .pesquisaInput{
-    width: calc(100% - 35px);
-    height: 30px;
+    width: calc(100% - 20px);
     margin: 10px;
-    margin-bottom:0;
-    border-radius: 5px;
-    border: 1px solid #CCC;
-    padding: 5px;
 }
 
-.contatos li {
-    list-style-type: none;
+.filtro {
     display: flex;
-}
-
-.item_contato {
-    border-bottom: #999 solid 1px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    padding: 10px 5px;
-    font-size: 14px;
-    overflow: hidden;
-    transition: color .5s ease;
+    margin: -25px 10px 0 10px;
 }
 
-.item_contato:hover{
-    background-color: #CCC;
-    transition: background-color .5s ease;
+.filtro mat-radio-button {
+    margin-right: 10px;
 }
 
-.nome_contato {
+.progressBar {
+    width: calc(100% - 60px);
+    margin: 30px 30px;
+}
+
+mat-list-item {
+    text-shadow: transparent 0 0 1px;
+}
+
+mat-list-item:hover{
+    background-color: whitesmoke;
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+
+mat-list-item.active {
+    background-color: #d8d8d8;
+}
+
+.nomeContato {
     width: 90%;
 }
 
-.avatarItemContato {
+.fav {
+    color: #ff8181;
+    transition: all 0.5s ease;
+}
+
+.fav:hover {
+    text-shadow: red 0 0 2px;
+}
+
+.avatarContato {
     width: 25px;
     height: 25px;
     background-color: var(--background-avatar);
@@ -83,52 +53,18 @@
     border-radius: 50%;
 }
 
-.avatarItemContato.fav {
-    background-color:transparent;
-    margin: 0;
-    border-radius: 0;
-}
-
-.contatos a {
-    color:#000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
 .paginacao {
     width: 100%;
     height: 50px;
     display: none;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     bottom: 0;
     position: absolute;
 }
 
 .sentidoPaginacao {
-    background-color: #333;
-}
-
-.paginacao a{
-    width: 100px;
-    color: #FFF;
-    text-align: center;
-    padding: 5px;
-    margin: 0 10px;
-    text-transform: uppercase;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-}
-
-.filtro {
-    display: flex;
-    margin: 5px 0;
-    padding: 0 10px;
-    align-items: center;
-    
+    color: #333;
 }
 
 .lista_itens {

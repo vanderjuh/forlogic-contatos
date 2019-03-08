@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from './lista-contatos/api.service';
+import 'hammerjs';
 
 @Component({
   selector: 'app-root',

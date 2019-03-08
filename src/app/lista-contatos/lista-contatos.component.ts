@@ -26,8 +26,8 @@ export class ListaContatosComponent implements OnInit, OnDestroy {
   inscriContatoCriado: Subscription;
   inscriContatoEditado: Subscription;
 
-  @ViewChild('fTodos') fTodos: ElementRef;
-  @ViewChild('fFavoritos') fFavoritos: ElementRef;
+  @ViewChild('fTodos') fTodos: any;
+  @ViewChild('fFavoritos') fFavoritos: any;
 
   constructor(
     private apiService: ApiService,
@@ -140,7 +140,7 @@ export class ListaContatosComponent implements OnInit, OnDestroy {
   }
 
   filtroSelecionado(): string {
-    if (this.fTodos.nativeElement.checked) {
+    if (this.fTodos.checked) {
       return 'fTodos';
     } else {
       return 'fFavoritos';
@@ -148,6 +148,7 @@ export class ListaContatosComponent implements OnInit, OnDestroy {
   }
 
   buscarContato(iPesquisa: HTMLInputElement): void {
+    console.log(iPesquisa.value);
     let listaBusca: any[];
     if (this.getContatos()) {
       this.rederinirPaginacao();
@@ -167,7 +168,7 @@ export class ListaContatosComponent implements OnInit, OnDestroy {
     itemAvatar.src = '../../assets/img/round-person-24px.svg';
   }
 
-  favoritarContato(contato: any, iconFav: any) {
+  favoritarContato(contato: any) {
     if (contato) {
       contato.isFavorite = !contato.isFavorite;
       this.apiService.updateContatoFromServer(contato)
@@ -182,12 +183,9 @@ export class ListaContatosComponent implements OnInit, OnDestroy {
             return empty();
           })
         )
-        .subscribe((data) => {
+        .subscribe(() => {
           this.getContatos().forEach(e => {
             if (e.id === contato.id) {
-              if (e.isFavorite) {
-                iconFav.src = '../../assets/img/baseline-favorite-24px.svg';
-              } else { iconFav.src = '../../assets/img/baseline-favorite_border-24px.svg'; }
               e.isFavorite = contato.isFavorite;
               return;
             }
