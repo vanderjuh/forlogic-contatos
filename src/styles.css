@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto");
 
 :root {
-    --height-menu: 70px;
+    --height-menu: 0;
     --background-color: rgba(204,204,204,.3);
     --background-avatar: rgba(204,204,204,.3);
 }
@@ -11,7 +11,7 @@ html body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
     position: relative;
-    overflow: hidden;
+    
 }
 
 body {
@@ -30,14 +30,16 @@ app-detalhes-contato{
     width: 75%;
     background-color: #FFF;
     overflow: auto;
+    position: absolute;
+    right: 0;
 }
 
 app-lista-contatos{
     width: 25%;
-    min-width: 260px;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     border: #CCC solid 1px;
     background-color: var(--background-color);
-    position: relative;
+    position: fixed;
 }

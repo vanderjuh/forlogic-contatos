@@ -465,7 +465,7 @@
       "lastName": "Casper",
       "email": "Vladimir_Abbott@gmail.com",
       "gender": "f",
-      "isFavorite": false,
+      "isFavorite": true,
       "info": {
         "id": 282,
         "company": "Wisoky Inc",
