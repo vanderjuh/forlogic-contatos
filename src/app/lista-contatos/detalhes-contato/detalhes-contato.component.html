@@ -13,6 +13,10 @@
             <div class="containerFildset">
                 <fieldset>
                     <legend>Dados pessoais:</legend>
+                    <div class="formInvalido" *ngIf="editandoContato === true && formulario.valid === false">
+                        <mat-icon matSuffix>error</mat-icon>
+                        Existem campos do formulário que requerem atenção!
+                    </div>
                     <mat-grid-list cols="1" rowHeight="70px">
                         <mat-grid-tile>
                             <mat-form-field>
@@ -79,27 +83,25 @@
                                 (input)="onEditandoContato()"></textarea>
                         </mat-form-field>
                     </mat-grid-list>
-                    <div class="formInvalido" *ngIf="editandoContato === true && formulario.valid === false">
-                        <mat-icon matSuffix>error</mat-icon>
-                        Existem campos do formulário que requerem atenção!
-                    </div>
-                    <mat-grid-list [cols]="contatoAtual ? 2 : 1" rowHeight="100px">
-                        <mat-grid-tile>
-                            <button class="btnSalvar" mat-button id="bSalvar" type="submit">
-                                <mat-icon matSuffix>save</mat-icon>
-                                Salvar
-                            </button>
-                        </mat-grid-tile>
-                        <mat-grid-tile>
-                            <button class="btnRemover" mat-button *ngIf="contatoAtual" (click)="deletarContato()"
-                                class="btnRemove" type="button">
-                                <mat-icon matSuffix>delete</mat-icon>
-                                Remover
-                            </button>
-                        </mat-grid-tile>
-                    </mat-grid-list>
                 </fieldset>
             </div>
         </form>
+        <div class="btnGroup">
+            <mat-grid-list [cols]="contatoAtual ? 2 : 1" rowHeight="100px">
+                <mat-grid-tile>
+                    <button class="btnSalvar" mat-button id="bSalvar" type="submit">
+                        <mat-icon matSuffix>save</mat-icon>
+                        Salvar
+                    </button>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <button class="btnRemover" mat-button *ngIf="contatoAtual" (click)="deletarContato()"
+                        class="btnRemove" type="button">
+                        <mat-icon matSuffix>delete</mat-icon>
+                        Remover
+                    </button>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </div>
     </div>
 </section>

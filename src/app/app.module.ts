@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DetalhesContatoComponent } from './lista-contatos/detalhes-contato/detalhes-contato.component';
 import { ListaContatosComponent } from './lista-contatos/lista-contatos.component';
-import { MenuSuperiorComponent } from './menu-superior/menu-superior.component';
 import {
   MatButtonModule,
   MatCheckboxModule,
@@ -27,7 +26,6 @@ import {
 @NgModule({
   declarations: [
     AppComponent,
-    MenuSuperiorComponent,
     ListaContatosComponent,
     DetalhesContatoComponent
   ],

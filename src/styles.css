@@ -28,7 +28,7 @@ app-menu-superior {
 
 app-detalhes-contato{
     width: 75%;
-    background-color: #FFF;
+    background-color: whitesmoke;
     overflow: auto;
     position: absolute;
     right: 0;
@@ -39,7 +39,6 @@ app-lista-contatos{
     height: 100vh;
     display: flex;
     flex-direction: column;
-    border: #CCC solid 1px;
     background-color: var(--background-color);
     position: fixed;
 }
