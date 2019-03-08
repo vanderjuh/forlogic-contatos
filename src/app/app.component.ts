@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ApiService } from './lista-contatos/api.service';
 import 'hammerjs';
+import { Subscription } from 'rxjs';
+import { DetalhesContatoComponent } from './lista-contatos/detalhes-contato/detalhes-contato.component';
 
 @Component({
   selector: 'app-root',

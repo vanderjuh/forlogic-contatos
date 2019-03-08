@@ -27,7 +27,7 @@
             <mat-divider></mat-divider>
         </mat-list-item>
     </mat-list>
-    <nav class="paginacao" *ngIf="getContatos() !== undefined && contatosPaginados.length !== 0" [ngStyle]="
+    <nav class="paginacao" *ngIf="getContatos() !== undefined" [ngStyle]="
         {
             'display': apiService.listaContatos.length > 10 ? 'flex' : 'none'
         }

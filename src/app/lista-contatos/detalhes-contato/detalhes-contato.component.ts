@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { ApiService } from '../api.service';
-import { Subscription, Observable, empty } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { Subscription, empty } from 'rxjs';
+import { ActivatedRoute, } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, } from 'rxjs/operators';
+import { UploadService } from 'src/app/cloudinary/upload.service';
 
 @Component({
   selector: 'app-detalhes-contato',
@@ -11,6 +12,9 @@ import { catchError, map } from 'rxjs/operators';
   styleUrls: ['./detalhes-contato.component.css']
 })
 export class DetalhesContatoComponent implements OnInit, OnDestroy {
+
+  colapse = true;
+  progressoUpload: number;
 
   @ViewChild('avatar') avatar: ElementRef;
   @ViewChild('iFile') iFile: ElementRef;
@@ -161,6 +165,25 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
       return null;
     };
     return validator;
+  }
+
+  onColapse(): void {
+    this.colapse = !this.colapse;
+    document.getElementsByTagName('app-detalhes-contato')[0].setAttribute('style', this.colapse ? 'width: 75%;' : 'width: 100%;');
+  }
+
+  onChangeAvatar(): void {
+    this.avatar.nativeElement.src = this.formulario.get('info').get('avatar').value;
+  }
+
+  onTelaInteiraDetalhesContato(): object {
+    console.log(this.colapse);
+    if (this.colapse) {
+      return {
+        width: this.colapse ? '100%' : '75%'
+      };
+    }
+    return {};
   }
 
   onEditandoContato(): void {

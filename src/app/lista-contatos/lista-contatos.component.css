@@ -71,3 +71,14 @@ mat-list-item.active {
     overflow: auto;
     padding: 0;
 }
+
+@media(max-height: 640px) {
+    mat-list{
+        max-height: 400px;
+        overflow: auto;
+    }
+
+    .paginacao{
+        position: unset;
+    }
+}

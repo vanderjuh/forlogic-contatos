@@ -3,7 +3,7 @@
         <button mat-button *ngIf="contatoAtual" class="buttonFechar" [routerLink]="['/contatos']">
             <mat-icon matSuffix>close</mat-icon>
         </button>
-        <button mat-button class="buttonColapseLista">
+        <button mat-button class="buttonColapseLista" (click)="onColapse()">
             <mat-icon matSuffix>list</mat-icon>
         </button>
         <form method="post" [formGroup]="formulario" (ngSubmit)="onSubmit()">
@@ -50,13 +50,10 @@
                     <legend>Outras informações: </legend>
                     <mat-grid-list cols="1" rowHeight="70px">
                         <mat-grid-tile>
-                            <input type="hidden" formControlName="avatar" (input)="onEditandoContato()">
-                            <input #iFile type="file" accept="image/*" (input)="onEditandoContato()">
-                            <button mat-button class="bUpload" (click)="abrirSelecionarAvatar($event)">
-                                <mat-icon matSuffix>photo</mat-icon>
-                                Escolher
-                            </button>
-                            <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+                            <mat-form-field>
+                                <input matInput placeholder="URL do avatar" formControlName="avatar"
+                                    (input)="onEditandoContato()" (keyup)="onChangeAvatar()">
+                            </mat-form-field>
                         </mat-grid-tile>
                         <mat-grid-tile>
                             <mat-form-field>

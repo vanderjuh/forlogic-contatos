@@ -40,7 +40,7 @@
       "lastName": "Marty",
       "email": "Chance.Auer@hotmail.com",
       "gender": "m",
-      "isFavorite": false,
+      "isFavorite": true,
       "info": {
         "id": 243,
         "company": "Kuhn - Koss",
@@ -3073,6 +3073,20 @@
         "comments": "teste teste teste teste teste "
       },
       "created": "2019-03-01T12:14:56.9023109"
+    },
+    {
+      "id": 1919,
+      "firstName": "dfgdf",
+      "lastName": "dfgdfg",
+      "email": "sfsdf@dfgdfg.com",
+      "gender": "f",
+      "info": {
+        "avatar": null,
+        "company": "sdfsdf",
+        "address": null,
+        "phone": null,
+        "comments": null
+      }
     }
   ]
 }

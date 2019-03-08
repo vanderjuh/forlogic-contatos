@@ -127,7 +127,7 @@ legend {
     background-image: url('../../../assets/img/cover_default.jfif');
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: 100% 100%;
     background-attachment: fixed;
     transition: all 0.5s ease;
 }

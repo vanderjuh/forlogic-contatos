@@ -35,7 +35,9 @@ export class ListaContatosComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.apiService.getContatosFromServer();
+    if (this.apiService.listaContatos === undefined) {
+      this.apiService.getContatosFromServer();
+    }
     this.inscricaoContatosCarregados();
     this.inscricaoContatoRemovido();
     this.inscricaoErroConexao();
