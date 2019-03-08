@@ -4,7 +4,6 @@ import { Subscription, empty } from 'rxjs';
 import { ActivatedRoute, } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { catchError, } from 'rxjs/operators';
-import { UploadService } from 'src/app/cloudinary/upload.service';
 
 @Component({
   selector: 'app-detalhes-contato',

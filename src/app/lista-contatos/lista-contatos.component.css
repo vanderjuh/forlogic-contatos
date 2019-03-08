@@ -72,9 +72,9 @@ mat-list-item.active {
     padding: 0;
 }
 
-@media(max-height: 640px) {
+@media(max-height: 632px) {
     mat-list{
-        max-height: 400px;
+        max-height: 450px;
         overflow: auto;
     }
 
