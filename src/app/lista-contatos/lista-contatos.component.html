@@ -7,11 +7,11 @@
     </mat-form-field>
     <mat-radio-group class="filtro">
         <mat-icon matSuffix>filter_list</mat-icon>
-        <mat-radio-button #fTodos value="" name="filtro" (click)="aplicarFiltro('todos')"
-            [disabled]="getContatos() == undefined">
+        <mat-radio-button #fTodos value="1" (click)="aplicarFiltro('todos')"
+            [disabled]="getContatos() == undefined" checked>
             Todos
         </mat-radio-button>
-        <mat-radio-button #fFavoritos value="" name="filtro" (click)="aplicarFiltro('favoritos')"
+        <mat-radio-button #fFavoritos value="2" (click)="aplicarFiltro('favoritos')"
             [disabled]="getContatos() == undefined">
             Favoritos
         </mat-radio-button>
