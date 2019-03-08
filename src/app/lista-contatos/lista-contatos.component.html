@@ -16,7 +16,7 @@
             Favoritos
         </mat-radio-button>
     </mat-radio-group>
-    <mat-progress-bar class="progressBar" *ngIf="contatosPaginados === undefined" mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar class="progressBar" *ngIf="contatosPaginados === undefined && erroConexao === undefined" mode="indeterminate"></mat-progress-bar>
     <mat-list *ngIf="contatosPaginados !== undefined">
         <mat-list-item *ngFor="let contato of contatosPorPaginacao()" [routerLink]="['/contato', contato.id]" routerLinkActive="active">
             <img #avatarItemContato (error)="onErrorAvatar(avatarItemContato)" class="avatarContato"

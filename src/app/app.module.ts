@@ -20,7 +20,8 @@ import {
   MatOptionModule,
   MatSelectModule,
   MatProgressBarModule,
-  MatGridListModule
+  MatGridListModule,
+  MatSnackBarModule
 } from '@angular/material';
 
 @NgModule({
@@ -48,7 +49,8 @@ import {
     MatOptionModule,
     MatSelectModule,
     MatProgressBarModule,
-    MatGridListModule
+    MatGridListModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

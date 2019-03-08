@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import { Subscription, empty } from 'rxjs';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-lista-contatos',
@@ -31,7 +32,8 @@ export class ListaContatosComponent implements OnInit, OnDestroy {
 
   constructor(
     private apiService: ApiService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -53,9 +55,16 @@ export class ListaContatosComponent implements OnInit, OnDestroy {
     if (this.inscriContatoEditado) { this.inscriContatoEditado.unsubscribe(); }
   }
 
+  openSnackBar(message: string, action: string = 'OK') {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
+
   inscricaoContatoEditado(): void {
     this.inscriContatoEditado = this.apiService.emitirContatoEditado.subscribe(() => {
       this.setContatosPaginados(this.apiService.listaContatos);
+      this.openSnackBar('Contato editado com sucesso!');
     });
   }
 
@@ -64,6 +73,7 @@ export class ListaContatosComponent implements OnInit, OnDestroy {
       this.apiService.getContatosFromServer().subscribe((data) => {
         this.apiService.listaContatos = data;
         this.setContatosPaginados(this.getContatos());
+        this.openSnackBar('Contato criado com sucesso!');
       });
     });
   }
@@ -79,12 +89,14 @@ export class ListaContatosComponent implements OnInit, OnDestroy {
     this.inscriContatoRemovido = this.apiService.emitirContatoRemovido.subscribe((id: number) => {
       this.setContatosPaginados(this.getContatos());
       this.router.navigate(['/contatos']);
+      this.openSnackBar('Contato removido com sucesso!');
     });
   }
 
   inscricaoErroConexao(): void {
     this.inscriErroServidor = this.apiService.emitirErroConexao.subscribe((msg: string) => {
       this.erroConexao = msg;
+      this.openSnackBar(msg);
       console.error(msg);
     });
   }
@@ -179,7 +191,7 @@ export class ListaContatosComponent implements OnInit, OnDestroy {
             const msg = 'Não foi possível alterar o status de favorito do contato!';
             contato.isFavorite = !contato.isFavorite;
             console.error(msg);
-            alert(msg);
+            this.openSnackBar(msg);
             this.apiService.emitirErroConexao.emit('Cheque sua conexão com a internet!');
             // tslint:disable-next-line: deprecation
             return empty();

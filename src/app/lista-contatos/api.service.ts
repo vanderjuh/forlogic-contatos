@@ -2,6 +2,7 @@ import { Injectable, EventEmitter, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, empty } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,16 @@ export class ApiService {
 
   listaContatos: object[];
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private snackBar: MatSnackBar
+  ) { }
+
+  openSnackBar(message: string, action: string = 'OK') {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
 
   getContatosFromServer(): Observable<any[]> {
     return this.http.get<any[]>(`http://localhost:3000/contatos`)

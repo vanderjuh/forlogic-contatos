@@ -4,6 +4,7 @@ import { Subscription, empty } from 'rxjs';
 import { ActivatedRoute, } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { catchError, } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-detalhes-contato',
@@ -26,7 +27,8 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
   constructor(
     private apiService: ApiService,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -36,6 +38,12 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.inscricaoEmitirNovoContato) { this.inscricaoEmitirNovoContato.unsubscribe(); }
+  }
+
+  openSnackBar(message: string, action: string = 'OK') {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 
   reactiveFormulario(): void {
@@ -86,6 +94,7 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
           const msg = 'Não foi possível alterar o contato!';
           console.error(msg);
           alert(msg);
+          this.openSnackBar(msg);
           this.apiService.emitirErroConexao.emit('Cheque sua conexão com a internet!');
           // tslint:disable-next-line: deprecation
           return empty();
@@ -157,7 +166,7 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
           }
         });
         if (flag) {
-          alert('Este e-mail já está sendo utilizado!');
+          this.openSnackBar('Este e-mail já está sendo utilizado!');
           return { emailEquals: true };
         }
       }
