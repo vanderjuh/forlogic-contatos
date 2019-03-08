@@ -1,83 +1,104 @@
 <section class="detalhes_contato">
     <div class="cadastro">
-        <button *ngIf="contatoAtual" class="buttonFechar" [routerLink]="['/contatos']">
-            <img src="./assets/img/baseline-close-24px.svg" alt="Fechar">
+        <button mat-button *ngIf="contatoAtual" class="buttonFechar" [routerLink]="['/contatos']">
+            <mat-icon matSuffix>close</mat-icon>
+        </button>
+        <button mat-button class="buttonColapseLista">
+            <mat-icon matSuffix>list</mat-icon>
         </button>
         <form method="post" [formGroup]="formulario" (ngSubmit)="onSubmit()">
-            <input type="hidden" formControlName="id">
-            <img #avatar (error)="onErrorAvatar(avatar)" class="avatar" src="./assets/img/round-person-24px.svg" alt="Icone de contato">
-            <fieldset>
-                <legend>Dados pessoais:</legend>
-                <table>
-                    <tr>
-                        <td><label for="iNome" [ngStyle]="onValidarForm('firstName')">Primeiro nome: </label></td>
-                        <td><input type="text" formControlName="firstName" (input)="onEditandoContato()"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="iSobrenome" [ngStyle]="onValidarForm('lastName')">Sobrenome: </label></td>
-                        <td><input type="text" formControlName="lastName" (input)="onEditandoContato()"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="iEmail" [ngStyle]="onValidarForm('email')">E-mail: </label></td>
-                        <td><input type="text" formControlName="email" (input)="onEditandoContato()"></td>
-                    </tr>
-                    <tr>
-                        <td [ngStyle]="onValidarForm('gender')">Gênero: </td>
-                        <td>
-                            <input type="radio" formControlName="gender" value="f" (input)="onEditandoContato()"><label for="gF">Feminino</label>
-                            <input type="radio" formControlName="gender" value="m" (input)="onEditandoContato()"> <label for="gM">Masculino</label>
-                        </td>
-                    </tr>
-                </table>
-            </fieldset>
-            <fieldset formGroupName="info">
-                <legend>Outras informações: </legend>
-                <table>
-                    <tr>
-                        <td><label for="iAvatar">Avatar: </label></td>
-                        <td class="tdUpload">
+            <div class="coverContato" [ngStyle]="setarCover()"></div>
+            <img #avatar (error)="onErrorAvatar(avatar)" class="avatar" src="./assets/img/round-person-24px.svg"
+                alt="Icone de contato">
+            <div class="containerFildset">
+                <fieldset>
+                    <legend>Dados pessoais:</legend>
+                    <mat-grid-list cols="1" rowHeight="70px">
+                        <mat-grid-tile>
+                            <mat-form-field>
+                                <input type="hidden" formControlName="id">
+                                <input matInput placeholder="Primeiro nome" [ngStyle]="onValidarForm('firstName')"
+                                    formControlName="firstName" (input)="onEditandoContato()">
+                            </mat-form-field>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                            <mat-form-field>
+                                <input matInput placeholder="Sobrenome" [ngStyle]="onValidarForm('lastName')"
+                                    formControlName="lastName" (input)="onEditandoContato()">
+                            </mat-form-field>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                            <mat-form-field>
+                                <input matInput placeholder="E-mail" [ngStyle]="onValidarForm('email')"
+                                    formControlName="email" (input)="onEditandoContato()">
+                            </mat-form-field>
+                        </mat-grid-tile>
+                        <mat-grid-tile [ngStyle]="onValidarForm('gender')">
+                            <mat-radio-group formControlName="gender" (input)="onEditandoContato()">
+                                Gênero:
+                                <mat-radio-button value="f">Feminino</mat-radio-button>
+                                <mat-radio-button value="m">Masculino</mat-radio-button>
+                            </mat-radio-group>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </fieldset>
+                <fieldset formGroupName="info">
+                    <legend>Outras informações: </legend>
+                    <mat-grid-list cols="1" rowHeight="70px">
+                        <mat-grid-tile>
                             <input type="hidden" formControlName="avatar" (input)="onEditandoContato()">
                             <input #iFile type="file" accept="image/*" (input)="onEditandoContato()">
-                            <button class="bUpload" (click)="abrirSelecionarAvatar($event)">
-                                <img src="./assets/img/baseline-add_photo_alternate-24px.svg" alt="Adicionar avatar"
-                                    title="Adicionar avatar">
+                            <button mat-button class="bUpload" (click)="abrirSelecionarAvatar($event)">
+                                <mat-icon matSuffix>photo</mat-icon>
+                                Escolher
                             </button>
-                            <progress value="0" max="100"></progress>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="iCompanhia" [ngStyle]="onValidarForm('info.company')">Companhia</label></td>
-                        <td><input type="text" formControlName="company" (input)="onEditandoContato()"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="iEndereco">Endereço: </label></td>
-                        <td><input type="text" formControlName="address" (input)="onEditandoContato()"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="iTelefone">Telefone: </label></td>
-                        <td>
-                            <input type="text" formControlName="phone" (input)="onEditandoContato()">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="tComentario">Comentário: </label></td>
-                        <td><textarea formControlName="comments" (input)="onEditandoContato()"></textarea></td>
-                    </tr>
-                </table>
-            </fieldset>
-            <div class="formInvalido" *ngIf="editandoContato === true && formulario.valid === false">
-                <img src="../../../assets/img/baseline-error-24px.svg" alt="Erro">
-                Existem campos do formulário que requerem atenção!
-            </div>
-            <div class="btns-row">
-                <button id="bSalvar" type="submit">
-                    <img src="./assets/img/baseline-save-24px.svg" alt="Salvar">
-                    Salvar
-                </button>
-                <button *ngIf="contatoAtual" (click)="deletarContato()" class="btnRemove" type="button">
-                    <img src="./assets/img/baseline-delete-24px.svg" alt="Salvar">
-                    Remover
-                </button>
+                            <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                            <mat-form-field>
+                                <input matInput placeholder="Companhia" [ngStyle]="onValidarForm('info.company')"
+                                    formControlName="company" (input)="onEditandoContato()">
+                            </mat-form-field>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                            <mat-form-field>
+                                <input matInput placeholder="Endereço" formControlName="address"
+                                    (input)="onEditandoContato()">
+                            </mat-form-field>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                            <mat-form-field>
+                                <input matInput placeholder="Telefone" formControlName="phone"
+                                    (input)="onEditandoContato()">
+                            </mat-form-field>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                    <mat-grid-list cols="1" rowHeight="300px">
+                        <mat-form-field>
+                            <textarea matInput placeholder="Comentário" formControlName="comments"
+                                (input)="onEditandoContato()"></textarea>
+                        </mat-form-field>
+                    </mat-grid-list>
+                    <div class="formInvalido" *ngIf="editandoContato === true && formulario.valid === false">
+                        <mat-icon matSuffix>error</mat-icon>
+                        Existem campos do formulário que requerem atenção!
+                    </div>
+                    <mat-grid-list [cols]="contatoAtual ? 2 : 1" rowHeight="100px">
+                        <mat-grid-tile>
+                            <button class="btnSalvar" mat-button id="bSalvar" type="submit">
+                                <mat-icon matSuffix>save</mat-icon>
+                                Salvar
+                            </button>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                            <button class="btnRemover" mat-button *ngIf="contatoAtual" (click)="deletarContato()"
+                                class="btnRemove" type="button">
+                                <mat-icon matSuffix>delete</mat-icon>
+                                Remover
+                            </button>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </fieldset>
             </div>
         </form>
     </div>

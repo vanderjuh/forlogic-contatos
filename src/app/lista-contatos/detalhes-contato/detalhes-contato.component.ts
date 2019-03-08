@@ -91,7 +91,7 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.apiService.listaContatos = this.apiService.listaContatos.map((e: any) => {
           if (e.id === this.formulario.value.id) {
-            e = {...this.formulario.value};
+            e = { ...this.formulario.value };
           }
           return e;
         });
@@ -104,6 +104,15 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
     this.formulario.reset();
     this.contatoAtual = undefined;
     this.editandoContato = false;
+  }
+
+  setarCover(): object {
+    if (this.contatoAtual !== undefined) {
+      return {
+        backgroundImage: `url('${this.contatoAtual[0].info.avatar}')`
+      };
+    }
+    return {};
   }
 
   onErrorAvatar(itemAvatar: any): void {

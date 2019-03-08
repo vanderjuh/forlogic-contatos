@@ -20,9 +20,8 @@ import {
   MatPaginatorModule,
   MatOptionModule,
   MatSelectModule,
-  MatSpinner,
-  MatProgressSpinnerModule,
-  MatProgressBarModule
+  MatProgressBarModule,
+  MatGridListModule
 } from '@angular/material';
 
 @NgModule({
@@ -50,7 +49,8 @@ import {
     MatPaginatorModule,
     MatOptionModule,
     MatSelectModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
