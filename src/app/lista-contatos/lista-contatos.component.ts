@@ -55,9 +55,9 @@ export class ListaContatosComponent implements OnInit, OnDestroy {
     if (this.inscriContatoEditado) { this.inscriContatoEditado.unsubscribe(); }
   }
 
-  openSnackBar(message: string, action: string = 'OK') {
-    this.snackBar.open(message, action, {
-      duration: 2000,
+  openSnackBar(message: string, time: number = 5000) {
+    this.snackBar.open(message, null, {
+      duration: time,
     });
   }
 
@@ -191,7 +191,7 @@ export class ListaContatosComponent implements OnInit, OnDestroy {
             const msg = 'Não foi possível alterar o status de favorito do contato!';
             contato.isFavorite = !contato.isFavorite;
             console.error(msg);
-            this.openSnackBar(msg);
+            this.openSnackBar(msg, 10000);
             this.apiService.emitirErroConexao.emit('Cheque sua conexão com a internet!');
             // tslint:disable-next-line: deprecation
             return empty();

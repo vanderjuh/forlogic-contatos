@@ -2,7 +2,7 @@
     <mat-form-field class="pesquisaInput" appearance="fill">
         <mat-label>Pesquise por alguém...</mat-label>
         <input #pesquisaInput matInput type="text" value="" placeholder="Nome do contato"
-            (keyup)="buscarContato(pesquisaInput)" autocomplete="off">
+            (keyup)="buscarContato(pesquisaInput)" autocomplete="off" [disabled]="getContatos() == undefined">
         <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
     <mat-radio-group class="filtro">

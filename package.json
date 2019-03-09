@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
-    "server": "json-server ./contatos.json --watch --delay 3000",
+    "server": "json-server ./contatos.json --watch",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
