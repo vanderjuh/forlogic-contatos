@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './shared/routes/app-routing.module';
 import { AppComponent } from './app.component';
-import { DetalhesContatoComponent } from './lista-contatos/detalhes-contato/detalhes-contato.component';
-import { ListaContatosComponent } from './lista-contatos/lista-contatos.component';
+import { DetalhesContatoComponent } from './contatos/contato/contato.component';
+import { ListaContatosComponent } from './contatos/contatos.component';
 import {
   MatButtonModule,
   MatCheckboxModule,

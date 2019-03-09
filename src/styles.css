@@ -18,7 +18,7 @@ body {
     min-width: 384px;
 }
 
-app-detalhes-contato{
+app-contato{
     width: 75%;
     background-color: whitesmoke;
     overflow: auto;
@@ -26,7 +26,7 @@ app-detalhes-contato{
     right: 0;
 }
 
-app-lista-contatos{
+app-contatos{
     width: 25%;
     height: 100vh;
     display: flex;
@@ -37,11 +37,11 @@ app-lista-contatos{
 
 @media(max-width:900px){
 
-    app-detalhes-contato{
+    app-contato{
         width: 55%;
     }
     
-    app-lista-contatos{
+    app-contatos{
         width: 45%;
     }
 
@@ -49,11 +49,11 @@ app-lista-contatos{
 
 /* @media(max-width:700px){
 
-    app-detalhes-contato{
+    app-contato{
         display: none;
     }
     
-    app-lista-contatos{
+    app-contatos{
         width: 100%;
     }
 

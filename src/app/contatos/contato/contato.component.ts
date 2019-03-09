@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
-import { ApiService } from '../api.service';
+import { ApiService } from '../../shared/services/contatos.service';
 import { Subscription, empty } from 'rxjs';
 import { ActivatedRoute, } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
@@ -7,9 +7,9 @@ import { catchError, } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
 
 @Component({
-  selector: 'app-detalhes-contato',
-  templateUrl: './detalhes-contato.component.html',
-  styleUrls: ['./detalhes-contato.component.css']
+  selector: 'app-contato',
+  templateUrl: './contato.component.html',
+  styleUrls: ['./contato.component.css']
 })
 export class DetalhesContatoComponent implements OnInit, OnDestroy {
 
@@ -177,7 +177,7 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
 
   onColapse(): void {
     this.colapse = !this.colapse;
-    document.getElementsByTagName('app-detalhes-contato')[0].setAttribute('style', this.colapse ? 'width: 75%;' : 'width: 100%;');
+    document.getElementsByTagName('app-contato')[0].setAttribute('style', this.colapse ? 'width: 75%;' : 'width: 100%;');
   }
 
   onChangeAvatar(): void {

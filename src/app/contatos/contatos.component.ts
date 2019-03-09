@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
-import { ApiService } from './api.service';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { ApiService } from '../shared/services/contatos.service';
 
 import * as _ from 'lodash';
 import { Subscription, empty } from 'rxjs';
@@ -8,9 +8,9 @@ import { catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
 
 @Component({
-  selector: 'app-lista-contatos',
-  templateUrl: './lista-contatos.component.html',
-  styleUrls: ['./lista-contatos.component.css']
+  selector: 'app-contatos',
+  templateUrl: 'contatos.component.html',
+  styleUrls: ['contatos.component.css']
 })
 export class ListaContatosComponent implements OnInit, OnDestroy {
 

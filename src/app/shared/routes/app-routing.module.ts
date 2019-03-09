@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterModule, Routes } from '@angular/router';
 
-import { DetalhesContatoComponent } from './lista-contatos/detalhes-contato/detalhes-contato.component';
-import { ContatoGuard } from './lista-contatos/guard/contato.guard';
+import { DetalhesContatoComponent } from '../../contatos/contato/contato.component';
+import { ContatoGuard } from '../guards/contato.guard';
 
 const routes: Routes = [
   {path: 'contato/:id', component: DetalhesContatoComponent, canDeactivate: [ContatoGuard]},
