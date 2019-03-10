@@ -66,7 +66,6 @@ mat-list-item.active {
     display: none;
     justify-content: space-around;
     align-items: center;
-    flex-wrap: wrap;
     bottom: 0;
     position: absolute;
 }
@@ -82,7 +81,7 @@ mat-list-item.active {
 
 @media(max-height: 632px) {
     mat-list{
-        max-height: 450px;
+        max-height: 550px;
         overflow: auto;
     }
 
@@ -94,7 +93,7 @@ mat-list-item.active {
 @media(max-width: 700px) {
 
     mat-list{
-        max-height: 450px;
+        max-height: 650px;
         overflow: auto;
     }
 
