@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
-    "server": "json-server ./contatos.json --watch --host 192.168.0.8",
+    "server": "json-server ./contatos.json --watch",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
