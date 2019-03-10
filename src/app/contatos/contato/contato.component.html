@@ -21,23 +21,23 @@
                         <mat-grid-tile>
                             <mat-form-field>
                                 <input type="hidden" formControlName="id">
-                                <input matInput placeholder="Primeiro nome" [ngStyle]="onValidarForm('firstName')"
+                                <input matInput placeholder="Primeiro nome" [ngStyle]="onValidarFormCampo('firstName')"
                                     formControlName="firstName" (input)="onEditandoContato()">
                             </mat-form-field>
                         </mat-grid-tile>
                         <mat-grid-tile>
                             <mat-form-field>
-                                <input matInput placeholder="Sobrenome" [ngStyle]="onValidarForm('lastName')"
+                                <input matInput placeholder="Sobrenome" [ngStyle]="onValidarFormCampo('lastName')"
                                     formControlName="lastName" (input)="onEditandoContato()">
                             </mat-form-field>
                         </mat-grid-tile>
                         <mat-grid-tile>
                             <mat-form-field>
-                                <input matInput placeholder="E-mail" [ngStyle]="onValidarForm('email')"
+                                <input matInput placeholder="E-mail" [ngStyle]="onValidarFormCampo('email')"
                                     formControlName="email" (input)="onEditandoContato()">
                             </mat-form-field>
                         </mat-grid-tile>
-                        <mat-grid-tile [ngStyle]="onValidarForm('gender')">
+                        <mat-grid-tile [ngStyle]="onValidarFormCampo('gender')">
                             <mat-radio-group formControlName="gender" (input)="onEditandoContato()">
                                 Gênero:
                                 <mat-radio-button value="f">Feminino</mat-radio-button>
@@ -57,7 +57,7 @@
                         </mat-grid-tile>
                         <mat-grid-tile>
                             <mat-form-field>
-                                <input matInput placeholder="Companhia" [ngStyle]="onValidarForm('info.company')"
+                                <input matInput placeholder="Companhia" [ngStyle]="onValidarFormCampo('info.company')"
                                     formControlName="company" (input)="onEditandoContato()">
                             </mat-form-field>
                         </mat-grid-tile>

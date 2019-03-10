@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
-import { ApiService } from '../../shared/services/contatos.service';
-import { Subscription, empty } from 'rxjs';
-import { ActivatedRoute, } from '@angular/router';
+import { ContatosService } from '../../shared/services/contatos.service';
+import { Subscription, of } from 'rxjs';
+import { ActivatedRoute, Router, } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { catchError, } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
+import { HttpErrorService } from 'src/app/shared/services/httpError.service';
 
 @Component({
   selector: 'app-contato',
@@ -25,8 +26,10 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
   inscricaoEmitirNovoContato: Subscription;
 
   constructor(
-    private apiService: ApiService,
+    private contatosService: ContatosService,
+    private httpErrorService: HttpErrorService,
     private route: ActivatedRoute,
+    private router: Router,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar
   ) { }
@@ -40,9 +43,13 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
     if (this.inscricaoEmitirNovoContato) { this.inscricaoEmitirNovoContato.unsubscribe(); }
   }
 
-  openSnackBar(message: string, action: string = 'OK') {
-    this.snackBar.open(message, action, {
-      duration: 2000,
+  getContatos(): any[] {
+    return this.contatosService.listaContatos;
+  }
+
+  openSnackBar(message: string, time: number = 5000) {
+    this.snackBar.open(message, null, {
+      duration: time,
     });
   }
 
@@ -51,7 +58,7 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
       id: [null],
       firstName: [null, [Validators.required, Validators.minLength(3)]],
       lastName: [null, [Validators.required, Validators.minLength(3)]],
-      email: [null, [Validators.required, Validators.email, this.emailValidator()]],
+      email: [null, [Validators.required, this.emailValidator(), Validators.email]],
       gender: [null, [Validators.required, Validators.pattern(/^[mf]$/)]],
       info: this.formBuilder.group({
         avatar: [null],
@@ -65,50 +72,65 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
 
   deletarContato() {
     if (this.contatoAtual[0] && confirm('Deseja realmente deletar este contato?')) {
-      this.apiService.deleteContatoFromServer(this.contatoAtual[0].id);
+      let erroHttp = false;
+      this.contatosService.deleteContatoFromServer(this.contatoAtual[0].id)
+        .pipe(
+          catchError((error) => {
+            erroHttp = true;
+            this.httpErrorService.mensagemErro(error);
+            return of(null);
+          })
+        )
+        .subscribe(() => {
+          if (!erroHttp) {
+            this.contatosService.listaContatos = this.contatosService.listaContatos.filter((e: any) => e.id !== this.contatoAtual[0].id);
+            this.contatosService.emitirContatoRemovido.emit(this.contatoAtual[0].id);
+            this.openSnackBar('Contato removido com sucesso!', 2000);
+            this.router.navigate(['/contatos']);
+          }
+        });
     }
   }
 
-  getContatos(): any[] {
-    return this.apiService.listaContatos;
-  }
-
   criarContato(): void {
-    this.apiService.createContatoInServer(this.formulario.value)
+    let erroHttp = false;
+    this.contatosService.createContatoInServer(this.formulario.value)
       .pipe(
-        catchError(() => {
-          // tslint:disable-next-line: deprecation
-          return empty();
+        catchError((error) => {
+          erroHttp = true;
+          this.httpErrorService.mensagemErro(error);
+          return of(null);
         })
       )
       .subscribe(() => {
-        this.apiService.emitirContatoCriado.emit();
-        this.resetarFormulario();
+        if (!erroHttp) {
+          this.contatosService.emitirContatoCriado.emit();
+          this.openSnackBar('Contato criado com sucesso!', 2000);
+          this.resetarFormulario();
+        }
       });
   }
 
   editarContato() {
-    this.apiService.updateContatoFromServer(this.formulario.value)
+    let erroHttp = false;
+    this.contatosService.updateContatoFromServer(this.formulario.value)
       .pipe(
-        catchError(() => {
-          const msg = 'Não foi possível alterar o contato!';
-          console.error(msg);
-          alert(msg);
-          this.openSnackBar(msg);
-          this.apiService.emitirErroConexao.emit('Cheque sua conexão com a internet!');
-          // tslint:disable-next-line: deprecation
-          return empty();
+        catchError((error) => {
+          erroHttp = true;
+          this.httpErrorService.mensagemErro(error);
+          return of(null);
         })
       )
       .subscribe(() => {
-        this.apiService.listaContatos = this.apiService.listaContatos.map((e: any) => {
-          if (e.id === this.formulario.value.id) {
-            e = { ...this.formulario.value };
-          }
-          return e;
-        });
-        this.apiService.emitirContatoEditado.emit();
-        this.editandoContato = false;
+        if (erroHttp) {
+          this.contatosService.listaContatos = this.contatosService.listaContatos.map((e: any) => {
+            if (e.id === this.formulario.value.id) { e = { ...this.formulario.value }; }
+            return e;
+          });
+          this.contatosService.emitirContatoEditado.emit();
+          this.openSnackBar('Contato editado com sucesso!', 2000);
+          this.editandoContato = false;
+        }
       });
   }
 
@@ -119,11 +141,7 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
   }
 
   setarCover(): object {
-    if (this.contatoAtual !== undefined) {
-      return {
-        backgroundImage: `url('${this.contatoAtual[0].info.avatar}')`
-      };
-    }
+    if (this.contatoAtual !== undefined) { return { backgroundImage: `url('${this.contatoAtual[0].info.avatar}')` }; }
     return {};
   }
 
@@ -134,7 +152,7 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
   getContatoFromIdRoute(): void {
     this.route.params.subscribe((params) => {
       if (params.id) {
-        this.contatoAtual = this.apiService.getContato(+params.id);
+        this.contatoAtual = this.contatosService.getContato(+params.id);
         this.editandoContato = false;
         this.renderDetalhes();
       }
@@ -151,30 +169,6 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
     this.iFile.nativeElement.click();
   }
 
-  emailValidator(): (formControl: FormControl) => void {
-    const validator = (formControl: FormControl) => {
-      if (!this.editandoContato) { return; }
-      if (this.contatoAtual) { return; }
-      if (!formControl.root || !(formControl.root as FormGroup).root) { return null; }
-      const email = (formControl.root as FormGroup).get('email');
-      if (email) {
-        let flag: boolean;
-        this.apiService.listaContatos.forEach((c: any) => {
-          if (c.email === email.value) {
-            flag = true;
-            return;
-          }
-        });
-        if (flag) {
-          this.openSnackBar('Este e-mail já está sendo utilizado!');
-          return { emailEquals: true };
-        }
-      }
-      return null;
-    };
-    return validator;
-  }
-
   onColapse(): void {
     this.colapse = !this.colapse;
     document.getElementsByTagName('app-contato')[0].setAttribute('style', this.colapse ? 'width: 75%;' : 'width: 100%;');
@@ -187,9 +181,7 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
   onTelaInteiraDetalhesContato(): object {
     console.log(this.colapse);
     if (this.colapse) {
-      return {
-        width: this.colapse ? '100%' : '75%'
-      };
+      return { width: this.colapse ? '100%' : '75%' };
     }
     return {};
   }
@@ -211,7 +203,7 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
     }
   }
 
-  onValidarForm(component: any): object {
+  onValidarFormCampo(component: any): object {
     if (this.validarFormComponente(this.formulario.get(component))) {
       this.editandoContato = true;
       return { color: 'red' };
@@ -221,6 +213,30 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
 
   private validarFormComponente(componente: any): boolean {
     return componente.errors && componente.touched;
+  }
+
+  emailValidator(): (formControl: FormControl) => void {
+    const validator = (formControl: FormControl) => {
+      if (!this.editandoContato) { return; }
+      if (this.contatoAtual) { return; }
+      if (!formControl.root || !(formControl.root as FormGroup).root) { return null; }
+      const email = (formControl.root as FormGroup).get('email');
+      if (email) {
+        let flag: boolean;
+        this.contatosService.listaContatos.forEach((c: any) => {
+          if (c.email === email.value) {
+            flag = true;
+            return;
+          }
+        });
+        if (flag) {
+          this.openSnackBar(`O e-mail "${email.value}" já está sendo utilizado!`, 5000);
+          return { emailEquals: true };
+        }
+      }
+      return null;
+    };
+    return validator;
   }
 
 }

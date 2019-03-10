@@ -17,6 +17,10 @@
         </mat-radio-button>
     </mat-radio-group>
     <mat-progress-bar class="progressBar" *ngIf="contatosPaginados === undefined && erroConexao === undefined" mode="indeterminate"></mat-progress-bar>
+    <button class="btnReload" mat-button *ngIf="erroHttpGetContatos" (click)="getContatosServidor()">
+        <mat-icon matSuffix>reload</mat-icon>
+        Tentar novamente
+    </button>
     <mat-list *ngIf="contatosPaginados !== undefined">
         <mat-list-item *ngFor="let contato of contatosPorPaginacao()" [routerLink]="['/contato', contato.id]" routerLinkActive="active">
             <img #avatarItemContato (error)="onErrorAvatar(avatarItemContato)" class="avatarContato"
@@ -27,11 +31,7 @@
             <mat-divider></mat-divider>
         </mat-list-item>
     </mat-list>
-    <nav class="paginacao" *ngIf="getContatos() !== undefined" [ngStyle]="
-        {
-            'display': apiService.listaContatos.length > 10 ? 'flex' : 'none'
-        }
-    ">
+    <nav class="paginacao" *ngIf="getContatos() !== undefined" [ngStyle]="onMostrarPaginador()">
         <button mat-button class="sentidoPaginacao" (click)="paginaAnterior($event)">
             <mat-icon matSuffix>keyboard_arrow_left</mat-icon>
         </button>

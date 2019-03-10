@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ApiService } from './shared/services/contatos.service';
+import { ContatosService } from './shared/services/contatos.service';
 import 'hammerjs';
 
 @Component({
@@ -9,10 +9,10 @@ import 'hammerjs';
 })
 export class AppComponent {
 
-  constructor(private apiService: ApiService) { }
+  constructor(private contatosService: ContatosService) { }
 
   getContatos(): any[] {
-    return this.apiService.listaContatos;
+    return this.contatosService.listaContatos;
   }
 
 }
