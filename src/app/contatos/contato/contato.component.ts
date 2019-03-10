@@ -14,7 +14,7 @@ import { HttpErrorService } from 'src/app/shared/services/httpError.service';
 })
 export class DetalhesContatoComponent implements OnInit, OnDestroy {
 
-  colapse = true;
+  colapse = false;
   progressoUpload: number;
 
   @ViewChild('avatar') avatar: ElementRef;
@@ -122,7 +122,7 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe(() => {
-        if (erroHttp) {
+        if (!erroHttp) {
           this.contatosService.listaContatos = this.contatosService.listaContatos.map((e: any) => {
             if (e.id === this.formulario.value.id) { e = { ...this.formulario.value }; }
             return e;
@@ -171,7 +171,11 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
 
   onColapse(): void {
     this.colapse = !this.colapse;
-    document.getElementsByTagName('app-contato')[0].setAttribute('style', this.colapse ? 'width: 75%;' : 'width: 100%;');
+    if (this.colapse) {
+      document.getElementsByTagName('app-contato')[0].setAttribute('style', 'width: 100%;');
+    } else {
+      document.getElementsByTagName('app-contato')[0].removeAttribute('style');
+    }
   }
 
   onChangeAvatar(): void {

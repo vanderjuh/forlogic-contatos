@@ -6,7 +6,7 @@
         <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
     <mat-radio-group class="filtro">
-        <mat-icon matSuffix>filter_list</mat-icon>
+        <mat-icon class="hide-sm" matSuffix>filter_list</mat-icon>
         <mat-radio-button #fTodos value="1" (click)="aplicarFiltro('todos')"
             [disabled]="getContatos() == undefined" checked>
             Todos
@@ -23,7 +23,7 @@
     </button>
     <mat-list *ngIf="contatosPaginados !== undefined">
         <mat-list-item *ngFor="let contato of contatosPorPaginacao()" [routerLink]="['/contato', contato.id]" routerLinkActive="active">
-            <img #avatarItemContato (error)="onErrorAvatar(avatarItemContato)" class="avatarContato"
+            <img #avatarItemContato (error)="onErrorAvatar(avatarItemContato)" class="avatarContato hide-sm"
                 src="{{contato.info.avatar}}" alt="Icone de contato" title="{{contato.firstName}} {{contato.lastName}}">
             <div class="nomeContato">{{contato.firstName}} {{contato.lastName}}</div>
             <mat-icon class="fav" matSuffix (click)="favoritarContato(contato)">
@@ -35,7 +35,7 @@
         <button mat-button class="sentidoPaginacao" (click)="paginaAnterior($event)">
             <mat-icon matSuffix>keyboard_arrow_left</mat-icon>
         </button>
-        <mat-form-field>
+        <mat-form-field class="hide-sm">
             <mat-select [(value)]="paginaAtual">
                 <mat-option *ngFor="let item of contatosPaginados; let i = index" [value]="i">
                     Página {{i+1}}

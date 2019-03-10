@@ -85,8 +85,7 @@ legend {
 }
 
 .btnGroup{
-    width: 90%;
-    z-index: 100;
+    width: 100%;
 }
 
 .btnSalvar{
@@ -130,4 +129,31 @@ legend {
     background-size: 100% 100%;
     background-attachment: fixed;
     transition: all 0.5s ease;
+}
+
+@media(max-width: 700px) {
+
+    .avatar{
+        width: 150px;
+        height: 150px;
+        margin-top: 20%;
+    }
+
+    .buttonColapseLista{
+        top: 5px;
+        border: 0;
+        box-shadow: 0 0 0 transparent;
+        text-shadow: 0 0 20px #000;
+    }
+
+    .buttonFechar{
+        top: 5px;
+        border: 0;
+        box-shadow: 0 0 0 transparent;
+        text-shadow: 0 0 20px #000;
+    }
+
+    .hide-sm{
+        display: none;
+    }
 }
