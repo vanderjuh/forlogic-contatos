@@ -122,7 +122,7 @@ export class DetalhesContatoComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe(() => {
-        if (erroHttp) {
+        if (!erroHttp) {
           this.contatosService.listaContatos = this.contatosService.listaContatos.map((e: any) => {
             if (e.id === this.formulario.value.id) { e = { ...this.formulario.value }; }
             return e;
