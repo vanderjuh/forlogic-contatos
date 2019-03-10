@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,23 +17,23 @@ export class ContatosService {
   constructor(private http: HttpClient) { }
 
   getContatosFromServer(): Observable<any[]> {
-    return this.http.get<any[]>(`http://192.168.0.8:3000/contatos`);
+    return this.http.get<any[]>(`${environment.apiUrl}/contatos`);
   }
 
   updateContatoFromServer(contato: any): Observable<any> {
-    if (contato) { return this.http.put<any>(`http://192.168.0.8:3000/contatos/${contato.id}`, contato); }
+    if (contato) { return this.http.put<any>(`${environment.apiUrl}/contatos/${contato.id}`, contato); }
     console.error('Erro. É necessário que passe um contato para ser editado.');
     return null;
   }
 
   deleteContatoFromServer(id: number) {
-    if (id) { return this.http.delete(`http://192.168.0.8:3000/contatos/${id}`); }
+    if (id) { return this.http.delete(`${environment.apiUrl}/contatos/${id}`); }
     console.error('Erro. É necessário que passe o ID do contato para deleta-lo');
     return null;
   }
 
   createContatoInServer(contato: any) {
-    if (contato) { return this.http.post<any>(`http://192.168.0.8:3000/contatos`, contato); }
+    if (contato) { return this.http.post<any>(`${environment.apiUrl}/contatos`, contato); }
     console.error('Erro. É necessário que passe um contato para ser inserido.');
     return null;
   }
