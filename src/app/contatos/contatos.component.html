@@ -1,0 +1,49 @@
+<section id="contatos" class="contatos">
+    <mat-form-field class="pesquisaInput" appearance="fill">
+        <mat-label>Pesquise por alguém...</mat-label>
+        <input #pesquisaInput matInput type="text" value="" placeholder="Nome do contato"
+            (keyup)="buscarContato(pesquisaInput)" autocomplete="off" [disabled]="getContatos() == undefined">
+        <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <mat-radio-group class="filtro">
+        <mat-icon matSuffix>filter_list</mat-icon>
+        <mat-radio-button #fTodos value="1" (click)="aplicarFiltro('todos')"
+            [disabled]="getContatos() == undefined" checked>
+            Todos
+        </mat-radio-button>
+        <mat-radio-button #fFavoritos value="2" (click)="aplicarFiltro('favoritos')"
+            [disabled]="getContatos() == undefined">
+            Favoritos
+        </mat-radio-button>
+    </mat-radio-group>
+    <mat-progress-bar class="progressBar" *ngIf="contatosPaginados === undefined && erroConexao === undefined" mode="indeterminate"></mat-progress-bar>
+    <button class="btnReload" mat-button *ngIf="erroHttpGetContatos" (click)="getContatosServidor()">
+        <mat-icon matSuffix>reload</mat-icon>
+        Tentar novamente
+    </button>
+    <mat-list *ngIf="contatosPaginados !== undefined">
+        <mat-list-item *ngFor="let contato of contatosPorPaginacao()" [routerLink]="['/contato', contato.id]" routerLinkActive="active">
+            <img #avatarItemContato (error)="onErrorAvatar(avatarItemContato)" class="avatarContato"
+                src="{{contato.info.avatar}}" alt="Icone de contato" title="{{contato.firstName}} {{contato.lastName}}">
+            <div class="nomeContato">{{contato.firstName}} {{contato.lastName}}</div>
+            <mat-icon class="fav" matSuffix (click)="favoritarContato(contato)">
+                {{contato.isFavorite ? 'favorite' : 'favorite_border'}}</mat-icon>
+            <mat-divider></mat-divider>
+        </mat-list-item>
+    </mat-list>
+    <nav class="paginacao" *ngIf="getContatos() !== undefined" [ngStyle]="onMostrarPaginador()">
+        <button mat-button class="sentidoPaginacao" (click)="paginaAnterior($event)">
+            <mat-icon matSuffix>keyboard_arrow_left</mat-icon>
+        </button>
+        <mat-form-field>
+            <mat-select [(value)]="paginaAtual">
+                <mat-option *ngFor="let item of contatosPaginados; let i = index" [value]="i">
+                    Página {{i+1}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-button class="sentidoPaginacao" (click)="proximaPagina($event)">
+            <mat-icon matSuffix>keyboard_arrow_right</mat-icon>
+        </button>
+    </nav>
+</section>

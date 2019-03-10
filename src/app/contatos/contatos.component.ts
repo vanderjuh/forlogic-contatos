@@ -1,15 +1,18 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
-import { ApiService } from './api.service';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { ContatosService } from '../shared/services/contatos.service';
 
 import * as _ from 'lodash';
-import { Subscription, empty } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material';
+import { HttpErrorService } from '../shared/services/httpError.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-lista-contatos',
-  templateUrl: './lista-contatos.component.html',
-  styleUrls: ['./lista-contatos.component.css']
+  selector: 'app-contatos',
+  templateUrl: 'contatos.component.html',
+  styleUrls: ['contatos.component.css']
 })
 export class ListaContatosComponent implements OnInit, OnDestroy {
 
@@ -18,72 +21,77 @@ export class ListaContatosComponent implements OnInit, OnDestroy {
   private qtdContatosPorPagina = 10;
   private contatosPaginados: any[];
 
-  erroConexao: string;
+  erroHttpGetContatos: boolean;
 
-  inscriCarregarContatos: Subscription;
   inscriContatoRemovido: Subscription;
   inscriErroServidor: Subscription;
   inscriContatoCriado: Subscription;
   inscriContatoEditado: Subscription;
 
-  @ViewChild('fTodos') fTodos: ElementRef;
-  @ViewChild('fFavoritos') fFavoritos: ElementRef;
+  @ViewChild('fTodos') fTodos: any;
+  @ViewChild('fFavoritos') fFavoritos: any;
 
   constructor(
-    private apiService: ApiService,
-    private router: Router
+    private contatosService: ContatosService,
+    private httpErrorService: HttpErrorService,
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
-    this.apiService.getContatosFromServer();
-    this.inscricaoContatosCarregados();
+    this.getContatosServidor();
     this.inscricaoContatoRemovido();
-    this.inscricaoErroConexao();
     this.inscricaoContatoCriado();
     this.inscricaoContatoEditado();
   }
 
+  getContatosServidor(): void {
+    this.erroHttpGetContatos = false;
+    this.contatosService.getContatosFromServer()
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.erroHttpGetContatos = true;
+          this.httpErrorService.mensagemErro(error);
+          return of(null);
+        })
+      )
+      .subscribe((data) => {
+        this.contatosService.listaContatos = data;
+        this.setContatosPaginados(this.getContatos());
+      });
+  }
+
   ngOnDestroy() {
-    if (this.inscriCarregarContatos) { this.inscriCarregarContatos.unsubscribe(); }
     if (this.inscriContatoRemovido) { this.inscriContatoRemovido.unsubscribe(); }
     if (this.inscriErroServidor) { this.inscriErroServidor.unsubscribe(); }
     if (this.inscriContatoCriado) { this.inscriContatoCriado.unsubscribe(); }
     if (this.inscriContatoEditado) { this.inscriContatoEditado.unsubscribe(); }
   }
 
+  openSnackBar(message: string, time: number = 5000) {
+    this.snackBar.open(message, null, {
+      duration: time,
+    });
+  }
+
   inscricaoContatoEditado(): void {
-    this.inscriContatoEditado = this.apiService.emitirContatoEditado.subscribe(() => {
-      this.setContatosPaginados(this.apiService.listaContatos);
+    this.inscriContatoEditado = this.contatosService.emitirContatoEditado.subscribe(() => {
+      this.setContatosPaginados(this.contatosService.listaContatos);
     });
   }
 
   inscricaoContatoCriado(): void {
-    this.inscriContatoCriado = this.apiService.emitirContatoCriado.subscribe(() => {
-      this.apiService.getContatosFromServer().subscribe((data) => {
-        this.apiService.listaContatos = data;
+    this.inscriContatoCriado = this.contatosService.emitirContatoCriado.subscribe(() => {
+      this.contatosService.getContatosFromServer().subscribe((data) => {
+        this.contatosService.listaContatos = data;
         this.setContatosPaginados(this.getContatos());
       });
     });
   }
 
-  inscricaoContatosCarregados(): void {
-    this.inscriCarregarContatos = this.apiService.getContatosFromServer().subscribe((data) => {
-      this.apiService.listaContatos = data;
-      this.setContatosPaginados(this.getContatos());
-    });
-  }
-
   inscricaoContatoRemovido(): void {
-    this.inscriContatoRemovido = this.apiService.emitirContatoRemovido.subscribe((id: number) => {
+    this.inscriContatoRemovido = this.contatosService.emitirContatoRemovido.subscribe((id: number) => {
       this.setContatosPaginados(this.getContatos());
-      this.router.navigate(['/contatos']);
-    });
-  }
-
-  inscricaoErroConexao(): void {
-    this.inscriErroServidor = this.apiService.emitirErroConexao.subscribe((msg: string) => {
-      this.erroConexao = msg;
-      console.error(msg);
     });
   }
 
@@ -117,7 +125,7 @@ export class ListaContatosComponent implements OnInit, OnDestroy {
   }
 
   getContatos(): any[] {
-    return this.apiService.listaContatos;
+    return this.contatosService.listaContatos;
   }
 
   exibirFavoritos(): void {
@@ -140,7 +148,7 @@ export class ListaContatosComponent implements OnInit, OnDestroy {
   }
 
   filtroSelecionado(): string {
-    if (this.fTodos.nativeElement.checked) {
+    if (this.fTodos.checked) {
       return 'fTodos';
     } else {
       return 'fFavoritos';
@@ -148,6 +156,7 @@ export class ListaContatosComponent implements OnInit, OnDestroy {
   }
 
   buscarContato(iPesquisa: HTMLInputElement): void {
+    console.log(iPesquisa.value);
     let listaBusca: any[];
     if (this.getContatos()) {
       this.rederinirPaginacao();
@@ -163,35 +172,38 @@ export class ListaContatosComponent implements OnInit, OnDestroy {
     } else { console.error('Erro. É necessário passar o elemento HTML da pesquisa'); }
   }
 
+  onMostrarPaginador(): object {
+    if (this.getContatos) { return { display: 'flex' }; }
+    return { display: 'none' };
+  }
+
   onErrorAvatar(itemAvatar: any): void {
     itemAvatar.src = '../../assets/img/round-person-24px.svg';
   }
 
-  favoritarContato(contato: any, iconFav: any) {
+  favoritarContato(contato: any) {
     if (contato) {
+      let erroHttp = false;
       contato.isFavorite = !contato.isFavorite;
-      this.apiService.updateContatoFromServer(contato)
+      this.contatosService.updateContatoFromServer(contato)
         .pipe(
-          catchError((error: any) => {
-            const msg = 'Não foi possível alterar o status de favorito do contato!';
+          catchError((error: HttpErrorResponse) => {
             contato.isFavorite = !contato.isFavorite;
-            console.error(msg);
-            alert(msg);
-            this.apiService.emitirErroConexao.emit('Cheque sua conexão com a internet!');
-            // tslint:disable-next-line: deprecation
-            return empty();
+            erroHttp = true;
+            this.httpErrorService.mensagemErro(error);
+            return of(null);
           })
         )
-        .subscribe((data) => {
-          this.getContatos().forEach(e => {
-            if (e.id === contato.id) {
-              if (e.isFavorite) {
-                iconFav.src = '../../assets/img/baseline-favorite-24px.svg';
-              } else { iconFav.src = '../../assets/img/baseline-favorite_border-24px.svg'; }
-              e.isFavorite = contato.isFavorite;
-              return;
-            }
-          });
+        .subscribe(() => {
+          if (!erroHttp) {
+            this.getContatos().forEach(e => {
+              if (e.id === contato.id) {
+                e.isFavorite = contato.isFavorite;
+                this.openSnackBar(`Contato ${e.isFavorite ? 'favoritado' : 'desfavoritado'}!`, 2000);
+                return;
+              }
+            });
+          }
         });
     } else { console.error('Erro. É necessário que passe um objeto de contato para remover'); }
   }

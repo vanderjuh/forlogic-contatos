@@ -23,8 +23,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
-              "src/styles-responsividade.css"
+              "src/styles.css"
             ],
             "scripts": [],
             "es5BrowserSupport": true

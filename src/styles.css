@@ -1,7 +1,8 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url("https://fonts.googleapis.com/css?family=Roboto");
 
 :root {
-    --height-menu: 55px;
+    --height-menu: 0;
     --background-color: rgba(204,204,204,.3);
     --background-avatar: rgba(204,204,204,.3);
 }
@@ -10,32 +11,50 @@ html body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
     position: relative;
+    
 }
 
 body {
     min-width: 384px;
 }
 
-.hide{
-    display: none;
-}
-
-app-menu-superior {
-    width: 100%;
-}
-
-app-detalhes-contato{
+app-contato{
     width: 75%;
-    background-color: #FFF;
+    background-color: whitesmoke;
     overflow: auto;
+    position: absolute;
+    right: 0;
 }
 
-app-lista-contatos{
+app-contatos{
     width: 25%;
-    min-width: 260px;
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    border: #CCC solid 1px;
     background-color: var(--background-color);
-    position: relative;
+    position: fixed;
 }
+
+@media(max-width:900px){
+
+    app-contato{
+        width: 55%;
+    }
+    
+    app-contatos{
+        width: 45%;
+    }
+
+}
+
+/* @media(max-width:700px){
+
+    app-contato{
+        display: none;
+    }
+    
+    app-contatos{
+        width: 100%;
+    }
+
+} */

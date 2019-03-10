@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { DetalhesContatoComponent } from '../detalhes-contato/detalhes-contato.component';
+import { DetalhesContatoComponent } from '../../contatos/contato/contato.component';
 import { Observable } from 'rxjs';
 
 @Injectable({

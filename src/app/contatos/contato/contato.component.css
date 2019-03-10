@@ -1,0 +1,133 @@
+.cadastro{
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.bUpload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    background-color: whitesmoke;
+}
+
+.buttonFechar {
+    border: 2px solid #FF6347;
+    position: absolute;
+    top:20px;
+    right: 4%;
+    cursor: pointer;
+    color: #FF6347;
+    z-index: 100;
+    box-shadow: 0 0 40px #666;
+}
+
+.buttonColapseLista {
+    border: 2px solid #FF6347;
+    position: absolute;
+    top:20px;
+    left: 4%;
+    cursor: pointer;
+    color: #FF6347;
+    z-index: 100;
+    box-shadow: 0 0 40px #666;
+}
+
+.cadastro form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+mat-form-field {
+    width: 100%;    
+}
+
+mat-radio-group {
+    width: 100%;
+}
+
+mat-radio-button {
+    margin: 0 10px;
+}
+
+.cadastro input[type="file"]{
+    display: none
+}
+
+textarea {
+    height: 250px;
+}
+
+.containerFildset {
+    width: 90%;
+    background-color: white;
+    padding: 10px;
+    z-index: 100;
+}
+
+fieldset {
+    border: #E9E9E9 1px solid;
+}
+
+legend {
+    font-weight: bold;
+}
+
+.formInvalido {
+    width: 95%;
+    color: red;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin: 20px 0;
+}
+
+.btnGroup{
+    width: 90%;
+    z-index: 100;
+}
+
+.btnSalvar{
+    min-width: 150px;
+    height: 50px;
+    background-color: #333;
+    color: #FFF;
+}
+
+.btnRemove{
+    min-width: 150px;
+    height: 50px;
+    background-color: red;
+    color: #FFF;
+}
+
+.avatar {
+    width: 200px;
+    height: 200px;
+    border: solid 1px #CCC;
+    border-radius: 50%;
+    margin: 20px 0;
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    position: absolute;
+}
+
+.coverContato{
+    width: 100%;
+    height: 350px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: -100px;
+    filter: blur(20px);
+    background-image: url('../../../assets/img/cover_default.jfif');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    transition: all 0.5s ease;
+}
